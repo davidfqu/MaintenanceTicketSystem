@@ -49,7 +49,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "clave,planta,env_correos,server,send_email,send_paswd,port,ind_html,ind_ssl,autoriza_superv,autoriza_seh,dias_revision,aler_gerente,aler_super,aler_compromiso,aler_revision,aler_validaseh,gte_email,gte_email2,gte_email3")] t_config t_config)
+        public ActionResult Create([Bind(Include = "clave,planta,env_correos,server,send_email,send_paswd,port,ind_html,ind_ssl,autoriza_superv,autoriza_seh,dias_revision,aler_gerente,aler_super,aler_compromiso,aler_revision,aler_validaseh,gte_email,gte_email2,gte_email3,path_imgs,ind_testmail,testmail")] t_config t_config)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "clave,planta,env_correos,server,send_email,send_paswd,port,ind_html,ind_ssl,autoriza_superv,autoriza_seh,dias_revision,aler_gerente,aler_super,aler_compromiso,aler_revision,aler_validaseh,gte_email,gte_email2,gte_email3")] t_config t_config)
+        public ActionResult Edit([Bind(Include = "clave,planta,env_correos,server,send_email,send_paswd,port,ind_html,ind_ssl,autoriza_superv,autoriza_seh,dias_revision,aler_gerente,aler_super,aler_compromiso,aler_revision,aler_validaseh,gte_email,gte_email2,gte_email3,path_imgs,ind_testmail,testmail")] t_config t_config)
         {
             if (ModelState.IsValid)
             {

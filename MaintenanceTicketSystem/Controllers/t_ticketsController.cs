@@ -125,10 +125,9 @@ namespace MaintenanceTicketSystem.Controllers
             {
                 if (ImageFile != null)
                 {
-                    string path = Path.Combine(Server.MapPath("~/FotosTickets"), Path.GetFileName(ImageFile.FileName));
-                    string extension = Path.GetExtension(ImageFile.FileName);
+                    string path = Path.Combine(Server.MapPath("~/FotosTickets"), t_tickets.folio.ToString() + Path.GetExtension(ImageFile.FileName));
                     ImageFile.SaveAs(path);
-                    t_tickets.imagen_path = "~/FotosTickets/" + ImageFile.FileName;
+                    t_tickets.imagen_path = "~/FotosTickets/" + t_tickets.folio.ToString() + Path.GetExtension(ImageFile.FileName);
                 }
 
 
@@ -240,7 +239,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4")] t_tickets t_tickets,  string command = "0")
+        public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path")] t_tickets t_tickets,  string command = "0")
         {
             //si viene de una vista para autorizar
             if (command != "0")
