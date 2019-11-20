@@ -1,0 +1,202 @@
+﻿@model MaintenanceTicketSystem.Models.t_tickets
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<br>
+<h2>Ticket #@Html.DisplayFor(model => model.folio)</h2>
+<br>
+
+<h4>Solicitud</h4><hr>
+
+@using (Html.BeginForm())
+{
+        @Html.AntiForgeryToken()
+    <div class="form-row">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- SOLICITUD  -->
+
+        <div class="form-group col-md-6">
+            <label>Ubicación</label>
+            <input class="form-control" readonly  value= @Html.DisplayFor(model => model.t_areas.descripcion)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Usuario Windows</label>
+            <input class="form-control" readonly style="color:lightgrey" value=@Html.DisplayFor(model => model.u_id)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Categoría</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Departamento</label>
+            @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "color:lightgrey" } })
+        </div>
+
+    
+
+        <div class="form-group col-md-6">
+            <label>Equipo</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Puesto</label>
+            <input class="form-control" id="upuesto" readonly style="color:lightgrey" value="">
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6" })
+            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <label>Correo</label>
+            <input class="form-control" id="ucorreo" readonly style="color:lightgrey">
+            <br>
+            <label>Turno</label>
+            <input class="form-control" id="uturno" readonly style="color:lightgrey">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Imagen</label>
+            <input class="form-control" placeholder="Pendiente" readonly style="color:lightgrey">
+        </div>
+
+
+        <div class="form-group col-md-12">
+            <label>Fecha Requerida</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
+        </div>
+
+    
+        <div class="form-group col-md-offset-2 col-md-12">
+        @if (Model.urgencia == "1")
+        {
+                <input data-val="true" id="urgencia" name="urgencia" type="checkbox" class="form-check-input" checked="checked" readonly/>
+        }
+        else
+        {
+            <input data-val="true" id="urgencia" name="urgencia" type="checkbox"  class="form-check-input" readonly />
+        }
+
+            <label>Urgencia (afecta producción)</label>
+        </div>
+
+        <div class="form-group col-md-12">
+            <br>
+            <h4>Seguimiento</h4><hr />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Supervisor</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.sup_revisado)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Falla</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_fallas.descripcion)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Técnico asignado</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.tecnico)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Fecha de entrega</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_entrega)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Prioridad</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.prioridad)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Recibido por:</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.recibe)>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Fecha Compromiso</label>
+            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_compromiso)>
+            <br>
+            @if (Model.req_autoriza == "1")
+            {
+                <input data-val="true" id="urgencia" name="req_autoriza" type="checkbox" class="form-check-input" checked="checked" readonly />
+            }
+            else
+            {
+                <input data-val="true" id="urgencia" name="req_autoriza" type="checkbox" class="form-check-input" readonly />
+            }
+            <label>Solicitar autorización de gerente</label>
+            <br>
+            @if (Model.req_autoriza2 == "1")
+            {
+                <input data-val="true" id="urgencia" name="req_autoriza" type="checkbox" class="form-check-input" checked="checked" readonly />
+            }
+            else
+            {
+                <input data-val="true" id="urgencia" name="req_autoriza" type="checkbox" class="form-check-input" readonly />
+            }
+            <label>Solicitar autorización SeH</label>        
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Actividades</label>
+            <textarea class="form-control" rows="6" readonly>@Html.DisplayFor(model => model.actividades)</textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+}
+    <p>
+        @Html.ActionLink("Regresar a Lista", "Index", "Home")
+    </p>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+         updateUsuario();
+
+         function updateUsuario() {
+      $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getInfoUsuario", "t_tickets")',
+                dataType: 'json',
+                data: { id: '@User.Identity.Name.ToString().Substring(11).ToLower()' },
+                success: function (usuario) {
+                    if(usuario[5] = "Usuario")
+                    {
+                        //document.getElementById("u_id").value = usuario[0];
+                        document.getElementById("depto").value = usuario[1];
+                        document.getElementById("upuesto").value = usuario[2];
+                        document.getElementById("uturno").value = usuario[3];
+                        document.getElementById("ucorreo").value = usuario[4];
+                    }
+                },
+                error: function (ex) {
+                   // alert('Failed.' + ex);
+                }
+            });
+         }
+
+    });
+</script>   

@@ -1,0 +1,151 @@
+﻿@model MaintenanceTicketSystem.Models.t_usuarios
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Crear</h2>
+<h4>Usuario</h4>
+<hr />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="col-md-2"> No. de empleado </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.no_emp, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.no_emp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2"> Nombre </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.turno, "Turno", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.turno, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.turno, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.depto, "", new { @class = "text-danger"  })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.puesto, "Puesto", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.puesto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.puesto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.supervisor, "Supervisor", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.supervisor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.supervisor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.usuario, "Usuario (Windows)" , htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.usuario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.usuario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.rol, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("rol", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.rol, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="divcat" class="form-group">
+            @Html.LabelFor(model => model.categoria, "Categoría", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group col-md-12">
+                <input type="submit" value="Guardar" class="btn btn-outline-primary" /> 
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar a lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#divcat').hide();
+    });
+
+    $("#no_emp").keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            $("#no_emp").blur();
+            return false;
+        }
+    });
+
+    //Pasando informacion de Tress desde el metodo en el controlador de t_usuarios
+    $(function() {
+        $("#no_emp").change(function() {
+            var id = $("#no_emp").val();
+            updateResult(id);
+            return false;
+        });
+    });
+
+    function updateResult(id) {
+        var url = "@Url.Action("datosTress", "t_usuarios", new { id = "param-id" })";
+        url = url.replace("param-id", id);
+
+        $.getJSON(url, function (data) {
+            document.getElementById("nombre").value = data[0];
+            document.getElementById("turno").value = data[1];
+            document.getElementById("puesto").value = data[2];
+            document.getElementById("supervisor").value = data[5];
+            document.getElementById("depto").value = data[4];
+        });
+    }
+
+    $("#rol").change(function () {
+        if($("#rol").val() == "Supervisor")
+            $("#divcat").show();
+        else
+            $("#divcat").hide();
+    });
+</script>

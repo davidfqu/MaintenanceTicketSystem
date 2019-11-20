@@ -1,0 +1,238 @@
+﻿@model MaintenanceTicketSystem.Models.t_tickets
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div id="alertcrearticket" class="alert alert-danger alert-dismissible fade in" role="alert">
+    <strong>Vaya!</strong> Parece que hace falta llenar la descripción
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+@using (Html.BeginForm("Create","t_tickets",FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<br>
+<h2>Ticket</h2>
+<br>
+
+<h4>Solicitud</h4><hr>
+
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-row">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- SOLICITUD  -->
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.area, "Ubicación", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("area", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Nombre</label>
+            <input class="form-control" id="unombre" readonly value="">
+        </div>
+
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.categoria, "Categoría", htmlAttributes: new { @class = "control-label" })
+            <a  href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#exampleModal">i</span></a>
+            @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Usuario Windows</label>
+            @Html.EditorFor(model => model.u_id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.u_id, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.equipo, "Equipo", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("equipo", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.equipo, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows="6"} )
+            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-6">
+            <label>Turno</label>
+            <input class="form-control" id="uturno" readonly >
+            <br>
+            <label>Puesto</label>
+            <input class="form-control" id="upuesto" readonly value="">
+        </div>
+
+    
+    <div class="form-group col-md-6">
+            <label>Imagen</label>
+            <input type="file" name="ImageFile" id="ImageFile" class="form-control-file">
+        </div>
+          
+
+        <div class="form-group col-md-6">
+            <label>Correo</label>
+            <input class="form-control" id="ucorreo" readonly>
+        </div>
+
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.f_requerida, "Fecha Requerida", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.f_requerida, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group col-md-offset-2 col-md-12">
+            <div class="checkbox" >
+                <label><input type="checkbox" id="cburgencia" value=""> Urgente</label>
+            </div>
+            @Html.DropDownList("urgencia", null, htmlAttributes: new { @class = "form-control" })
+
+        </div>
+
+
+
+        <br>
+        <br>
+        <div class="form-group col-12">
+
+            <input id="botonbuenocrear" type="submit" style="display:none" />
+            <button id="botonfalsocrear" type="button" class="btn btn-outline-primary">Crear</button>
+
+        </div>
+        </div>
+
+}
+
+<div>
+    @Html.ActionLink("Regresar a lista", "Index", "Home")
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Descripción de Categorias</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @foreach (var row in ViewBag.categoria2)
+                {
+                    <b>@row.Value</b>
+                    <p>
+                        @row.Text
+                    </p>
+                    <hr>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        updateUsuario();
+        $('#urgencia').hide();
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $("#cburgencia").click(function () {
+            if ($('#cburgencia').prop('checked'))
+            {
+                $('#urgencia').show();
+            }
+            else
+            {
+                $('#urgencia').hide();
+            }
+        });
+
+
+         function updateUsuario() {
+      $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getInfoUsuario", "t_tickets")',
+                dataType: 'json',
+                data: { id: '@User.Identity.Name.ToString().Substring(11).ToLower()' },
+                success: function (usuario) {
+                    if(usuario[5] = "Usuario")
+                    {
+                        document.getElementById("u_id").value = usuario[0];
+                        document.getElementById("depto").value = usuario[1];
+                        document.getElementById("upuesto").value = usuario[2];
+                        document.getElementById("uturno").value = usuario[3];
+                        document.getElementById("ucorreo").value = usuario[4];
+                        document.getElementById("unombre").value = usuario[6];
+                    }
+                },
+                error: function (ex) {
+                   // alert('Failed.' + ex);
+                }
+            });
+         }
+
+
+        $("#categoria").click(function () {
+            $("#equipo").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getEquipo", "t_tickets")',
+                dataType: 'json',
+                data: { id: $("#categoria").val() },
+                success: function (equipo) {
+
+                    $.each(equipo, function (i, equipos) {
+                        $("#equipo").append('<option value="'
+                                                   + equipos.Value + '">'
+                                             + equipos.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                   alert('Failed.' + ex);
+                }
+            });
+            return false;
+        })
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $("#botonfalsocrear").click(function () {
+            if ( $("#descripcion").val() == "" ) {
+                $("#alertcrearticket").css('z-index', 10);
+                $("#alertcrearticket").fadeTo(3000, 1000).slideUp(1000, function () {
+                    $("#alertcrearticket").slideUp(1000);
+                });
+                setTimeout(function () { $("#alertcrearticket").css('z-index', 0); }, 4000);
+            }
+            else
+                $("#botonbuenocrear").click();
+        });
+    });
+</script>   

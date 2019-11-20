@@ -1,0 +1,142 @@
+﻿@model IEnumerable<MaintenanceTicketSystem.Models.t_config>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.planta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.env_correos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.server)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.send_email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.send_paswd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.port)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ind_html)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ind_ssl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.autoriza_superv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.autoriza_seh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dias_revision)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aler_gerente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aler_super)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aler_compromiso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aler_revision)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aler_validaseh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gte_email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gte_email2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gte_email3)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.planta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.env_correos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.server)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.send_email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.send_paswd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.port)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ind_html)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ind_ssl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.autoriza_superv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.autoriza_seh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dias_revision)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aler_gerente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aler_super)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aler_compromiso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aler_revision)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.aler_validaseh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gte_email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gte_email2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gte_email3)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.clave }) |
+            @Html.ActionLink("Details", "Details", new { id=item.clave }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.clave })
+        </td>
+    </tr>
+}
+
+</table>

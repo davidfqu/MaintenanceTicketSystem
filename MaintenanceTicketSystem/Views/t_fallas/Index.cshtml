@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MaintenanceTicketSystem.Models.t_fallas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Fallas</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Clave
+        </th>
+
+        <th>
+            Nombre
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.falla)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.descripcion)
+        </td>
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.falla }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.falla })
+        </td>
+    </tr>
+}
+
+</table>

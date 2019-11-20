@@ -1,0 +1,144 @@
+﻿@model PagedList.IPagedList<MaintenanceTicketSystem.Models.t_tickets>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "TicketsTecnico";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="alertticketeditado" class="alert alert-success alert-dismissible fade in" role="alert">
+    <strong>Bien!</strong> El ticket con el folio @ViewBag.numticket ha sido actualizado
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="jumbotron">
+    <div id="bienvenida" class="row align-items-center" style="display:none">
+
+        <div class="col-md-10 ml-2 align-self-center">
+
+            <h1 style="font-size:3.5rem">Bienvenido @ViewBag.nombretecnico</h1>
+                <p class="lead" style="font-size:2rem">Tus tickets de mantenimiento</p>
+        </div>
+        <div class="col-md-1 align-self-center mr-2">
+            <img src="~/img/logo3.png" width="120" height="120" alt="" />
+        </div>
+    </div>
+
+</div>
+
+
+
+@using (Html.BeginForm("TicketsTecnico", "Home", FormMethod.Get))
+    {
+<div class="form-group row ml-1">
+    <div class="col-xs-2">
+        <select class="form-control" id="SearchOption" name="SearchOption">
+            @if (ViewBag.CurrentSearch != null)
+            {
+                <option>@ViewBag.CurrentSearch</option>
+                if (ViewBag.CurrentSearch == "Folio")
+                {
+                        <option>Usuario</option>
+
+                }
+                if (ViewBag.CurrentSearch == "Usuario")
+                {
+                        <option>Folio</option>
+
+                }
+
+            }
+            else
+            {
+              <option>Folio</option>
+              <option>Usuario</option> 
+            }
+
+        </select>
+    </div>
+    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+    <input type="submit" value="Buscar" class="btn btn-outline-primary" />
+</div>
+        }
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Folio", "TicketsTecnico", new { sortOrder = ViewBag.FolioSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+        <th>
+            <label>Fecha y hora</label>
+        </th>
+        <th>
+            @Html.ActionLink("Estatus", "TicketsTecnico", new { sortOrder = ViewBag.EstatusSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+        <th>
+            @Html.ActionLink("Categoría", "TicketsTecnico", new { sortOrder = ViewBag.CategoriaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+        <th>
+            <label>Descripción</label>
+        </th>
+        <th>
+            @Html.ActionLink("Fecha Compromiso", "TicketsTecnico", new { sortOrder = ViewBag.FCompromisoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                @if (@Html.DisplayFor(modelItem => item.urgencia).ToString() == "1")
+                {
+                    <span class="badge badge-pill badge-warning">!</span>
+                }
+                @if (@Html.DisplayFor(modelItem => item.urgencia).ToString() == "2")
+                {
+                    <span class="badge badge-pill badge-primary">!</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_estatus.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.t_catego.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.f_compromiso))
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+<!--Página-->
+<div class="ml-1">
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }))
+</div>
+
+<script>
+    $("#bienvenida").fadeIn(3000);
+
+      @if(ViewBag.ticketeditado ==true)
+    {
+        <text>
+    $("#alertticketeditado").css('z-index', 10);
+        $("#alertticketeditado").fadeTo(4000, 1000).slideUp(1000, function () {
+            $("#alertticketeditado").slideUp(1000);
+        });
+        setTimeout(function () { $("#alertticketeditado").css('z-index', 0); }, 5000);
+        </text>
+    }
+</script>

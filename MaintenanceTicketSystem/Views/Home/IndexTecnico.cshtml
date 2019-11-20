@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "IndexTecnico";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ @using (Html.BeginForm("TicketsTecnico", "Home", FormMethod.Get))
+        {
+<div class="form-group row">
+    <div class="col-md-12" align="center">
+        <br />
+
+        <h2>Maintenance Ticket System</h2>
+        <hr />
+        <h3>No. de empleado</h3>
+        <br />
+        <input class="form-control" id="noEmpleado" name="noEmpleado">
+        <br />
+
+        <input type="submit" value="Entrar" class="btn btn-outline-primary btn-lg btn-block" />
+    </div>
+    
+</div>
+        }

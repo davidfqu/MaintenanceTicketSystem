@@ -1,0 +1,66 @@
+﻿@model PagedList.IPagedList<MaintenanceTicketSystem.Models.t_equipos>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Equipos</h2>
+
+@using (Html.BeginForm("Index", "t_equipos", FormMethod.Get))
+{
+    <div class="form-group row ml-1">
+        <div class="col-xs-2 mt-2">
+           Categoria
+        </div>
+        @Html.DropDownList("SearchString",null,ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control" })
+        <input type="submit" value="Buscar" class="btn btn-outline-primary" />
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Crear", "Create")
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Categoría
+        </th>
+        <th>
+            Clave
+        </th>
+        <th>
+            Nombre
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.t_catego.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.equipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.descripcion)
+        </td>
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.equipo }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.equipo })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div class="ml-1">
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }))
+</div>

@@ -1,0 +1,376 @@
+﻿@model MaintenanceTicketSystem.Models.t_tickets
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>t_tickets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.planta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.planta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_requerida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_requerida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.falla)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.falla)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_revisado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_revisado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.n_revisado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.n_revisado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_aprovacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_aprovacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.n_aprovacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.n_aprovacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_proceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_proceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.n_proceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.n_proceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_espera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_espera)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.n_espera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.n_espera)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_detenido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_detenido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.n_detenido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.n_detenido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_cerrado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_cerrado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.n_cerrado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.n_cerrado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.turno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.turno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.prioridad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.prioridad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.urgencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.urgencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.depto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.depto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.actividades)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actividades)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.duracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.duracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_compromiso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_compromiso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.req_autoriza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.req_autoriza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sup_autoriza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sup_autoriza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sup_fautoriza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sup_fautoriza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.req_autoriza2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.req_autoriza2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sup_autoriza2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sup_autoriza2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sup_fautoriza2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sup_fautoriza2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ind_entrega)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ind_entrega)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_entrega)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_entrega)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.recibe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.recibe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sup_revisado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sup_revisado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ind_cancelado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ind_cancelado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.f_cancela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.f_cancela)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nota_cancel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nota_cancel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_areas.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_areas.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_catego.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_catego.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_equipos.categoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_equipos.categoria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_usuarios.planta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_usuarios.planta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_usuarios1.planta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_usuarios1.planta)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

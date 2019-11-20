@@ -1,0 +1,291 @@
+﻿@model IEnumerable<MaintenanceTicketSystem.Models.t_tickets>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.planta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_requerida)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.falla)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_revisado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.n_revisado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_aprovacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.n_aprovacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_proceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.n_proceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_espera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.n_espera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_detenido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.n_detenido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_cerrado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.n_cerrado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.turno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prioridad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.urgencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.depto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actividades)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duracion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_compromiso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.req_autoriza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sup_autoriza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sup_fautoriza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.req_autoriza2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sup_autoriza2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sup_fautoriza2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ind_entrega)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_entrega)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.recibe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sup_revisado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ind_cancelado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.f_cancela)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nota_cancel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.t_areas.descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.t_catego.descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.t_equipos.categoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.t_usuarios.planta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.t_usuarios1.planta)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.planta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_requerida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.falla)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_revisado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.n_revisado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_aprovacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.n_aprovacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_proceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.n_proceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_espera)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.n_espera)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_detenido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.n_detenido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_cerrado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.n_cerrado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.turno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prioridad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.urgencia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.depto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actividades)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.duracion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_compromiso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.req_autoriza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sup_autoriza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sup_fautoriza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.req_autoriza2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sup_autoriza2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sup_fautoriza2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ind_entrega)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_entrega)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.recibe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sup_revisado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ind_cancelado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.f_cancela)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nota_cancel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.t_areas.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.t_catego.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.t_equipos.categoria)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.t_usuarios.planta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.t_usuarios1.planta)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.folio }) |
+            @Html.ActionLink("Details", "Details", new { id=item.folio }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.folio })
+        </td>
+    </tr>
+}
+
+</table>

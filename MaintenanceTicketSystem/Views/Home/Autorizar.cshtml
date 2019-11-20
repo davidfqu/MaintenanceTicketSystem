@@ -1,0 +1,224 @@
+﻿@model PagedList.IPagedList<MaintenanceTicketSystem.Models.t_tickets>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <div id="bienvenida" class="row align-items-center" style="display:none">
+
+        <div class="col-md-10 ml-2 align-self-center">
+
+            <h1 style="font-size:3.5rem">Bienvenido @Session["UserFirstName"].ToString()</h1>
+
+            @if (Session["UserRol"].ToString() == "Supervisor")
+            {
+                <p class="lead" style="font-size:2rem">@Session["CategoryDesc"].ToString()</p>
+            }
+            @if (Session["UserRol"].ToString() == "Usuario")
+            {
+                <p class="lead" style="font-size:2rem">Tus tickets de mantenimiento</p>
+
+            }
+
+        </div>
+        <div class="col-md-1 align-self-center mr-2">
+            <img src="~/img/logo3.png" width="120" height="120" alt="" />
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- Search Box-->
+@using (Html.BeginForm("Autorizar", "Home", FormMethod.Get))
+{
+    <div class="form-group row ml-1">
+        <div class="col-xs-2">
+            <select class="form-control" id="SearchOption" name="SearchOption">
+                @if (ViewBag.CurrentSearch != null)
+                {
+                    <option>@ViewBag.CurrentSearch</option>
+
+                    if (Session["UserRol"].ToString() == "Supervisor")
+                    {
+                        if (ViewBag.CurrentSearch == "Folio")
+                        {
+                            <option>Usuario</option>
+                            <option>Descripción</option>
+                        }
+                        if (ViewBag.CurrentSearch == "Usuario")
+                        {
+                            <option>Folio</option>
+                            <option>Descripción</option>
+                        }
+                        if (ViewBag.CurrentSearch == "Descripción")
+                        {
+                            <option>Folio</option>
+                            <option>Usuario</option>
+                        }
+                    }
+                    if (Session["UserRol"].ToString() == "Usuario")
+                    {
+                        if (ViewBag.CurrentSearch == "Folio")
+                        {
+                            <option>Descripción</option>
+                        }
+
+                        if (ViewBag.CurrentSearch == "Descripción")
+                        {
+                            <option>Folio</option>
+                        }
+                    }
+                    if (Session["UserRol"].ToString() == "Admin")
+                    {
+                        if (ViewBag.CurrentSearch == "Folio")
+                        {
+                            <option>Usuario</option>
+                            <option>Descripción</option>
+                        }
+                        if (ViewBag.CurrentSearch == "Usuario")
+                        {
+                            <option>Folio</option>
+                            <option>Descripción</option>
+                        }
+                        if (ViewBag.CurrentSearch == "Descripción")
+                        {
+                            <option>Folio</option>
+                            <option>Usuario</option>
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    if (Session["UserRol"].ToString() == "Usuario")
+                    {
+                        <option>Folio</option>
+                        <option>Descripción</option>
+                    }
+                    if (Session["UserRol"].ToString() == "Supervisor")
+                    {
+                        <option>Folio</option>
+                        <option>Usuario</option>
+                        <option>Descripción</option>
+                    }
+                    if (Session["UserRol"].ToString() == "Admin")
+                    {
+                        <option>Folio</option>
+                        <option>Usuario</option>
+                        <option>Descripción</option>
+                    }
+
+                }
+
+            </select>
+        </div>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+        <input type="submit" value="Buscar" class="btn btn-outline-primary" />
+    </div>
+}
+
+
+    <p>
+        @Html.ActionLink("Crear Nuevo", "Create", "t_tickets") | @Html.ActionLink("Mis Tickets", "Index", "Home")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Folio", "Autorizar", new { sortOrder = ViewBag.FolioSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                <label>Usuario</label>
+            </th>
+            <th>
+                @Html.ActionLink("Estatus", "Autorizar", new { sortOrder = ViewBag.EstatusSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                <label>Ubicación</label>
+            </th>
+            <th>
+                <label>Fecha y hora</label>
+            </th>
+            <th>
+                @Html.ActionLink("Categoría", "Autorizar", new { sortOrder = ViewBag.CategoriaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                <label>Supervisor</label>
+            </th>
+            <th>
+                @Html.ActionLink("Fecha Compromiso", "Autorizar", new { sortOrder = ViewBag.FCompromisoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+            </th>
+            <th>
+                <label>Prioridad</label>
+            </th>
+
+
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, autorizar = true }, null)
+                    @if (@Html.DisplayFor(modelItem => item.urgencia).ToString() == "1")
+                    {
+                        <span class="badge badge-pill badge-warning">!</span>
+                    }
+                    @if (@Html.DisplayFor(modelItem => item.urgencia).ToString() == "2")
+                    {
+                        <span class="badge badge-pill badge-primary">!</span>
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.u_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.t_estatus.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.t_areas.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.t_catego.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.t_usuarios11.nombre)
+                </td>
+                <td>
+                    @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.f_compromiso))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.prioridad)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+<!--Página-->
+<div class="ml-1">
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Autorizar",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }))
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $("#bienvenida").fadeIn(3000);
+</script>

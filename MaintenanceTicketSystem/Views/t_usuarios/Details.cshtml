@@ -1,0 +1,100 @@
+﻿@model MaintenanceTicketSystem.Models.t_usuarios
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Usuarios</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Usuario
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuario)
+        </dd>
+        <dt>
+           No. de empleado
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.no_emp)
+        </dd>
+
+        <dt>
+            Nombre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+           Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+           Turno
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.turno)
+        </dd>
+
+        <dt>
+           Departamento
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.depto)
+        </dd>
+
+        <dt>
+           Puesto
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puesto)
+        </dd>
+
+        <dt>
+            Supervisor
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.supervisor)
+        </dd>
+
+        <dt>
+            Rol
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rol)
+        </dd>
+
+        @if (Model.categoria != null)
+        {
+            <dt>
+                Categoría
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.t_catego.descripcion)
+            </dd>
+        }
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.usuario }) |
+    @Html.ActionLink("Regresar a lista", "Index")
+</p>

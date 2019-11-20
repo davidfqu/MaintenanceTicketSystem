@@ -1,0 +1,42 @@
+﻿@model test.Models.t_tickets_img
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>t_tickets_img</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.imagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.imagen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nota)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nota)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.t_tickets.planta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.t_tickets.planta)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

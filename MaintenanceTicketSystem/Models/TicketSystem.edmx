@@ -1,0 +1,1014 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="t_areas">
+          <Key>
+            <PropertyRef Name="area" />
+          </Key>
+          <Property Name="area" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="t_catego">
+          <Key>
+            <PropertyRef Name="categoria" />
+          </Key>
+          <Property Name="categoria" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="nota" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="t_config">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="planta" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="env_correos" Type="varchar" MaxLength="1" />
+          <Property Name="server" Type="varchar" MaxLength="30" />
+          <Property Name="send_email" Type="varchar" MaxLength="30" />
+          <Property Name="send_paswd" Type="varchar" MaxLength="30" />
+          <Property Name="port" Type="int" />
+          <Property Name="ind_html" Type="varchar" MaxLength="1" />
+          <Property Name="ind_ssl" Type="varchar" MaxLength="1" />
+          <Property Name="autoriza_superv" Type="varchar" MaxLength="1" />
+          <Property Name="autoriza_seh" Type="varchar" MaxLength="1" />
+          <Property Name="dias_revision" Type="int" />
+          <Property Name="aler_gerente" Type="varchar" MaxLength="1" />
+          <Property Name="aler_super" Type="varchar" MaxLength="1" />
+          <Property Name="aler_compromiso" Type="varchar" MaxLength="1" />
+          <Property Name="aler_revision" Type="varchar" MaxLength="1" />
+          <Property Name="aler_validaseh" Type="varchar" MaxLength="1" />
+          <Property Name="gte_email" Type="varchar" MaxLength="50" />
+          <Property Name="gte_email2" Type="varchar" MaxLength="50" />
+          <Property Name="gte_email3" Type="varchar" MaxLength="50" />
+          <Property Name="path_imgs" Type="varchar" MaxLength="100" />
+          <Property Name="ind_testmail" Type="varchar" MaxLength="1" />
+          <Property Name="testmail" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="t_correo_body">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="folio" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="consec" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="mensaje" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="t_correo_dest">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="folio" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="consec" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" />
+          <Property Name="tipo" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="t_correos">
+          <Key>
+            <PropertyRef Name="folio" />
+          </Key>
+          <Property Name="folio" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="asunto" Type="varchar" MaxLength="100" />
+          <Property Name="mensaje" Type="varchar" MaxLength="150" />
+          <Property Name="estado" Type="varchar" MaxLength="1" />
+          <Property Name="f_enviado" Type="datetime" />
+          <Property Name="f_id" Type="datetime" />
+          <Property Name="u_id" Type="varchar" MaxLength="10" />
+          <Property Name="proceso" Type="varchar" MaxLength="10" />
+          <Property Name="referencia" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="t_equipos">
+          <Key>
+            <PropertyRef Name="equipo" />
+          </Key>
+          <Property Name="categoria" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="equipo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="t_estatus">
+          <Key>
+            <PropertyRef Name="estatus" />
+          </Key>
+          <Property Name="estatus" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="orden" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_fallas">
+          <Key>
+            <PropertyRef Name="falla" />
+          </Key>
+          <Property Name="falla" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="t_tickets">
+          <Key>
+            <PropertyRef Name="folio" />
+          </Key>
+          <Property Name="folio" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="planta" Type="varchar" MaxLength="3" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="f_requerida" Type="datetime" />
+          <Property Name="u_id" Type="varchar" MaxLength="50" />
+          <Property Name="f_id" Type="datetime" />
+          <Property Name="area" Type="varchar" MaxLength="10" />
+          <Property Name="equipo" Type="varchar" MaxLength="10" />
+          <Property Name="falla" Type="varchar" MaxLength="10" />
+          <Property Name="categoria" Type="varchar" MaxLength="10" />
+          <Property Name="estatus" Type="varchar" MaxLength="20" />
+          <Property Name="f_revisado" Type="datetime" />
+          <Property Name="n_revisado" Type="varchar" MaxLength="100" />
+          <Property Name="f_aprovacion" Type="datetime" />
+          <Property Name="n_aprovacion" Type="varchar" MaxLength="100" />
+          <Property Name="f_proceso" Type="datetime" />
+          <Property Name="n_proceso" Type="varchar" MaxLength="100" />
+          <Property Name="f_espera" Type="datetime" />
+          <Property Name="n_espera" Type="varchar" MaxLength="100" />
+          <Property Name="f_detenido" Type="datetime" />
+          <Property Name="n_detenido" Type="varchar" MaxLength="100" />
+          <Property Name="f_cerrado" Type="datetime" />
+          <Property Name="n_cerrado" Type="varchar" MaxLength="100" />
+          <Property Name="tecnico" Type="varchar" MaxLength="50" />
+          <Property Name="turno" Type="varchar" MaxLength="10" />
+          <Property Name="prioridad" Type="varchar" MaxLength="20" />
+          <Property Name="urgencia" Type="nvarchar" MaxLength="1" />
+          <Property Name="depto" Type="varchar" MaxLength="50" />
+          <Property Name="descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="actividades" Type="varchar" MaxLength="250" />
+          <Property Name="duracion" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="f_compromiso" Type="datetime" />
+          <Property Name="req_autoriza" Type="varchar" MaxLength="1" />
+          <Property Name="sup_autoriza" Type="varchar" MaxLength="50" />
+          <Property Name="sup_fautoriza" Type="datetime" />
+          <Property Name="req_autoriza2" Type="varchar" MaxLength="1" />
+          <Property Name="sup_autoriza2" Type="varchar" MaxLength="50" />
+          <Property Name="sup_fautoriza2" Type="datetime" />
+          <Property Name="ind_entrega" Type="varchar" MaxLength="1" />
+          <Property Name="f_entrega" Type="datetime" />
+          <Property Name="recibe" Type="varchar" MaxLength="50" />
+          <Property Name="sup_revisado" Type="varchar" MaxLength="50" />
+          <Property Name="ind_cancelado" Type="varchar" MaxLength="1" />
+          <Property Name="f_cancela" Type="datetime" />
+          <Property Name="nota_cancel" Type="varchar" MaxLength="100" />
+          <Property Name="req_autoriza3" Type="varchar" MaxLength="1" />
+          <Property Name="sup_autoriza3" Type="varchar" MaxLength="50" />
+          <Property Name="sup_fautoriza3" Type="datetime" />
+          <Property Name="notas" Type="varchar" MaxLength="500" />
+          <Property Name="ind_autoriza" Type="varchar" MaxLength="1" />
+          <Property Name="ind_autoriza2" Type="varchar" MaxLength="1" />
+          <Property Name="ind_autoriza3" Type="varchar" MaxLength="1" />
+          <Property Name="nota_autoriza" Type="varchar" MaxLength="100" />
+          <Property Name="nota_autoriza2" Type="varchar" MaxLength="100" />
+          <Property Name="nota_autoriza3" Type="varchar" MaxLength="100" />
+          <Property Name="req_autoriza4" Type="varchar" MaxLength="1" />
+          <Property Name="sup_autoriza4" Type="varchar" MaxLength="50" />
+          <Property Name="sup_fautoriza4" Type="datetime" />
+          <Property Name="nota_autoriza4" Type="varchar" MaxLength="100" />
+          <Property Name="ind_autoriza4" Type="varchar" MaxLength="1" />
+          <Property Name="imagen_path" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="t_tickets_img">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="folio" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="consec" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="imagen" Type="image" />
+          <Property Name="nota" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="t_usuarios">
+          <Key>
+            <PropertyRef Name="usuario" />
+          </Key>
+          <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="no_emp" Type="int" />
+          <Property Name="planta" Type="varchar" MaxLength="3" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="email" Type="varchar" MaxLength="100" />
+          <Property Name="turno" Type="varchar" MaxLength="50" />
+          <Property Name="puesto" Type="varchar" MaxLength="50" />
+          <Property Name="supervisor" Type="varchar" MaxLength="50" />
+          <Property Name="depto" Type="varchar" MaxLength="50" />
+          <Property Name="rol" Type="varchar" MaxLength="20" />
+          <Property Name="u_id" Type="varchar" MaxLength="50" />
+          <Property Name="f_id" Type="datetime" />
+          <Property Name="categoria" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_equipos_cat">
+          <End Role="t_catego" Type="Self.t_catego" Multiplicity="1" />
+          <End Role="t_equipos" Type="Self.t_equipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_catego">
+              <PropertyRef Name="categoria" />
+            </Principal>
+            <Dependent Role="t_equipos">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_areas">
+          <End Role="t_areas" Type="Self.t_areas" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_areas">
+              <PropertyRef Name="area" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="area" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_catego">
+          <End Role="t_catego" Type="Self.t_catego" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_catego">
+              <PropertyRef Name="categoria" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_estatus">
+          <End Role="t_estatus" Type="Self.t_estatus" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_estatus">
+              <PropertyRef Name="estatus" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="estatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_fallas">
+          <End Role="t_fallas" Type="Self.t_fallas" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_fallas">
+              <PropertyRef Name="falla" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="falla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_usuarios">
+          <End Role="t_usuarios" Type="Self.t_usuarios" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_usuarios">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_usuarios1">
+          <End Role="t_usuarios" Type="Self.t_usuarios" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_usuarios">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="sup_revisado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_usuarios_t_catego">
+          <End Role="t_catego" Type="Self.t_catego" Multiplicity="0..1" />
+          <End Role="t_usuarios" Type="Self.t_usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_catego">
+              <PropertyRef Name="categoria" />
+            </Principal>
+            <Dependent Role="t_usuarios">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tickets_img_folio">
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="1" />
+          <End Role="t_tickets_img" Type="Self.t_tickets_img" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_tickets">
+              <PropertyRef Name="folio" />
+            </Principal>
+            <Dependent Role="t_tickets_img">
+              <PropertyRef Name="folio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TicketSystemModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_areas" EntityType="Self.t_areas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_catego" EntityType="Self.t_catego" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_config" EntityType="Self.t_config" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_correo_body" EntityType="Self.t_correo_body" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_correo_dest" EntityType="Self.t_correo_dest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_correos" EntityType="Self.t_correos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_equipos" EntityType="Self.t_equipos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_estatus" EntityType="Self.t_estatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_fallas" EntityType="Self.t_fallas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_tickets" EntityType="Self.t_tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_tickets_img" EntityType="Self.t_tickets_img" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_usuarios" EntityType="Self.t_usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_equipos_cat" Association="Self.FK_equipos_cat">
+            <End Role="t_catego" EntitySet="t_catego" />
+            <End Role="t_equipos" EntitySet="t_equipos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_areas" Association="Self.FK_t_tickets_t_areas">
+            <End Role="t_areas" EntitySet="t_areas" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_catego" Association="Self.FK_t_tickets_t_catego">
+            <End Role="t_catego" EntitySet="t_catego" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_estatus" Association="Self.FK_t_tickets_t_estatus">
+            <End Role="t_estatus" EntitySet="t_estatus" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_fallas" Association="Self.FK_t_tickets_t_fallas">
+            <End Role="t_fallas" EntitySet="t_fallas" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_usuarios" Association="Self.FK_t_tickets_t_usuarios">
+            <End Role="t_usuarios" EntitySet="t_usuarios" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_usuarios1" Association="Self.FK_t_tickets_t_usuarios1">
+            <End Role="t_usuarios" EntitySet="t_usuarios" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_usuarios_t_catego" Association="Self.FK_t_usuarios_t_catego">
+            <End Role="t_catego" EntitySet="t_catego" />
+            <End Role="t_usuarios" EntitySet="t_usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tickets_img_folio" Association="Self.FK_tickets_img_folio">
+            <End Role="t_tickets" EntitySet="t_tickets" />
+            <End Role="t_tickets_img" EntitySet="t_tickets_img" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TicketSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="t_areas">
+          <Key>
+            <PropertyRef Name="area" />
+          </Key>
+          <Property Name="area" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_tickets" Relationship="Self.FK_t_tickets_t_areas" FromRole="t_areas" ToRole="t_tickets" />
+        </EntityType>
+        <EntityType Name="t_catego">
+          <Key>
+            <PropertyRef Name="categoria" />
+          </Key>
+          <Property Name="categoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_equipos" Relationship="Self.FK_equipos_cat" FromRole="t_catego" ToRole="t_equipos" />
+          <NavigationProperty Name="t_tickets" Relationship="Self.FK_t_tickets_t_catego" FromRole="t_catego" ToRole="t_tickets" />
+          <NavigationProperty Name="t_usuarios" Relationship="TicketSystemModel.FK_t_usuarios_t_catego" FromRole="t_catego" ToRole="t_usuarios" />
+        </EntityType>
+        <EntityType Name="t_config">
+          <Key>
+            <PropertyRef Name="clave" />
+          </Key>
+          <Property Name="clave" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="planta" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="env_correos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="server" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="send_email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="send_paswd" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="port" Type="Int32" />
+          <Property Name="ind_html" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ind_ssl" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="autoriza_superv" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="autoriza_seh" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="dias_revision" Type="Int32" />
+          <Property Name="aler_gerente" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="aler_super" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="aler_compromiso" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="aler_revision" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="aler_validaseh" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="gte_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="gte_email2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="gte_email3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="path_imgs" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ind_testmail" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="testmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_correo_body">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="folio" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="consec" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="mensaje" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_correo_dest">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="folio" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="consec" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_correos">
+          <Key>
+            <PropertyRef Name="folio" />
+          </Key>
+          <Property Name="folio" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="asunto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mensaje" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="f_enviado" Type="DateTime" Precision="3" />
+          <Property Name="f_id" Type="DateTime" Precision="3" />
+          <Property Name="u_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="proceso" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="referencia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_equipos">
+          <Key>
+            <PropertyRef Name="equipo" />
+          </Key>
+          <Property Name="categoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="equipo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_catego" Relationship="Self.FK_equipos_cat" FromRole="t_equipos" ToRole="t_catego" />
+          <NavigationProperty Name="t_tickets" Relationship="Self.FK_t_tickets_t_equipos" FromRole="t_equipos" ToRole="t_tickets" />
+        </EntityType>
+        <EntityType Name="t_tickets">
+          <Key>
+            <PropertyRef Name="folio" />
+          </Key>
+          <Property Name="folio" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="planta" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="f_requerida" Type="DateTime" Precision="3" />
+          <Property Name="u_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="f_id" Type="DateTime" Precision="3" />
+          <Property Name="area" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="equipo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="falla" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="categoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="estatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="f_revisado" Type="DateTime" Precision="3" />
+          <Property Name="n_revisado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="f_aprovacion" Type="DateTime" Precision="3" />
+          <Property Name="n_aprovacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="f_proceso" Type="DateTime" Precision="3" />
+          <Property Name="n_proceso" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="f_espera" Type="DateTime" Precision="3" />
+          <Property Name="n_espera" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="f_detenido" Type="DateTime" Precision="3" />
+          <Property Name="n_detenido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="f_cerrado" Type="DateTime" Precision="3" />
+          <Property Name="n_cerrado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tecnico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="turno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="prioridad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="urgencia" Type="String" MaxLength="1" Unicode="true" FixedLength="false" />
+          <Property Name="depto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="actividades" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="duracion" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="f_compromiso" Type="DateTime" Precision="3" />
+          <Property Name="req_autoriza" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="sup_autoriza" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sup_fautoriza" Type="DateTime" Precision="3" />
+          <Property Name="req_autoriza2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="sup_autoriza2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sup_fautoriza2" Type="DateTime" Precision="3" />
+          <Property Name="ind_entrega" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="f_entrega" Type="DateTime" Precision="3" />
+          <Property Name="recibe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sup_revisado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ind_cancelado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="f_cancela" Type="DateTime" Precision="3" />
+          <Property Name="nota_cancel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_areas" Relationship="Self.FK_t_tickets_t_areas" FromRole="t_tickets" ToRole="t_areas" />
+          <NavigationProperty Name="t_catego" Relationship="Self.FK_t_tickets_t_catego" FromRole="t_tickets" ToRole="t_catego" />
+          <NavigationProperty Name="t_equipos" Relationship="Self.FK_t_tickets_t_equipos" FromRole="t_tickets" ToRole="t_equipos" />
+          <NavigationProperty Name="t_usuarios" Relationship="Self.FK_t_tickets_t_usuarios" FromRole="t_tickets" ToRole="t_usuarios" />
+          <NavigationProperty Name="t_tickets_img" Relationship="Self.FK_tickets_img_folio" FromRole="t_tickets" ToRole="t_tickets_img" />
+          <NavigationProperty Name="t_fallas" Relationship="TicketSystemModel.FK_t_tickets_t_fallas" FromRole="t_tickets" ToRole="t_fallas" />
+          <NavigationProperty Name="t_usuarios11" Relationship="TicketSystemModel.FK_t_tickets_t_usuarios11" FromRole="t_tickets" ToRole="t_usuarios" />
+          <NavigationProperty Name="t_estatus" Relationship="TicketSystemModel.FK_t_tickets_t_estatus" FromRole="t_tickets" ToRole="t_estatus" />
+          <Property Name="req_autoriza3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="sup_autoriza3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sup_fautoriza3" Type="DateTime" Precision="3" />
+          <Property Name="notas" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ind_autoriza" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ind_autoriza2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ind_autoriza3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="req_autoriza4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="sup_autoriza4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sup_fautoriza4" Type="DateTime" Precision="3" />
+          <Property Name="nota_autoriza4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ind_autoriza4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="imagen_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="t_tickets_img">
+          <Key>
+            <PropertyRef Name="folio" />
+            <PropertyRef Name="consec" />
+          </Key>
+          <Property Name="folio" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="consec" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="nota" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_tickets" Relationship="Self.FK_tickets_img_folio" FromRole="t_tickets_img" ToRole="t_tickets" />
+        </EntityType>
+        <EntityType Name="t_usuarios">
+          <Key>
+            <PropertyRef Name="usuario" />
+          </Key>
+          <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="no_emp" Type="Int32" />
+          <Property Name="planta" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="turno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="puesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="depto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="u_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="f_id" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="t_tickets" Relationship="Self.FK_t_tickets_t_usuarios" FromRole="t_usuarios" ToRole="t_tickets" />
+          <Property Name="categoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_catego" Relationship="TicketSystemModel.FK_t_usuarios_t_catego" FromRole="t_usuarios" ToRole="t_catego" />
+          <NavigationProperty Name="t_tickets11" Relationship="TicketSystemModel.FK_t_tickets_t_usuarios11" FromRole="t_usuarios" ToRole="t_tickets" />
+        </EntityType>
+        <Association Name="FK_t_tickets_t_areas">
+          <End Role="t_areas" Type="Self.t_areas" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_areas">
+              <PropertyRef Name="area" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="area" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_equipos_cat">
+          <End Role="t_catego" Type="Self.t_catego" Multiplicity="1" />
+          <End Role="t_equipos" Type="Self.t_equipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_catego">
+              <PropertyRef Name="categoria" />
+            </Principal>
+            <Dependent Role="t_equipos">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_catego">
+          <End Role="t_catego" Type="Self.t_catego" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_catego">
+              <PropertyRef Name="categoria" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_equipos">
+          <End Role="t_equipos" Type="Self.t_equipos" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_equipos">
+              <PropertyRef Name="equipo" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="equipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_usuarios">
+          <End Role="t_usuarios" Type="Self.t_usuarios" Multiplicity="0..1" />
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_usuarios">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tickets_img_folio">
+          <End Role="t_tickets" Type="Self.t_tickets" Multiplicity="1" />
+          <End Role="t_tickets_img" Type="Self.t_tickets_img" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_tickets">
+              <PropertyRef Name="folio" />
+            </Principal>
+            <Dependent Role="t_tickets_img">
+              <PropertyRef Name="folio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TicketSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="t_areas" EntityType="Self.t_areas" />
+          <EntitySet Name="t_catego" EntityType="Self.t_catego" />
+          <EntitySet Name="t_config" EntityType="Self.t_config" />
+          <EntitySet Name="t_correo_body" EntityType="Self.t_correo_body" />
+          <EntitySet Name="t_correo_dest" EntityType="Self.t_correo_dest" />
+          <EntitySet Name="t_correos" EntityType="Self.t_correos" />
+          <EntitySet Name="t_equipos" EntityType="Self.t_equipos" />
+          <EntitySet Name="t_tickets" EntityType="Self.t_tickets" />
+          <EntitySet Name="t_tickets_img" EntityType="Self.t_tickets_img" />
+          <EntitySet Name="t_usuarios" EntityType="Self.t_usuarios" />
+          <AssociationSet Name="FK_t_tickets_t_areas" Association="Self.FK_t_tickets_t_areas">
+            <End Role="t_areas" EntitySet="t_areas" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_equipos_cat" Association="Self.FK_equipos_cat">
+            <End Role="t_catego" EntitySet="t_catego" />
+            <End Role="t_equipos" EntitySet="t_equipos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_catego" Association="Self.FK_t_tickets_t_catego">
+            <End Role="t_catego" EntitySet="t_catego" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_equipos" Association="Self.FK_t_tickets_t_equipos">
+            <End Role="t_equipos" EntitySet="t_equipos" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_usuarios" Association="Self.FK_t_tickets_t_usuarios">
+            <End Role="t_usuarios" EntitySet="t_usuarios" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tickets_img_folio" Association="Self.FK_tickets_img_folio">
+            <End Role="t_tickets" EntitySet="t_tickets" />
+            <End Role="t_tickets_img" EntitySet="t_tickets_img" />
+          </AssociationSet>
+          <EntitySet Name="t_fallas" EntityType="TicketSystemModel.t_fallas" />
+          <AssociationSet Name="FK_t_usuarios_t_catego" Association="TicketSystemModel.FK_t_usuarios_t_catego">
+            <End Role="t_catego" EntitySet="t_catego" />
+            <End Role="t_usuarios" EntitySet="t_usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_fallas" Association="TicketSystemModel.FK_t_tickets_t_fallas">
+            <End Role="t_fallas" EntitySet="t_fallas" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_tickets_t_usuarios11" Association="TicketSystemModel.FK_t_tickets_t_usuarios11">
+            <End Role="t_usuarios" EntitySet="t_usuarios" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+          <EntitySet Name="t_estatus" EntityType="TicketSystemModel.t_estatus" />
+          <AssociationSet Name="FK_t_tickets_t_estatus" Association="TicketSystemModel.FK_t_tickets_t_estatus">
+            <End Role="t_estatus" EntitySet="t_estatus" />
+            <End Role="t_tickets" EntitySet="t_tickets" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="t_fallas">
+          <Key>
+            <PropertyRef Name="falla" />
+          </Key>
+          <Property Name="falla" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_tickets" Relationship="TicketSystemModel.FK_t_tickets_t_fallas" FromRole="t_fallas" ToRole="t_tickets" />
+        </EntityType>
+        <Association Name="FK_t_usuarios_t_catego">
+          <End Type="TicketSystemModel.t_catego" Role="t_catego" Multiplicity="0..1" />
+          <End Type="TicketSystemModel.t_usuarios" Role="t_usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_catego">
+              <PropertyRef Name="categoria" />
+            </Principal>
+            <Dependent Role="t_usuarios">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_fallas">
+          <End Type="TicketSystemModel.t_fallas" Role="t_fallas" Multiplicity="0..1" />
+          <End Type="TicketSystemModel.t_tickets" Role="t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_fallas">
+              <PropertyRef Name="falla" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="falla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_tickets_t_usuarios11">
+          <End Type="TicketSystemModel.t_usuarios" Role="t_usuarios" Multiplicity="0..1" />
+          <End Type="TicketSystemModel.t_tickets" Role="t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_usuarios">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="sup_revisado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="t_estatus">
+          <Key>
+            <PropertyRef Name="estatus" />
+          </Key>
+          <Property Name="estatus" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="orden" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="t_tickets" Relationship="TicketSystemModel.FK_t_tickets_t_estatus" FromRole="t_estatus" ToRole="t_tickets" />
+        </EntityType>
+        <Association Name="FK_t_tickets_t_estatus">
+          <End Type="TicketSystemModel.t_estatus" Role="t_estatus" Multiplicity="0..1" />
+          <End Type="TicketSystemModel.t_tickets" Role="t_tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_estatus">
+              <PropertyRef Name="estatus" />
+            </Principal>
+            <Dependent Role="t_tickets">
+              <PropertyRef Name="estatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TicketSystemModelStoreContainer" CdmEntityContainer="TicketSystemEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TicketSystemModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_areas">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_areas">
+              <MappingFragment StoreEntitySet="t_areas">
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_catego">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_catego">
+              <MappingFragment StoreEntitySet="t_catego">
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nota" ColumnName="nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_config">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_config">
+              <MappingFragment StoreEntitySet="t_config">
+                <ScalarProperty Name="testmail" ColumnName="testmail" />
+                <ScalarProperty Name="ind_testmail" ColumnName="ind_testmail" />
+                <ScalarProperty Name="path_imgs" ColumnName="path_imgs" />
+                <ScalarProperty Name="gte_email3" ColumnName="gte_email3" />
+                <ScalarProperty Name="gte_email2" ColumnName="gte_email2" />
+                <ScalarProperty Name="gte_email" ColumnName="gte_email" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="planta" ColumnName="planta" />
+                <ScalarProperty Name="env_correos" ColumnName="env_correos" />
+                <ScalarProperty Name="server" ColumnName="server" />
+                <ScalarProperty Name="send_email" ColumnName="send_email" />
+                <ScalarProperty Name="send_paswd" ColumnName="send_paswd" />
+                <ScalarProperty Name="port" ColumnName="port" />
+                <ScalarProperty Name="ind_html" ColumnName="ind_html" />
+                <ScalarProperty Name="ind_ssl" ColumnName="ind_ssl" />
+                <ScalarProperty Name="autoriza_superv" ColumnName="autoriza_superv" />
+                <ScalarProperty Name="autoriza_seh" ColumnName="autoriza_seh" />
+                <ScalarProperty Name="dias_revision" ColumnName="dias_revision" />
+                <ScalarProperty Name="aler_gerente" ColumnName="aler_gerente" />
+                <ScalarProperty Name="aler_super" ColumnName="aler_super" />
+                <ScalarProperty Name="aler_compromiso" ColumnName="aler_compromiso" />
+                <ScalarProperty Name="aler_revision" ColumnName="aler_revision" />
+                <ScalarProperty Name="aler_validaseh" ColumnName="aler_validaseh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_correo_body">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_correo_body">
+              <MappingFragment StoreEntitySet="t_correo_body">
+                <ScalarProperty Name="folio" ColumnName="folio" />
+                <ScalarProperty Name="consec" ColumnName="consec" />
+                <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_correo_dest">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_correo_dest">
+              <MappingFragment StoreEntitySet="t_correo_dest">
+                <ScalarProperty Name="folio" ColumnName="folio" />
+                <ScalarProperty Name="consec" ColumnName="consec" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_correos">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_correos">
+              <MappingFragment StoreEntitySet="t_correos">
+                <ScalarProperty Name="folio" ColumnName="folio" />
+                <ScalarProperty Name="asunto" ColumnName="asunto" />
+                <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="f_enviado" ColumnName="f_enviado" />
+                <ScalarProperty Name="f_id" ColumnName="f_id" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="proceso" ColumnName="proceso" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_equipos">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_equipos">
+              <MappingFragment StoreEntitySet="t_equipos">
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="equipo" ColumnName="equipo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_tickets">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_tickets">
+              <MappingFragment StoreEntitySet="t_tickets">
+                <ScalarProperty Name="imagen_path" ColumnName="imagen_path" />
+                <ScalarProperty Name="ind_autoriza4" ColumnName="ind_autoriza4" />
+                <ScalarProperty Name="nota_autoriza4" ColumnName="nota_autoriza4" />
+                <ScalarProperty Name="sup_fautoriza4" ColumnName="sup_fautoriza4" />
+                <ScalarProperty Name="sup_autoriza4" ColumnName="sup_autoriza4" />
+                <ScalarProperty Name="req_autoriza4" ColumnName="req_autoriza4" />
+                <ScalarProperty Name="nota_autoriza3" ColumnName="nota_autoriza3" />
+                <ScalarProperty Name="nota_autoriza2" ColumnName="nota_autoriza2" />
+                <ScalarProperty Name="nota_autoriza" ColumnName="nota_autoriza" />
+                <ScalarProperty Name="ind_autoriza3" ColumnName="ind_autoriza3" />
+                <ScalarProperty Name="ind_autoriza2" ColumnName="ind_autoriza2" />
+                <ScalarProperty Name="ind_autoriza" ColumnName="ind_autoriza" />
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="sup_fautoriza3" ColumnName="sup_fautoriza3" />
+                <ScalarProperty Name="sup_autoriza3" ColumnName="sup_autoriza3" />
+                <ScalarProperty Name="req_autoriza3" ColumnName="req_autoriza3" />
+                <ScalarProperty Name="folio" ColumnName="folio" />
+                <ScalarProperty Name="planta" ColumnName="planta" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="f_requerida" ColumnName="f_requerida" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="f_id" ColumnName="f_id" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="equipo" ColumnName="equipo" />
+                <ScalarProperty Name="falla" ColumnName="falla" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="f_revisado" ColumnName="f_revisado" />
+                <ScalarProperty Name="n_revisado" ColumnName="n_revisado" />
+                <ScalarProperty Name="f_aprovacion" ColumnName="f_aprovacion" />
+                <ScalarProperty Name="n_aprovacion" ColumnName="n_aprovacion" />
+                <ScalarProperty Name="f_proceso" ColumnName="f_proceso" />
+                <ScalarProperty Name="n_proceso" ColumnName="n_proceso" />
+                <ScalarProperty Name="f_espera" ColumnName="f_espera" />
+                <ScalarProperty Name="n_espera" ColumnName="n_espera" />
+                <ScalarProperty Name="f_detenido" ColumnName="f_detenido" />
+                <ScalarProperty Name="n_detenido" ColumnName="n_detenido" />
+                <ScalarProperty Name="f_cerrado" ColumnName="f_cerrado" />
+                <ScalarProperty Name="n_cerrado" ColumnName="n_cerrado" />
+                <ScalarProperty Name="tecnico" ColumnName="tecnico" />
+                <ScalarProperty Name="turno" ColumnName="turno" />
+                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
+                <ScalarProperty Name="urgencia" ColumnName="urgencia" />
+                <ScalarProperty Name="depto" ColumnName="depto" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="actividades" ColumnName="actividades" />
+                <ScalarProperty Name="duracion" ColumnName="duracion" />
+                <ScalarProperty Name="f_compromiso" ColumnName="f_compromiso" />
+                <ScalarProperty Name="req_autoriza" ColumnName="req_autoriza" />
+                <ScalarProperty Name="sup_autoriza" ColumnName="sup_autoriza" />
+                <ScalarProperty Name="sup_fautoriza" ColumnName="sup_fautoriza" />
+                <ScalarProperty Name="req_autoriza2" ColumnName="req_autoriza2" />
+                <ScalarProperty Name="sup_autoriza2" ColumnName="sup_autoriza2" />
+                <ScalarProperty Name="sup_fautoriza2" ColumnName="sup_fautoriza2" />
+                <ScalarProperty Name="ind_entrega" ColumnName="ind_entrega" />
+                <ScalarProperty Name="f_entrega" ColumnName="f_entrega" />
+                <ScalarProperty Name="recibe" ColumnName="recibe" />
+                <ScalarProperty Name="sup_revisado" ColumnName="sup_revisado" />
+                <ScalarProperty Name="ind_cancelado" ColumnName="ind_cancelado" />
+                <ScalarProperty Name="f_cancela" ColumnName="f_cancela" />
+                <ScalarProperty Name="nota_cancel" ColumnName="nota_cancel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_tickets_img">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_tickets_img">
+              <MappingFragment StoreEntitySet="t_tickets_img">
+                <ScalarProperty Name="folio" ColumnName="folio" />
+                <ScalarProperty Name="consec" ColumnName="consec" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="nota" ColumnName="nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_usuarios">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_usuarios">
+              <MappingFragment StoreEntitySet="t_usuarios">
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="no_emp" ColumnName="no_emp" />
+                <ScalarProperty Name="planta" ColumnName="planta" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="turno" ColumnName="turno" />
+                <ScalarProperty Name="puesto" ColumnName="puesto" />
+                <ScalarProperty Name="supervisor" ColumnName="supervisor" />
+                <ScalarProperty Name="depto" ColumnName="depto" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="f_id" ColumnName="f_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_fallas">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_fallas">
+              <MappingFragment StoreEntitySet="t_fallas">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="falla" ColumnName="falla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_estatus">
+            <EntityTypeMapping TypeName="TicketSystemModel.t_estatus">
+              <MappingFragment StoreEntitySet="t_estatus">
+                <ScalarProperty Name="orden" ColumnName="orden" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

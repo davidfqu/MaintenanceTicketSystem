@@ -1,0 +1,40 @@
+﻿@model MaintenanceTicketSystem.Models.t_fallas
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Eliminar</h2>
+
+<h3>¿Desea eliminar la siguiente?</h3>
+<div>
+    <h4>Falla</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Clave
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.falla)
+        </dd>
+        <dt>
+            Nombre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar a lista", "Index")
+        </div>
+    }
+</div>

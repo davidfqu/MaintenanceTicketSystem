@@ -1,0 +1,95 @@
+﻿@model PagedList.IPagedList<MaintenanceTicketSystem.Models.t_usuarios>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Usuarios</h2>
+<!-- falta validar que sea admin el ususario, esto se hara desde su windows logns comparando con la tab usuairo-->
+
+@using (Html.BeginForm("Index", "t_usuarios", FormMethod.Get))
+{
+<div class="form-group row ml-1">
+    <div class="col-xs-2">
+        <select class="form-control" id="SearchOption" name="SearchOption">
+          <option>No. de empleado</option>
+          <option>Nombre</option>
+          <option>Rol</option>
+        </select>
+    </div>
+    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+    <input type="submit" value="Buscar" class="btn btn-outline-primary" />
+</div>
+}
+
+<p>
+    @Html.ActionLink("Crear", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("No. de empleado", "Index", new { sortOrder = ViewBag.NoEmpleadoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+        <th>
+            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NombreSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Turno
+        </th>
+
+        <th>
+            Departamento
+        </th>
+
+        <th>
+            @Html.ActionLink("Rol", "Index", new { sortOrder = ViewBag.RolSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+           @Html.DisplayFor(modelItem => item.no_emp) 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.turno)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.depto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rol)
+        </td>
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.usuario }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.usuario }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.usuario })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div class="ml-1">
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }))
+</div>
+
+
+
