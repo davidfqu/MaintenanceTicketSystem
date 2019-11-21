@@ -64,6 +64,15 @@
 </div>
         }
 
+<div class="row">
+    <div class="col-md-12">
+        <p align="right">
+            <a href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#exampleModal">i</span></a>
+        </p>
+    </div>
+</div>
+
+
 <table class="table">
     <tr>
         <th>
@@ -91,13 +100,9 @@
         <tr>
             <td>
                 @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
-                @if (@Html.DisplayFor(modelItem => item.urgencia).ToString() == "1")
+                @if (item.urgencia.ToString() != "0")
                 {
                     <span class="badge badge-pill badge-warning">!</span>
-                }
-                @if (@Html.DisplayFor(modelItem => item.urgencia).ToString() == "2")
-                {
-                    <span class="badge badge-pill badge-primary">!</span>
                 }
             </td>
             <td>
@@ -126,6 +131,26 @@
     Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }))
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Simbología</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <span class="badge badge-pill badge-warning">!</span> =  Urgente
+                    <br />
+                    <span class="text-danger"> Revisión </span> = Esperando autorización
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
