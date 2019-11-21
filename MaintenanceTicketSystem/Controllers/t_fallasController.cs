@@ -53,6 +53,7 @@ namespace MaintenanceTicketSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                t_fallas.falla = t_fallas.falla.ToUpper();
                 db.t_fallas.Add(t_fallas);
                 db.SaveChanges();
                 return RedirectToAction("Index");

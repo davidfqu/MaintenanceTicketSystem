@@ -87,6 +87,7 @@ namespace MaintenanceTicketSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                t_equipos.equipo = t_equipos.equipo.ToUpper();
                 db.t_equipos.Add(t_equipos);
                 db.SaveChanges();
                 return RedirectToAction("Index");

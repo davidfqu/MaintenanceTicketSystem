@@ -52,6 +52,7 @@ namespace MaintenanceTicketSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                t_areas.area = t_areas.area.ToUpper();
                 db.t_areas.Add(t_areas);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -11,7 +11,8 @@ namespace MaintenanceTicketSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
     public partial class t_areas
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +20,10 @@ namespace MaintenanceTicketSystem.Models
         {
             this.t_tickets = new HashSet<t_tickets>();
         }
-    
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [MaxLength(10, ErrorMessage = "Máximo 10 caracteres")]
+        [Remote("existe", "t_areas",
+                    ErrorMessage = "Esta clave ya existe")]
         public string area { get; set; }
         public string descripcion { get; set; }
     
