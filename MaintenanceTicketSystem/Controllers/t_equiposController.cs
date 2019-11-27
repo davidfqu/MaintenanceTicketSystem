@@ -166,6 +166,7 @@ namespace MaintenanceTicketSystem.Controllers
         }
         public JsonResult existe(string equipo)
         {
+            equipo = equipo.ToUpper();
             var validateName = db.t_equipos.FirstOrDefault
                                 (x => x.equipo == equipo);
             if (validateName != null)

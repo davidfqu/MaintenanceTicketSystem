@@ -6,7 +6,7 @@
 
 
     <div id="alertsuper1" class="alert alert-danger alert-dismissible fade in" role="alert">
-        <strong>Vaya!</strong> Parece que no has seleccionado ningún técnico
+        <strong>Vaya!</strong> Parece que no has seleccionado ningún técnico y asignado una fecha compromiso
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -482,7 +482,7 @@ else
                                                 @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -493,7 +493,7 @@ else
                                                 @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -504,7 +504,7 @@ else
                                                 @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                     </tbody>
@@ -547,7 +547,7 @@ else
                         </div>
                     </div>
                     <div>
-                        @Html.ActionLink("Regresar a lista", "TicketsTecnico", "Home")
+                        @Html.ActionLink("Regresar a lista", "TicketsTecnico", "Home") 
                     </div>
                 }
                 else
@@ -1092,7 +1092,7 @@ else
                                                 @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control " } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -1103,7 +1103,7 @@ else
                                                 @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -1114,7 +1114,7 @@ else
                                                 @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -1125,7 +1125,7 @@ else
                                                 @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                         <tr>
@@ -1136,7 +1136,7 @@ else
                                                 @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control" } })
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1636,11 +1636,17 @@ else
                 $("#alertmxc").hide();
                 var solicitados = 0;
                 var autorizados = 0;
-                
-              
+                var f_aprovacion, f_revisado, f_espera, f_proceso, f_cerrado;
+
+                f_aprovacion = $('#f_aprovacion').val();
+                f_revisado = $('#f_revisado').val();
+                f_espera = $('#f_espera').val();
+                f_proceso = $('#f_proceso').val();
+                f_cerrado = $('#f_cerrado').val();
+
                 updateUsuario();
-              
-                
+
+
                 SeleccionEstatus(true);
                 $('#cbcautoriza').hide();
 
@@ -1762,7 +1768,7 @@ else
                 }
          }
 
-                if ( solicitados > 0)
+                if (solicitados > 0)
                     $('#badgeautoriza').show();
 
                 $("#req_autoriza").click(function () {
@@ -1889,12 +1895,27 @@ else
 
                     today = mm + '/' + dd + '/' + yyyy + ' ' + hour + ":" + min;
 
+
+
+
                     if (radioValue == "CE") {
-                        $("#n_cerrado").attr("readonly", false);
+                         @if (Session["UserAccount"].ToString() != "mxc01" && ViewBag.editarFecha == "1")
+                         {
+                             <text>
                         $("#f_cerrado").attr("readonly", false);
+                             </text>
+                         }
+
+                        $("#n_cerrado").attr("readonly", false);
+
                         if (!a) {
                             document.getElementById("f_cerrado").value = today;
                         }
+
+                        document.getElementById("f_revisado").value = f_revisado;
+                        document.getElementById("f_aprovacion").value = f_aprovacion;
+                        document.getElementById("f_espera").value = f_espera;
+                        document.getElementById("f_proceso").value = f_proceso;
 
                         $("#n_revisado").attr("readonly", true);
                         $("#f_revisado").attr("readonly", true);
@@ -1904,11 +1925,11 @@ else
                         $("#f_espera").attr("readonly", true);
                         $("#n_proceso").attr("readonly", true);
                         $("#f_proceso").attr("readonly", true);
-                         @if(Model.tecnico == null)
+                        @if(Model.tecnico == null)
                         {
                             <text>
-                        $('.rproceso').hide();
-                            </text>
+                    $('.rproceso').hide();
+                    </text>
                         }
                         $('.rcerrado').show();
                         $("#botonfalsomxc").html('Cerrar ticket');
@@ -1917,17 +1938,31 @@ else
 
                     if (radioValue == "RE") {
                         $('.rcerrado').hide();
-                         @if(Model.tecnico == null)
+                        @if(Model.tecnico == null)
                         {
                             <text>
                         $('.rproceso').hide();
+                        </text>
+                        }
+
+                        @if (Session["UserAccount"].ToString() != "mxc01" && ViewBag.editarFecha == "1")
+                        {
+                            <text>
+                       $("#f_revisado").attr("readonly", false);
                             </text>
                         }
+
                         $("#n_revisado").attr("readonly", false);
-                        $("#f_revisado").attr("readonly", false);
+
                         if (!a) {
                             document.getElementById("f_revisado").value = today;
                         }
+
+                        document.getElementById("f_espera").value = f_espera;
+                        document.getElementById("f_cerrado").value = f_cerrado;
+                        document.getElementById("f_aprovacion").value = f_aprovacion;
+                        document.getElementById("f_proceso").value = f_proceso;
+
                         $("#n_cerrado").attr("readonly", true);
                         $("#f_cerrado").attr("readonly", true);
                         $("#n_aprovacion").attr("readonly", true);
@@ -1942,21 +1977,35 @@ else
 
                     if (radioValue == "AP") {
                         $('.rcerrado').hide();
-                         @if(Model.tecnico == null)
+                        @if(Model.tecnico == null)
                         {
                             <text>
                         $('.rproceso').hide();
+                        </text>
+                        }
+                        @if (Session["UserAccount"].ToString() != "mxc01" && ViewBag.editarFecha == "1")
+                        {
+                            <text>
+                       $("#f_aprovacion").attr("readonly", false);
                             </text>
                         }
-                        $("#n_revisado").attr("readonly", true);
-                        $("#f_revisado").attr("readonly", true);
+
+                        $("#n_aprovacion").attr("readonly", false);
+                        
+
                         if (!a) {
                             document.getElementById("f_aprovacion").value = today;
                         }
+
+                        document.getElementById("f_revisado").value = f_revisado;
+                        document.getElementById("f_cerrado").value = f_cerrado;
+                        document.getElementById("f_espera").value = f_espera;
+                        document.getElementById("f_proceso").value = f_proceso;
+
                         $("#n_cerrado").attr("readonly", true);
                         $("#f_cerrado").attr("readonly", true);
-                        $("#n_aprovacion").attr("readonly", false);
-                        $("#f_aprovacion").attr("readonly", false);
+                        $("#n_revision").attr("readonly", true);
+                        $("#f_revision").attr("readonly", true);
                         $("#n_espera").attr("readonly", true);
                         $("#f_espera").attr("readonly", true);
                         $("#n_proceso").attr("readonly", true);
@@ -1974,46 +2023,69 @@ else
                         $('.rproceso').hide();
                         </text>
                         }
+                        @if (Session["UserAccount"].ToString() != "mxc01" && ViewBag.editarFecha == "1")
+                        {
+                            <text>
+                            $("#f_espera").attr("readonly", false);
+                            </text>
+                        }
+                        $("#n_espera").attr("readonly", false);
 
-                        $("#n_revisado").attr("readonly", true);
-                        $("#f_revisado").attr("readonly", true);
+
                         if (!a) {
                             document.getElementById("f_espera").value = today;
                         }
+                        document.getElementById("f_revisado").value = f_revisado;
+                        document.getElementById("f_cerrado").value = f_cerrado;
+                        document.getElementById("f_aprovacion").value = f_aprovacion;
+                        document.getElementById("f_proceso").value = f_proceso;
 
                         $("#n_cerrado").attr("readonly", true);
                         $("#f_cerrado").attr("readonly", true);
                         $("#n_aprovacion").attr("readonly", true);
                         $("#f_aprovacion").attr("readonly", true);
-                        $("#n_espera").attr("readonly", false);
-                        $("#f_espera").attr("readonly", false);
+                        $("#n_revisado").attr("readonly", true);
+                        $("#f_revisado").attr("readonly", true);
                         $("#n_proceso").attr("readonly", true);
                         $("#f_proceso").attr("readonly", true);
                         $("#botonfalsomxc").html('Actualizar');
                         $("#botonfalsosuper").html('Actualizar');
-                       
+
                     }
 
                     if (radioValue == "PR") {
                         $('.rcerrado').hide();
-                        $("#n_revisado").attr("readonly", true);
-                        $("#f_revisado").attr("readonly", true);
-                        
+
+                       @if (Session["UserAccount"].ToString() != "mxc01" && ViewBag.editarFecha == "1")
+                        {
+                            <text>
+
+                            $("#f_proceso").attr("readonly", false);
+                            </text>
+                        }
+                        $("#n_proceso").attr("readonly", false);
+
                         if (!a) {
                             document.getElementById("f_proceso").value = today;
                         }
+
+                        document.getElementById("f_revisado").value = f_revisado;
+                        document.getElementById("f_cerrado").value = f_cerrado;
+                        document.getElementById("f_aprovacion").value = f_aprovacion;
+                        document.getElementById("f_espera").value = f_espera;
+
                         $("#n_cerrado").attr("readonly", true);
                         $("#f_cerrado").attr("readonly", true);
                         $("#n_aprovacion").attr("readonly", true);
                         $("#f_aprovacion").attr("readonly", true);
                         $("#n_espera").attr("readonly", true);
                         $("#f_espera").attr("readonly", true);
-                        $("#n_proceso").attr("readonly", false);
-                        $("#f_proceso").attr("readonly", false);
+                        $("#n_revisado").attr("readonly", true);
+                        $("#f_revisado").attr("readonly", true);
                         $('.rproceso').show();
                         $("#botonfalsomxc").html('Actualizar');
                         $("#botonfalsosuper").html('Actualizar');
-                        
+
                     }
 
                 }
@@ -2066,20 +2138,19 @@ else
             //Alertas, prevencion de error de usuario
 
             $("#botonfalsomxc").click(function () {
-                if ( $("input.checkboxEstatus:checked").val() == "CE" && ($("#actividades").val() == "" ))
-                {
+                if ($("input.checkboxEstatus:checked").val() == "CE" && ($("#actividades").val() == "")) {
                     $("#alertmxc").css('z-index', 10);
                     $("#alertmxc").fadeTo(4000, 1000).slideUp(1000, function () {
                         $("#alertmxc").slideUp(5000);
                     });
                     setTimeout(function () { $("#alertmxc").css('z-index', 0); }, 3000);
                 }
-                else                 
-                $("#botonbuenomxc").click();
+                else
+                    $("#botonbuenomxc").click();
             });
 
             $("#botonfalsosuper").click(function () {
-                if ($("input.checkboxEstatus:checked").val() == "PR" && $("#tecnico").val() == "") {
+                if ($("input.checkboxEstatus:checked").val() == "PR" && $("#tecnico").val() == "" && $("#f_compromiso").val() == "") {
 
                     $("#alertsuper1").css('z-index', 10);
                     $("#alertsuper1").fadeTo(4000, 1000).slideUp(1000, function () {
@@ -2097,36 +2168,38 @@ else
                     setTimeout(function () { $("#alertmxc").css('z-index', 0); }, 5000);
                 }
                 else
-                $("#botonbuenosuper").click();
+                    $("#botonbuenosuper").click();
             });
-          
-
-               
 
 
-          
-                //Prevenir que se suba la forma con un enter en cualquier input
-                $(window).keydown(function (event) {
-                    if (event.keyCode == 13) {
-                        $("#no_recibe").blur();
-                        event.preventDefault();
-                        return false;
-                    }
-                });
 
-                $("#no_recibe").change(function () {
-                    var id = $("#no_recibe").val();
-                    nombreRecibe(id);
+
+
+
+            //Prevenir que se suba la forma con un enter en cualquier input
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#no_recibe").blur();
+                    event.preventDefault();
                     return false;
-                });
-
-                function nombreRecibe(id) {
-                    var url = "@Url.Action("datosTress", "t_usuarios", new { id = "param-id" })";
-                    url = url.replace("param-id", id);
-
-                    $.getJSON(url, function (data) {
-                        document.getElementById("recibe").value = data[0];
-
-                    });
                 }
+            });
+
+            $("#no_recibe").change(function () {
+                var id = $("#no_recibe").val();
+                nombreRecibe(id);
+                return false;
+            });
+
+            function nombreRecibe(id) {
+                var url = "@Url.Action("datosTress", "t_usuarios", new { id = "param-id" })";
+                url = url.replace("param-id", id);
+
+                $.getJSON(url, function (data) {
+                    document.getElementById("recibe").value = data[0];
+
+                });
+            }
+
+
         </script>

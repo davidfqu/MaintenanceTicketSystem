@@ -129,6 +129,7 @@ namespace MaintenanceTicketSystem.Controllers
 
         public JsonResult existe(string area)
         {
+            area = area.ToUpper();
             var validateName = db.t_areas.FirstOrDefault
                                 (x => x.area == area);
             if (validateName != null)

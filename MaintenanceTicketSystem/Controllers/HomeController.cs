@@ -18,8 +18,11 @@ namespace MaintenanceTicketSystem.Controllers
         private TicketSystemEntities db = new TicketSystemEntities();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, string searchOption, int? page, string accion = "", decimal numticket = 0)
         {
+            t_config t_config = db.t_config.Find("01");
+            
             string username = User.Identity.Name.ToString().Substring(11).ToLower();
-            //string username = "mxc01";
+            //string username = "cangulo";
+
             if(username == "mxc01")
             {
                 Session["UserRol"] = "Usuario";
@@ -33,9 +36,15 @@ namespace MaintenanceTicketSystem.Controllers
             if (ddlUsuarios.Any())
             {
                 ViewBag.IsUser = true;
+                if(ddlUsuarios[0].email.ToString() == t_config.gte_email.ToString())
+                    Session["IsManager"] = true;
+                else
+                    Session["IsManager"] = false;
+
                 Session["UserAccount"] = ddlUsuarios[0].usuario.ToString();
                 Session["UserName"] = ddlUsuarios[0].nombre.ToString();
                 Session["UserRol"] = ddlUsuarios[0].rol.ToString();
+                Session["UserEmail"] = ddlUsuarios[0].email.ToString();
                 Session["Category"] = "user";
                 Session["CategoryDesc"] = "user";
                 var nombreusuario = ddlUsuarios[0].nombre.ToString().Split(' ');

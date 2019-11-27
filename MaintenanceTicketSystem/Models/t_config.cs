@@ -37,5 +37,6 @@ namespace MaintenanceTicketSystem.Models
         public string path_imgs { get; set; }
         public string ind_testmail { get; set; }
         public string testmail { get; set; }
+        public string editar_fechaseg { get; set; }
     }
 }

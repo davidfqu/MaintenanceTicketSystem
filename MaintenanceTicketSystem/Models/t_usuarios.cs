@@ -39,7 +39,7 @@ namespace MaintenanceTicketSystem.Models
         public string u_id { get; set; }
         public Nullable<System.DateTime> f_id { get; set; }
         public string categoria { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_tickets> t_tickets { get; set; }
         public virtual t_catego t_catego { get; set; }

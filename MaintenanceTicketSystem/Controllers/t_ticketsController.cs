@@ -23,6 +23,97 @@ namespace MaintenanceTicketSystem.Controllers
             return View(t_tickets.ToList());
         }
 
+        public ActionResult Dashboard()
+        {
+            Session["UserRol"] = "User";
+            Session["UserAccount"] = "Public";
+
+            var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_tickets_img).Include(t => t.t_fallas).Include(t => t.t_usuarios11).Include(t => t.t_estatus);
+
+            var cat = t_tickets.GroupBy(x => x.categoria).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
+            ViewBag.calcerrados = cat.ElementAt(0).cerrados.ToString();
+            ViewBag.calabiertos = cat.ElementAt(0).abiertos.ToString();
+
+            ViewBag.faccerrados = cat.ElementAt(1).cerrados.ToString();
+            ViewBag.facabiertos = cat.ElementAt(1).abiertos.ToString();
+
+            ViewBag.sealcerrados = cat.ElementAt(2).cerrados.ToString();
+            ViewBag.sealabiertos = cat.ElementAt(2).abiertos.ToString();
+
+            var ticketsabiertos = db.t_tickets.Where(x => x.estatus != "CE").OrderBy(x => x.fecha).ToList();
+            int n = 0;
+            string dataTA = "[";
+            string labelsTA = "[";
+            string bgcolorTA = "[";
+            string bocolorTA = "[";
+            string cfac = "'rgba(255, 179, 64, 0.3)'";
+            string cseal = "'rgba(28, 123, 201, 0.3)'";
+            string ccal = "'rgba(224, 0, 0, 0.3)'";
+            string bfac = "'rgba(255, 179, 64, 1)'";
+            string bseal = "'rgba(28, 123, 201, 1)'";
+            string bcal = "'rgba(224, 0, 0, 1)'";
+
+            DateTime hoy = DateTime.Now;
+            DateTime fechaticket;
+            double dif;
+
+            foreach (var item in ticketsabiertos)
+            {
+                fechaticket = (DateTime)item.fecha;
+                dif = Math.Round((hoy - fechaticket).TotalDays);
+                if (item.categoria == "FAC")
+                {
+                    bgcolorTA = bgcolorTA + cfac;
+                    bocolorTA = bocolorTA + bfac;
+                }
+                    
+
+                if (item.categoria == "SL")
+                {
+                    bgcolorTA = bgcolorTA + cseal;
+                    bocolorTA = bocolorTA + bseal;
+                }
+                    
+
+                if (item.categoria == "CAL")
+                {
+                    bgcolorTA = bgcolorTA + ccal;
+                    bocolorTA = bocolorTA + bcal;
+                }
+                   
+
+                dataTA = dataTA + dif.ToString();
+                labelsTA = labelsTA + item.folio.ToString();
+
+
+
+
+                n++;
+                if (n != 5)
+                {
+                    dataTA = dataTA + ",";
+                    labelsTA = labelsTA + ",";
+                    bgcolorTA = bgcolorTA + ",";
+                    bocolorTA = bocolorTA + ",";
+                }
+                else
+                {
+                    dataTA = dataTA + "]";
+                    labelsTA = labelsTA + "]";
+                    bgcolorTA = bgcolorTA + "]";
+                    bocolorTA = bocolorTA + "]";
+                    break;
+                }
+                   
+            }
+
+            ViewBag.datagraph = dataTA;
+            ViewBag.labelsgraph = labelsTA;
+            ViewBag.bgcolorgraph = bgcolorTA;
+            ViewBag.bocolorgraph = bocolorTA;
+            return View();
+        }
+
         public ActionResult getEquipo(string id)
         {
             var ddlEquipos = db.t_equipos.Where(x => x.categoria == id).ToList();
@@ -148,13 +239,18 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_tickets/Edit/5
         public ActionResult Edit(decimal id, bool? autorizar)
         {
-              string username = User.Identity.Name.ToString().Substring(11).ToLower();
-            //string username = "mxc01";
+            t_config t_config = db.t_config.Find("01");
+            string username = User.Identity.Name.ToString().Substring(11).ToLower();
+           // string username = "cangulo";
             var ddlUsuarios = db.t_usuarios.Where(x => x.usuario == username).ToList();
 
             if (ddlUsuarios.Any())
             {
                 ViewBag.IsUser = true;
+                if (ddlUsuarios[0].email.ToString() == t_config.gte_email.ToString())
+                    Session["IsManager"] = true;
+                else
+                    Session["IsManager"] = false;
                 Session["UserAccount"] = ddlUsuarios[0].usuario.ToString();
                 Session["UserName"] = ddlUsuarios[0].nombre.ToString();
                 Session["UserRol"] = ddlUsuarios[0].rol.ToString();
@@ -216,7 +312,10 @@ namespace MaintenanceTicketSystem.Controllers
                         ViewBag.IsUser = false;
   
                 }
+
                 
+                ViewBag.editarFecha = t_config.editar_fechaseg.ToString();
+
                 ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
                 ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
                 ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "descripcion", t_tickets.equipo);
@@ -380,7 +479,7 @@ namespace MaintenanceTicketSystem.Controllers
    inner join [Tress_MedlineMXL].[dbo].NIVEL4 n4 on co.CB_NIVEL4 = n4.TB_CODIGO 
    inner join [Tress_MedlineMXL].[dbo].TURNO tu on co.CB_TURNO = tu.TU_CODIGO 
    WHERE CB_ACTIVO = 'S' AND CB_NIVEL2= 'MANT' AND CB_CLASIFI = 'H' AND (PO.PU_DESCRIP LIKE 'Plant technician%' 
-   or  PO.PU_DESCRIP LIKE 'Sealer Lab Technician%')
+   or  PO.PU_DESCRIP LIKE 'Sealer Lab Technician%' or  PO.PU_DESCRIP LIKE 'Calibration%')
    ORDER BY cb_nombres";
 
             var datos = db.Query(selectedQueryString);
@@ -401,7 +500,7 @@ namespace MaintenanceTicketSystem.Controllers
                 
             }
 
-            if(tecnico != null)
+            if(tecnico != null && tecnico != "N/A")
             {
                 for (int i = tecnicos.Count() - 1; i >= 0; i--)
                 {

@@ -374,6 +374,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\DatePickerReady.js" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
@@ -500,6 +502,7 @@
     <Content Include="Views\t_config\Index.cshtml" />
     <Content Include="Views\Home\IndexTecnico.cshtml" />
     <Content Include="Views\Home\TicketsTecnico.cshtml" />
+    <Content Include="Views\t_tickets\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

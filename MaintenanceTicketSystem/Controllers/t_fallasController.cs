@@ -130,6 +130,7 @@ namespace MaintenanceTicketSystem.Controllers
 
         public JsonResult existe(string falla)
         {
+            falla = falla.ToUpper();
             var validateName = db.t_fallas.FirstOrDefault
                                 (x => x.falla == falla);
             if (validateName != null)

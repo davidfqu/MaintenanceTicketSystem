@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row my-3">
+        <div class="col">
+            <h4>Dashboard</h4>
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                        Facilities
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <canvas id="fac" height="95"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                        Sealer Lab
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <canvas id="seal" height="95"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                        Calibraciones
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <canvas id="cal" height="95"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12  mt-4">
+            <div class="card">
+                <div class="card-header text-center">
+                <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                    Tickets con mayor tiempo abiertos
+                </h1>
+            </div>
+                <div class="card-body">
+                    <canvas id="chLine" height="65"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mt-4">
+                <div class="card-header text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                        Tickets por atender
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr><th scope="col"></th>
+                                <th scope="col">Folio</th>
+                                <th scope="col">Usuario</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Fecha compromiso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>5</td>
+                                <td>duribe</td>
+                                <td>Facilities</td>
+                                <td>11/20/2019 10:07:13 AM</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>18</td>
+                                <td>duribe</td>
+                                <td>Facilities</td>
+                                <td>11/20/2019 10:07:13 AM</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>6</td>
+                                <td>duribe</td>
+                                <td>Facilities</td>
+                                <td>11/20/2019 10:07:13 AM</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>22</td>
+                                <td>duribe</td>
+                                <td>Facilities</td>
+                                <td>11/20/2019 10:07:13 AM</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>1</td>
+                                <td>duribe</td>
+                                <td>Facilities</td>
+                                <td>11/20/2019 10:07:13 AM</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                       Promedio de ciclo de vida de ticket
+                    </h1>
+                </div>
+                <div class="card-body text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 3vw">
+                       35 hrs
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script>
+    $(document).ready(function () {
+
+        var ctxD = document.getElementById("fac").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: ["Cerrados", "Abiertos"],
+                datasets: [{
+                    data: [@ViewBag.faccerrados, @ViewBag.facabiertos],
+                    backgroundColor: ["#ffb340", "#e6e8eb"],
+                    hoverBackgroundColor: ["#d99734", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: { display: false }
+            }
+        });
+
+        var ctxD = document.getElementById("seal").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: ["Cerrados", "Abiertos"],
+                datasets: [{
+                    data: [@ViewBag.sealcerrados, @ViewBag.sealabiertos],
+                    backgroundColor: ["#1c7bc9", "#e6e8eb"],
+                    hoverBackgroundColor: ["#165f9c", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: { display: false }
+            }
+        });
+
+        var ctxD = document.getElementById("cal").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: ["Cerrados", "Abiertos"],
+                datasets: [{
+                    data: [@ViewBag.calcerrados, @ViewBag.calabiertos],
+                    backgroundColor: ["#e00000", "#e6e8eb"],
+                    hoverBackgroundColor: ["#a30000", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: { display: false }
+            }
+        });
+
+
+
+        var ctx = document.getElementById("chLine").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels:@ViewBag.labelsgraph,
+                datasets: [{
+                    label: 'Días abierto',
+                    data: @ViewBag.datagraph,
+                    backgroundColor:@Html.Raw(ViewBag.bgcolorgraph),
+                    borderColor: @Html.Raw(ViewBag.bocolorgraph),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+
+            }
+        });
+
+
+
+
+    });
+
+</script>

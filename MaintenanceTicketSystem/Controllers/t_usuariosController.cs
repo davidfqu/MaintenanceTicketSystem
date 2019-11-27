@@ -259,7 +259,9 @@ namespace MaintenanceTicketSystem.Controllers
             if (ModelState.IsValid)
             {
                 t_usuarios.email = t_usuarios.email.ToLower();
+                if(t_usuarios.supervisor != null)
                 t_usuarios.supervisor = t_usuarios.supervisor.ToLower();
+
                 t_usuarios.usuario = t_usuarios.usuario.ToLower();
                 t_usuarios.f_id = DateTime.Now;
                 t_usuarios.u_id = @User.Identity.Name.ToString().Substring(11).ToLower();
@@ -268,6 +270,37 @@ namespace MaintenanceTicketSystem.Controllers
                 return RedirectToAction("Index");
             }
             return View(t_usuarios);
+        }
+
+        public ActionResult EditarManager(string id, string rol)
+        {
+            t_usuarios t_usuarios = db.t_usuarios.Find(id);
+
+            t_usuarios.rol = rol;
+            if(rol == "Supervisor")
+            t_usuarios.categoria = "CAL";
+            else
+            t_usuarios.categoria = null;
+
+            db.Entry(t_usuarios).State = EntityState.Modified;
+            db.SaveChanges();
+            /*
+
+            if (ModelState.IsValid)
+            {
+                t_usuarios.email = t_usuarios.email.ToLower();
+                if (t_usuarios.supervisor != null)
+                    t_usuarios.supervisor = t_usuarios.supervisor.ToLower();
+
+                t_usuarios.usuario = t_usuarios.usuario.ToLower();
+                t_usuarios.f_id = DateTime.Now;
+                t_usuarios.u_id = @User.Identity.Name.ToString().Substring(11).ToLower();
+                db.Entry(t_usuarios).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            */
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: t_usuarios/Delete/5

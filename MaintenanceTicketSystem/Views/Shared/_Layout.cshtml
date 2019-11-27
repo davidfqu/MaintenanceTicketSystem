@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintance Tickets</title>
+    <title>Mainetance Tickets</title>
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/jquery-ui.css")
@@ -33,6 +33,21 @@
                         <li class="nav-item">@Html.ActionLink("Fallas", "Index", "t_fallas", null, new { @class = "nav-link" })</li>
                         <li class="nav-item">@Html.ActionLink("Configuraciones", "Edit", "t_config", new { id = "01" }, new { @class = "nav-link" })</li>
                     }
+                    @if ((bool)Session["IsManager"])
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Cambiar de rol
+                            </a>
+                            <div class="dropdown-menu">
+                                @Html.ActionLink("Admin", "EditarManager", "t_usuarios", new { id = Session["UserAccount"], rol = "Admin" }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Supervisor (CAL)", "EditarManager", "t_usuarios", new { id = Session["UserAccount"], rol = "Supervisor" }, new { @class = "dropdown-item" })
+                            </div>
+                        </li>
+                       
+                        
+                    }
+                    
                     
                 </ul>
                 <span class="navbar-text">

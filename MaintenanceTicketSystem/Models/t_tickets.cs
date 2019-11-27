@@ -11,9 +11,7 @@ namespace MaintenanceTicketSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Web;
+    
     public partial class t_tickets
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -82,14 +80,8 @@ namespace MaintenanceTicketSystem.Models
         public Nullable<System.DateTime> sup_fautoriza4 { get; set; }
         public string nota_autoriza4 { get; set; }
         public string ind_autoriza4 { get; set; }
-        
         public string imagen_path { get; set; }
-/*
-        [DataType(DataType.Upload)]
-        [Display(Name = "Upload File")]
-        [Required(ErrorMessage = "Please choose file to upload.")]
-        public HttpPostedFileBase ImageFile { get; set; }
-  */
+    
         public virtual t_areas t_areas { get; set; }
         public virtual t_catego t_catego { get; set; }
         public virtual t_equipos t_equipos { get; set; }

@@ -59,6 +59,10 @@
                  <input name="aler_revision" type="hidden" value="0" />
                  <label class="ml-4">Enviar alerta tickets en estatus "Revisión"</label>
                  <br />
+                 <input data-val="true" id="editar_fechaseg" name="editar_fechaseg" type="checkbox" value="1" class="form-check-input ml-1" @(Model.editar_fechaseg == "1" ? "checked='checked'" : "") />
+                 <input name="editar_fechaseg" type="hidden" value="0" />
+                 <label class="ml-4">Habilitar edición de fechas por estatus</label>
+                 <br />
                  <br />
                  <label>Días en "Revisión" permitidos para mandar alerta</label>
                  @Html.EditorFor(model => model.dias_revision, new { htmlAttributes = new { @class = "form-control" } })
