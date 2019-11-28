@@ -180,6 +180,8 @@
           <Property Name="nota_autoriza4" Type="varchar" MaxLength="100" />
           <Property Name="ind_autoriza4" Type="varchar" MaxLength="1" />
           <Property Name="imagen_path" Type="varchar(max)" />
+          <Property Name="f_terminado" Type="datetime" />
+          <Property Name="n_terminado" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="t_tickets_img">
           <Key>
@@ -546,6 +548,8 @@
           <Property Name="nota_autoriza4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ind_autoriza4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="imagen_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="f_terminado" Type="DateTime" Precision="3" />
+          <Property Name="n_terminado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="t_tickets_img">
           <Key>
@@ -881,6 +885,8 @@
           <EntitySetMapping Name="t_tickets">
             <EntityTypeMapping TypeName="TicketSystemModel.t_tickets">
               <MappingFragment StoreEntitySet="t_tickets">
+                <ScalarProperty Name="n_terminado" ColumnName="n_terminado" />
+                <ScalarProperty Name="f_terminado" ColumnName="f_terminado" />
                 <ScalarProperty Name="imagen_path" ColumnName="imagen_path" />
                 <ScalarProperty Name="ind_autoriza4" ColumnName="ind_autoriza4" />
                 <ScalarProperty Name="nota_autoriza4" ColumnName="nota_autoriza4" />

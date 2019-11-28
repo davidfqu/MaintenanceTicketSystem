@@ -21,12 +21,13 @@ namespace MaintenanceTicketSystem.Controllers
             t_config t_config = db.t_config.Find("01");
             
             string username = User.Identity.Name.ToString().Substring(11).ToLower();
-            //string username = "cangulo";
+           //string username = "mxc01";
 
             if(username == "mxc01")
             {
                 Session["UserRol"] = "Usuario";
                 Session["UserAccount"] = "mxc01";
+                Session["IsManager"] = false;
                 return RedirectToAction("IndexTecnico", "Home");
             }
 

@@ -62,4 +62,12 @@ $("#f_compromiso").datetimepicker({
     hours12: false,
     step: 5
 });
+$("#f_terminado").datetimepicker({
+    timepicker: true,
+    datepicker: true,
+    format: 'm/d/Y H:i',
+    hours12: false,
+    step: 5
+});
+
 

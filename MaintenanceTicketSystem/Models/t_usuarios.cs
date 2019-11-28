@@ -11,8 +11,7 @@ namespace MaintenanceTicketSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
+    
     public partial class t_usuarios
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,15 +20,11 @@ namespace MaintenanceTicketSystem.Models
             this.t_tickets = new HashSet<t_tickets>();
             this.t_tickets11 = new HashSet<t_tickets>();
         }
-        [Required(ErrorMessage = "Campo obligatorio")]
-        [Remote("existe", "t_usuarios",
-                    ErrorMessage = "Este usuario ya existe")]
+    
         public string usuario { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")]
         public Nullable<int> no_emp { get; set; }
         public string planta { get; set; }
         public string nombre { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")]
         public string email { get; set; }
         public string turno { get; set; }
         public string puesto { get; set; }
@@ -39,7 +34,7 @@ namespace MaintenanceTicketSystem.Models
         public string u_id { get; set; }
         public Nullable<System.DateTime> f_id { get; set; }
         public string categoria { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_tickets> t_tickets { get; set; }
         public virtual t_catego t_catego { get; set; }

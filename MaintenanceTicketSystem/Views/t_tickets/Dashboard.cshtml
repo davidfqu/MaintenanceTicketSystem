@@ -14,7 +14,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
                         Facilities
                     </h1>
                 </div>
@@ -27,7 +27,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
                         Sealer Lab
                     </h1>
                 </div>
@@ -40,7 +40,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
                         Calibraciones
                     </h1>
                 </div>
@@ -53,7 +53,7 @@
         <div class="col-md-12  mt-4">
             <div class="card">
                 <div class="card-header text-center">
-                <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
                     Tickets con mayor tiempo abiertos
                 </h1>
             </div>
@@ -65,7 +65,7 @@
         <div class="col-md-6">
             <div class="card mt-4">
                 <div class="card-header text-center">
-                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
                         Tickets por atender
                     </h1>
                 </div>
@@ -80,42 +80,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>5</td>
-                                <td>duribe</td>
-                                <td>Facilities</td>
-                                <td>11/20/2019 10:07:13 AM</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>18</td>
-                                <td>duribe</td>
-                                <td>Facilities</td>
-                                <td>11/20/2019 10:07:13 AM</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>6</td>
-                                <td>duribe</td>
-                                <td>Facilities</td>
-                                <td>11/20/2019 10:07:13 AM</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>22</td>
-                                <td>duribe</td>
-                                <td>Facilities</td>
-                                <td>11/20/2019 10:07:13 AM</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>1</td>
-                                <td>duribe</td>
-                                <td>Facilities</td>
-                                <td>11/20/2019 10:07:13 AM</td>
-                            </tr>
+                            @{ int n = 1;
 
+                            }
+                            @foreach (var item in ViewBag.ticketsPA)
+                            {
+                                <tr>
+                                    <th scope="row">@n.ToString()</th>
+                                    <td>@item.folio</td>
+                                    <td>@item.u_id</td>
+                                    <td>@item.t_catego.descripcion</td>
+                                    <td>@item.f_compromiso</td>
+                                    @{n++;}
+                                </tr>
+                            }
+                          
                         </tbody>
                     </table>
                 </div>
@@ -124,7 +103,7 @@
         <div class="col-md-6 mt-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1vw">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
                        Promedio de ciclo de vida de ticket
                     </h1>
                 </div>
@@ -159,7 +138,23 @@
             },
             options: {
                 responsive: true,
-                legend: { display: false }
+                legend: { display: false },
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        color: "rgb(0,0,0)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 6);
+                            return {
+                                size: size
+                        
+                            };
+
+                        },
+
+                    }
+                }
             }
         });
 
@@ -176,7 +171,23 @@
             },
             options: {
                 responsive: true,
-                legend: { display: false }
+                legend: { display: false },
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        color: "rgb(0,0,0)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 6);
+                            return {
+                                size: size
+                        
+                            };
+
+                        },
+
+                    }
+                }
             }
         });
 
@@ -193,10 +204,25 @@
             },
             options: {
                 responsive: true,
-                legend: { display: false }
+                legend: { display: false },
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        color: "rgb(0,0,0)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 6);
+                            return {
+                                size: size
+                        
+                            };
+
+                        },
+
+                    }
+                }
             }
         });
-
 
 
         var ctx = document.getElementById("chLine").getContext('2d');
@@ -216,10 +242,43 @@
                 legend: { display: false },
                 scales: {
                     yAxes: [{
+                        scaleLabel: {
+                            labelString: "Días",
+                            display: true,
+                            fontSize: Math.round(document.documentElement.clientHeight/ 50)
+                        },
                         ticks: {
+                            fontSize: Math.round(document.documentElement.clientHeight/ 55),
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            labelString: "Folio",
+                            display: true,
+                            fontSize: Math.round(document.documentElement.clientHeight/ 50)
+                        },
+                        ticks: {
+                            fontSize: Math.round(document.documentElement.clientHeight/ 55),
                             beginAtZero: true
                         }
                     }]
+                },
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        color: "rgb(0,0,0)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 10);
+                            return {
+                                size: size
+                        
+                            };
+
+                        },
+
+                    }
                 }
 
             }

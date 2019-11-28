@@ -27,8 +27,10 @@ namespace MaintenanceTicketSystem.Controllers
         {
             Session["UserRol"] = "User";
             Session["UserAccount"] = "Public";
-
+            Session["IsManager"] = false;
             var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_tickets_img).Include(t => t.t_fallas).Include(t => t.t_usuarios11).Include(t => t.t_estatus);
+
+            //Graficas pie de categorias
 
             var cat = t_tickets.GroupBy(x => x.categoria).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
             ViewBag.calcerrados = cat.ElementAt(0).cerrados.ToString();
@@ -39,6 +41,8 @@ namespace MaintenanceTicketSystem.Controllers
 
             ViewBag.sealcerrados = cat.ElementAt(2).cerrados.ToString();
             ViewBag.sealabiertos = cat.ElementAt(2).abiertos.ToString();
+
+            //grafica de tickets abiertos
 
             var ticketsabiertos = db.t_tickets.Where(x => x.estatus != "CE").OrderBy(x => x.fecha).ToList();
             int n = 0;
@@ -80,14 +84,10 @@ namespace MaintenanceTicketSystem.Controllers
                     bgcolorTA = bgcolorTA + ccal;
                     bocolorTA = bocolorTA + bcal;
                 }
-                   
 
                 dataTA = dataTA + dif.ToString();
                 labelsTA = labelsTA + item.folio.ToString();
-
-
-
-
+                
                 n++;
                 if (n != 5)
                 {
@@ -107,10 +107,17 @@ namespace MaintenanceTicketSystem.Controllers
                    
             }
 
+            var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" &&  x.f_compromiso != null).OrderBy(x => x.f_compromiso).Take(5).ToList();
+            
+            
+            ViewBag.ticketsPA = ticketsporatender;
             ViewBag.datagraph = dataTA;
             ViewBag.labelsgraph = labelsTA;
             ViewBag.bgcolorgraph = bgcolorTA;
             ViewBag.bocolorgraph = bocolorTA;
+
+
+
             return View();
         }
 
@@ -192,7 +199,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path")] t_tickets t_tickets, HttpPostedFileBase ImageFile)
+        public ActionResult Create([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado")] t_tickets t_tickets, HttpPostedFileBase ImageFile)
         {
 
             try
@@ -240,8 +247,8 @@ namespace MaintenanceTicketSystem.Controllers
         public ActionResult Edit(decimal id, bool? autorizar)
         {
             t_config t_config = db.t_config.Find("01");
-            string username = User.Identity.Name.ToString().Substring(11).ToLower();
-           // string username = "cangulo";
+           string username = User.Identity.Name.ToString().Substring(11).ToLower();
+           //string username = "mxc01";
             var ddlUsuarios = db.t_usuarios.Where(x => x.usuario == username).ToList();
 
             if (ddlUsuarios.Any())
@@ -338,7 +345,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path")] t_tickets t_tickets,  string command = "0")
+        public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado")] t_tickets t_tickets,  string command = "0")
         {
             //si viene de una vista para autorizar
             if (command != "0")

@@ -81,6 +81,8 @@ namespace MaintenanceTicketSystem.Models
         public string nota_autoriza4 { get; set; }
         public string ind_autoriza4 { get; set; }
         public string imagen_path { get; set; }
+        public Nullable<System.DateTime> f_terminado { get; set; }
+        public string n_terminado { get; set; }
     
         public virtual t_areas t_areas { get; set; }
         public virtual t_catego t_catego { get; set; }
