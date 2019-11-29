@@ -25,10 +25,11 @@ namespace MaintenanceTicketSystem.Controllers
 
         public ActionResult Dashboard()
         {
-            Session["UserRol"] = "User";
-            Session["UserAccount"] = "Public";
-            Session["IsManager"] = false;
-            var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_tickets_img).Include(t => t.t_fallas).Include(t => t.t_usuarios11).Include(t => t.t_estatus);
+            if(!(Session["UserRol"].ToString() == "Admin" || Session["UserRol"].ToString() == "Supervisor"))
+            {
+                return RedirectToAction("Index", "Home", null);
+            }
+                var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_tickets_img).Include(t => t.t_fallas).Include(t => t.t_usuarios11).Include(t => t.t_estatus);
 
             //Graficas pie de categorias
 
@@ -50,11 +51,11 @@ namespace MaintenanceTicketSystem.Controllers
             string labelsTA = "[";
             string bgcolorTA = "[";
             string bocolorTA = "[";
-            string cfac = "'rgba(255, 179, 64, 0.3)'";
-            string cseal = "'rgba(28, 123, 201, 0.3)'";
-            string ccal = "'rgba(224, 0, 0, 0.3)'";
+            string cfac = "'rgba(255, 179, 64, 1)'";
+            string cseal = "'rgba(0, 77, 198, 1)'";
+            string ccal = "'rgba(224, 0, 0, 1)'";
             string bfac = "'rgba(255, 179, 64, 1)'";
-            string bseal = "'rgba(28, 123, 201, 1)'";
+            string bseal = "'rgba(0, 77, 198, 1)'";
             string bcal = "'rgba(224, 0, 0, 1)'";
 
             DateTime hoy = DateTime.Now;
@@ -107,9 +108,30 @@ namespace MaintenanceTicketSystem.Controllers
                    
             }
 
-            var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" &&  x.f_compromiso != null).OrderBy(x => x.f_compromiso).Take(5).ToList();
-            
-            
+            var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" &&  x.f_compromiso != null).OrderBy(x => x.f_compromiso).Take(10).ToList();
+
+            var ticketscerrados = db.t_tickets.Where(x => x.estatus == "CE" && x.fecha != null && x.f_cerrado != null).ToList();
+            TimeSpan diff;
+            TimeSpan diffp;
+            DateTime date1, date2;
+            double promediohrs, totalhrs =0;
+            int no = 0;
+
+            foreach (var item in ticketscerrados)
+            {
+                
+                    date1 = (DateTime)item.fecha;
+                    date2 = (DateTime)item.f_cerrado;
+
+                    diff = date2.Subtract(date1);
+                    totalhrs = totalhrs + diff.TotalHours;
+                   no++;
+                
+            }
+
+            promediohrs = Math.Round(totalhrs / no);
+
+            ViewBag.ciclovida = promediohrs.ToString();
             ViewBag.ticketsPA = ticketsporatender;
             ViewBag.datagraph = dataTA;
             ViewBag.labelsgraph = labelsTA;

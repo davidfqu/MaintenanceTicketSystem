@@ -27,12 +27,25 @@
                 <ul class="nav navbar-nav mr-auto">
                     @if (Session["UserRol"].ToString() == "Admin")
                     {
-                        <li class="nav-item">@Html.ActionLink("Ubicaciones", "Index", "t_areas", null, new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Usuarios", "Index", "t_usuarios", null, new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Equipos", "Index", "t_equipos", null, new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Fallas", "Index", "t_fallas", null, new { @class = "nav-link" })</li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Catálogos
+                            </a>
+                            <div class="dropdown-menu">
+                                @Html.ActionLink("Ubicaciones", "Index", "t_areas", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Usuarios", "Index", "t_usuarios", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Equipos", "Index", "t_equipos", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Fallas", "Index", "t_fallas", null, new { @class = "dropdown-item" })
+                            </div>
+                        </li>
                         <li class="nav-item">@Html.ActionLink("Configuraciones", "Edit", "t_config", new { id = "01" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Dashboard", "Dashboard", "t_tickets", null, new { @class = "nav-link" })</li>
                     }
+                    @if (Session["UserRol"].ToString() == "Supervisor")
+                    {
+                        <li class="nav-item">@Html.ActionLink("Dashboard", "Dashboard", "t_tickets", null, new { @class = "nav-link" })</li>
+                    }
+
                     @if ((bool)Session["IsManager"])
                     {
                         <li class="nav-item dropdown">
@@ -44,12 +57,13 @@
                                 @Html.ActionLink("Supervisor (CAL)", "EditarManager", "t_usuarios", new { id = Session["UserAccount"], rol = "Supervisor" }, new { @class = "dropdown-item" })
                             </div>
                         </li>
-                       
-                        
+
+
                     }
-                    
-                    
+
+
                 </ul>
+
                 <span class="navbar-text">
                     <i class="fa fa-fw fa-user"></i>@Session["UserAccount"].ToString()
                 </span>

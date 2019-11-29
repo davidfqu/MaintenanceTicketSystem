@@ -109,7 +109,7 @@
                 </div>
                 <div class="card-body text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 3vw">
-                       35 hrs
+                       @ViewBag.ciclovida hrs
                     </h1>
                 </div>
             </div>
@@ -129,7 +129,7 @@
         var myLineChart = new Chart(ctxD, {
             type: 'doughnut',
             data: {
-                labels: ["Cerrados", "Abiertos"],
+                labels: ["Tickets cerrados", "Tickets abiertos"],
                 datasets: [{
                     data: [@ViewBag.faccerrados, @ViewBag.facabiertos],
                     backgroundColor: ["#ffb340", "#e6e8eb"],
@@ -162,11 +162,11 @@
         var myLineChart = new Chart(ctxD, {
             type: 'doughnut',
             data: {
-                labels: ["Cerrados", "Abiertos"],
+                labels: ["Tickets cerrados", "Tickets abiertos"],
                 datasets: [{
                     data: [@ViewBag.sealcerrados, @ViewBag.sealabiertos],
-                    backgroundColor: ["#1c7bc9", "#e6e8eb"],
-                    hoverBackgroundColor: ["#165f9c", "#616774"]
+                    backgroundColor: ["#004dc6", "#e6e8eb"],
+                    hoverBackgroundColor: ["#003a94", "#616774"]
                 }]
             },
             options: {
@@ -195,7 +195,7 @@
         var myLineChart = new Chart(ctxD, {
             type: 'doughnut',
             data: {
-                labels: ["Cerrados", "Abiertos"],
+                labels: ["Tickets cerrados", "Tickets abiertos"],
                 datasets: [{
                     data: [@ViewBag.calcerrados, @ViewBag.calabiertos],
                     backgroundColor: ["#e00000", "#e6e8eb"],
