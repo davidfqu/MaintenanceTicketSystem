@@ -157,7 +157,7 @@ namespace MaintenanceTicketSystem.Controllers
                                         inner join [Tress_MedlineMXL].[dbo].NIVEL3 n3 on co.CB_NIVEL3 = n3.TB_CODIGO 
                                         inner join [Tress_MedlineMXL].[dbo].NIVEL4 n4 on co.CB_NIVEL4 = n4.TB_CODIGO 
                                         inner join [Tress_MedlineMXL].[dbo].TURNO tu on co.CB_TURNO = tu.TU_CODIGO 
-										inner join [Tress_MedlineMXL].[dbo].COLABORA co2 on co.CB_NIVEL4 = co2.CB_CODIGO
+										left join [Tress_MedlineMXL].[dbo].COLABORA co2 on co.CB_NIVEL4 = co2.CB_CODIGO
 
                                         WHERE co.CB_CODIGO = " + id.ToString() + @" and co.CB_ACTIVO = 'S' 
                                         ORDER BY PU_DESCRIP,CB_TURNO";
@@ -195,6 +195,7 @@ namespace MaintenanceTicketSystem.Controllers
                 t_usuarios.categoria = null;
 
                 t_usuarios.email = t_usuarios.email.ToLower();
+                if(t_usuarios.supervisor !=null)
                 t_usuarios.supervisor = t_usuarios.supervisor.ToLower();
                 t_usuarios.usuario = t_usuarios.usuario.ToLower();
                 t_usuarios.f_id = DateTime.Now;

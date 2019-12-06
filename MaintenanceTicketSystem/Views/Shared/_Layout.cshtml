@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mainetance Tickets</title>
+    <title>Maintenance Ticket System</title>
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/jquery-ui.css")
@@ -23,7 +23,9 @@
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse">
+            @if (Session["UserRol"] != null)
+            {
+                 <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav mr-auto">
                     @if (Session["UserRol"].ToString() == "Admin")
                     {
@@ -68,6 +70,10 @@
                     <i class="fa fa-fw fa-user"></i>@Session["UserAccount"].ToString()
                 </span>
             </div>
+
+            }
+
+           
         </div>
     </nav>
     

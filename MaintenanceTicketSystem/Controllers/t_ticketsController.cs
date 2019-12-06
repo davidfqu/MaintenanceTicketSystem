@@ -34,14 +34,29 @@ namespace MaintenanceTicketSystem.Controllers
             //Graficas pie de categorias
 
             var cat = t_tickets.GroupBy(x => x.categoria).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
-            ViewBag.calcerrados = cat.ElementAt(0).cerrados.ToString();
-            ViewBag.calabiertos = cat.ElementAt(0).abiertos.ToString();
+            try
+            {
+                ViewBag.calcerrados = cat.ElementAt(0).cerrados.ToString();
+                ViewBag.calabiertos = cat.ElementAt(0).abiertos.ToString();
 
-            ViewBag.faccerrados = cat.ElementAt(1).cerrados.ToString();
-            ViewBag.facabiertos = cat.ElementAt(1).abiertos.ToString();
+                ViewBag.faccerrados = cat.ElementAt(1).cerrados.ToString();
+                ViewBag.facabiertos = cat.ElementAt(1).abiertos.ToString();
 
-            ViewBag.sealcerrados = cat.ElementAt(2).cerrados.ToString();
-            ViewBag.sealabiertos = cat.ElementAt(2).abiertos.ToString();
+                ViewBag.sealcerrados = cat.ElementAt(2).cerrados.ToString();
+                ViewBag.sealabiertos = cat.ElementAt(2).abiertos.ToString();
+            }
+            catch
+            {
+                ViewBag.calcerrados = "0";
+                ViewBag.calabiertos = "0";
+
+                ViewBag.faccerrados = "0";
+                ViewBag.facabiertos = "0";
+
+                ViewBag.sealcerrados = "0";
+                ViewBag.sealabiertos = "0";
+            }
+            
 
             //grafica de tickets abiertos
 
@@ -145,7 +160,7 @@ namespace MaintenanceTicketSystem.Controllers
 
         public ActionResult getEquipo(string id)
         {
-            var ddlEquipos = db.t_equipos.Where(x => x.categoria == id).ToList();
+            var ddlEquipos = db.t_equipos.Where(x => x.categoria == id).OrderBy(x => x.descripcion).ToList();
             List<SelectListItem> liEquipos = new List<SelectListItem>();
 
             if (ddlEquipos != null)
@@ -204,13 +219,13 @@ namespace MaintenanceTicketSystem.Controllers
             urgencia.Add(new SelectListItem() { Text = "Afecta Seguridad", Value = "2" });
 
 
-            ViewBag.area = new SelectList(db.t_areas, "area", "descripcion");
+            ViewBag.area = new SelectList(db.t_areas.OrderBy(x => x.descripcion), "area", "descripcion");
             ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion");
             ViewBag.categoria2 = new SelectList(db.t_catego, "descripcion", "nota");
-            ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "descripcion");
+            ViewBag.equipo = new SelectList(db.t_equipos.OrderBy(x => x.descripcion), "equipo", "descripcion");
             ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "nombre");
             ViewBag.tecnico = new SelectList(db.t_usuarios.Where(x => x.rol == "4") , "usuario", "nombre");
-            ViewBag.falla = new SelectList(db.t_fallas, "falla", "descripcion");
+            ViewBag.falla = new SelectList(db.t_fallas.OrderBy(x => x.descripcion), "falla", "descripcion");
             ViewBag.urgencia = new SelectList(urgencia, "Value", "Text");
 
             return View();

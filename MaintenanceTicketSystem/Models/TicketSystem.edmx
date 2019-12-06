@@ -28,7 +28,7 @@
           </Key>
           <Property Name="categoria" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
-          <Property Name="nota" Type="varchar" MaxLength="100" />
+          <Property Name="nota" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="t_config">
           <Key>
@@ -398,7 +398,7 @@
           </Key>
           <Property Name="categoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="nota" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_equipos" Relationship="Self.FK_equipos_cat" FromRole="t_catego" ToRole="t_equipos" />
           <NavigationProperty Name="t_tickets" Relationship="Self.FK_t_tickets_t_catego" FromRole="t_catego" ToRole="t_tickets" />
           <NavigationProperty Name="t_usuarios" Relationship="TicketSystemModel.FK_t_usuarios_t_catego" FromRole="t_catego" ToRole="t_usuarios" />

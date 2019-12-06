@@ -20,7 +20,7 @@ namespace MaintenanceTicketSystem.Controllers
             if (Session["UserRol"].ToString() != "Admin")
                 return View();
 
-            return View(db.t_fallas.ToList());
+            return View(db.t_fallas.OrderBy(x => x.descripcion).ToList());
         }
 
         // GET: t_fallas/Details/5

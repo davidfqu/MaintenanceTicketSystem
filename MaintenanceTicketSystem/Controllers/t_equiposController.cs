@@ -30,7 +30,7 @@ namespace MaintenanceTicketSystem.Controllers
 
             var t_equipos = db.t_equipos.Include(t => t.t_catego);
 
-                t_equipos = t_equipos.OrderBy(t => t.categoria).OrderBy(t => t.equipo);
+                t_equipos = t_equipos.OrderBy(t => t.categoria).OrderBy(x => x.descripcion);
 
             if (searchString != null)
             {
@@ -45,7 +45,7 @@ namespace MaintenanceTicketSystem.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                t_equipos = t_equipos.Where(x => x.t_catego.descripcion == searchString).OrderBy(x => x.equipo);
+                t_equipos = t_equipos.Where(x => x.t_catego.descripcion == searchString).OrderBy(x => x.descripcion);
                 
             }
 
