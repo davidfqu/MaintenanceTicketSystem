@@ -17,9 +17,19 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_areas
         public ActionResult Index()
         {
-            if (Session["UserRol"].ToString() != "Admin")
-                return View();
-            return View(db.t_areas.OrderBy(x => x.descripcion).ToList());
+            try
+            {
+                if (Session["UserRol"].ToString() == "Admin")
+                    return View(db.t_areas.OrderBy(x => x.descripcion).ToList());
+                else
+                    return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
+                
+           
         }
 
         // GET: t_areas/Details/5
@@ -40,7 +50,17 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_areas/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                if (Session["UserRol"].ToString() == "Admin")
+                    return View();
+                else
+                    return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // POST: t_areas/Create
@@ -64,16 +84,29 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_areas/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (Session["UserRol"].ToString() == "Admin")
+                {
+                    if (id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    t_areas t_areas = db.t_areas.Find(id);
+                    if (t_areas == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View(t_areas);
+                }
+                else
+                    return RedirectToAction("Index", "Home");
             }
-            t_areas t_areas = db.t_areas.Find(id);
-            if (t_areas == null)
+            catch
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Home");
             }
-            return View(t_areas);
+           
         }
 
         // POST: t_areas/Edit/5

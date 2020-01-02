@@ -63,12 +63,11 @@
                 @Html.ValidationMessageFor(model => model.turno, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.depto_tress, "Departamento Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.depto, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.depto_tress, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.depto_tress, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -85,6 +84,14 @@
             <div class="col-md-10">
                 @Html.DropDownList("rol", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.rol, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="divcat2" class="form-group">
+            @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("depto", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.depto, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -113,19 +120,44 @@
 <script>
     $(document).ready(function () {
         $('#divcat').hide();
+        $('#divcat2').hide();
+
+          @if (Model.depto!= null)
+        {
+            <text>
+        $("#divcat2").show();
+            </text>
+            if(Model.categoria != null)
+            {
+                <text>
+       $("#divcat").show();
+                </text>
+            }
+
+        }
+
     });
 
     $("#rol").change(function () {
-        if ($("#rol").val() == "Supervisor")
+        if ($("#rol").val() == "Supervisor" || $("#rol").val() == "Admin") {
+            if ($("#depto").val() == "MAN") {
+                $("#divcat").show();
+            }
+            $("#divcat2").show();
+        }
+        else {
+            $("#divcat2").hide();
+            $("#divcat").hide();
+        }
+
+    });
+
+    $("#depto").change(function () {
+        if ($("#depto").val() == "MAN")
             $("#divcat").show();
         else
             $("#divcat").hide();
     });
 
-    @if (Model.categoria != null)
-    {
-        <text>
-    $("#divcat").show();
-        </text>
-    }
+  
 </script>

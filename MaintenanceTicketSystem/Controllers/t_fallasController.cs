@@ -17,10 +17,17 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_fallas
         public ActionResult Index()
         {
-            if (Session["UserRol"].ToString() != "Admin")
-                return View();
+            try
+            {
+                if (Session["UserRol"].ToString() != "Admin")
+                    return RedirectToAction("Index", "Home");
 
-            return View(db.t_fallas.OrderBy(x => x.descripcion).ToList());
+                return View(db.t_fallas.OrderBy(x => x.descripcion).ToList());
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // GET: t_fallas/Details/5
@@ -41,7 +48,17 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_fallas/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                if (Session["UserRol"].ToString() != "Admin")
+                    return RedirectToAction("Index", "Home");
+
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // POST: t_fallas/Create

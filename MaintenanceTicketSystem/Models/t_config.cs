@@ -38,5 +38,6 @@ namespace MaintenanceTicketSystem.Models
         public string ind_testmail { get; set; }
         public string testmail { get; set; }
         public string editar_fechaseg { get; set; }
+        public string gte_email4 { get; set; }
     }
 }

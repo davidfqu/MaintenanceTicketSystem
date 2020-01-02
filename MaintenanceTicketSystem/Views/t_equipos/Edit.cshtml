@@ -17,6 +17,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.equipo)
+        @Html.HiddenFor(model => model.depto)
 
         <div class="form-group">
             @Html.LabelFor(model => model.equipo, "Clave", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -28,8 +29,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.categoria, "Categoría", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
+                @Model.t_catego.descripcion
             </div>
         </div>
 

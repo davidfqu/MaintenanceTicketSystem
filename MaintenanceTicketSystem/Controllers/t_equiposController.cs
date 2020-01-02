@@ -18,40 +18,47 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_equipos
         public ActionResult Index(string searchString, string currentFilter, int? page)
         {
-            List<SelectListItem> categorias= new List<SelectListItem>();
-            categorias.Add(new SelectListItem() { Text = "", Value = "" });
-            categorias.Add(new SelectListItem() { Text = "Sealer Lab", Value = "Sealer Lab" });
-            categorias.Add(new SelectListItem() { Text = "Facilities", Value = "Facilities" });
-            categorias.Add(new SelectListItem() { Text = "Calibración", Value = "Calibración" });
+            try
+            {
+                if (Session["UserRol"].ToString() != "Admin")
+                    return RedirectToAction("Index", "Home");
 
-            ViewBag.SearchString = categorias;
+                string depto = Session["Depto"].ToString();
+               
+                ViewBag.SearchString = new SelectList(db.t_catego.Where(x => x.depto == depto), "categoria", "descripcion");
+           
+
+
+                var t_equipos = db.t_equipos.Include(t => t.t_catego);
+
+                t_equipos = t_equipos.Where(x => x.depto == depto).OrderBy(t => t.categoria).OrderBy(x => x.descripcion);
+
+                if (searchString != null)
+                {
+                    page = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                ViewBag.CurrentFilter = searchString;
+                ViewBag.CurrentSearch = null;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    t_equipos = t_equipos.Where(x => x.categoria == searchString).OrderBy(x => x.descripcion);
+
+                }
+
+                int pageSize = 20;
+                int pageNumber = (page ?? 1);
+                return View(t_equipos.ToPagedList(pageNumber, pageSize));
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
             
-          
-
-            var t_equipos = db.t_equipos.Include(t => t.t_catego);
-
-                t_equipos = t_equipos.OrderBy(t => t.categoria).OrderBy(x => x.descripcion);
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            ViewBag.CurrentFilter = searchString;
-            ViewBag.CurrentSearch = null;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                t_equipos = t_equipos.Where(x => x.t_catego.descripcion == searchString).OrderBy(x => x.descripcion);
-                
-            }
-
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            return View(t_equipos.ToPagedList(pageNumber, pageSize));
 
            
         }
@@ -74,8 +81,19 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_equipos/Create
         public ActionResult Create()
         {
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion");
-            return View();
+            try
+            {
+                if (Session["UserRol"].ToString() != "Admin")
+                    return RedirectToAction("Index", "Home");
+
+                string depto = Session["Depto"].ToString();
+                ViewBag.categoria = new SelectList(db.t_catego.Where(x => x.depto == depto), "categoria", "descripcion");
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // POST: t_equipos/Create
@@ -85,32 +103,51 @@ namespace MaintenanceTicketSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "categoria,equipo,descripcion")] t_equipos t_equipos)
         {
-            if (ModelState.IsValid)
+            try
             {
-                t_equipos.equipo = t_equipos.equipo.ToUpper();
-                db.t_equipos.Add(t_equipos);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                string depto = Session["Depto"].ToString();
+                if (ModelState.IsValid)
+                {
+                    t_equipos.depto = depto;
+                    t_equipos.equipo = t_equipos.equipo.ToUpper();
+                    db.t_equipos.Add(t_equipos);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_equipos.categoria);
-            return View(t_equipos);
+                ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_equipos.categoria);
+                return View(t_equipos);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
+           
         }
 
         // GET: t_equipos/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, string depto, string categoria)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                string depto2 = Session["Depto"].ToString();
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                t_equipos t_equipos = db.t_equipos.Find(categoria, id, depto);
+                if (t_equipos == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.categoria = new SelectList(db.t_catego.Where(x => x.depto == depto2), "categoria", "descripcion", t_equipos.categoria);
+                return View(t_equipos);
             }
-            t_equipos t_equipos = db.t_equipos.Find(id);
-            if (t_equipos == null)
+            catch
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Home");
             }
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_equipos.categoria);
-            return View(t_equipos);
         }
 
         // POST: t_equipos/Edit/5
@@ -120,24 +157,33 @@ namespace MaintenanceTicketSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "categoria,equipo,descripcion")] t_equipos t_equipos)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(t_equipos).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                string depto = Session["Depto"].ToString();
+                t_equipos.depto = depto;
+                if (ModelState.IsValid)
+                {
+                    db.Entry(t_equipos).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_equipos.categoria);
+                return View(t_equipos);
             }
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_equipos.categoria);
-            return View(t_equipos);
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // GET: t_equipos/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id, string depto, string categoria)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            t_equipos t_equipos = db.t_equipos.Find(id);
+            t_equipos t_equipos = db.t_equipos.Find(categoria, id, depto);
             if (t_equipos == null)
             {
                 return HttpNotFound();
@@ -148,9 +194,9 @@ namespace MaintenanceTicketSystem.Controllers
         // POST: t_equipos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string id, string depto, string categoria)
         {
-            t_equipos t_equipos = db.t_equipos.Find(id);
+            t_equipos t_equipos = db.t_equipos.Find(categoria, id, depto);
             db.t_equipos.Remove(t_equipos);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -164,11 +210,11 @@ namespace MaintenanceTicketSystem.Controllers
             }
             base.Dispose(disposing);
         }
-        public JsonResult existe(string equipo)
+        public JsonResult existe(string equipo, string categoria)
         {
             equipo = equipo.ToUpper();
             var validateName = db.t_equipos.FirstOrDefault
-                                (x => x.equipo == equipo);
+                                (x => x.equipo == equipo && x.categoria == categoria);
             if (validateName != null)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);

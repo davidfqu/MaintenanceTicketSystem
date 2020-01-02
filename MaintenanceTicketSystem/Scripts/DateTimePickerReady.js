@@ -3,7 +3,7 @@
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12:false,
-    step: 5
+    step: 60
 
 });
 
@@ -12,7 +12,7 @@ $("#f_revisado").datetimepicker({
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 });
 
 $("#f_aprovacion").datetimepicker({
@@ -20,7 +20,7 @@ $("#f_aprovacion").datetimepicker({
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 });
 
 $("#f_espera").datetimepicker({
@@ -28,7 +28,7 @@ $("#f_espera").datetimepicker({
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 
 });
 $("#f_proceso").datetimepicker({
@@ -36,7 +36,7 @@ $("#f_proceso").datetimepicker({
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 
 });
 
@@ -45,7 +45,7 @@ $("#f_requerida").datetimepicker({
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 });
 
 $("#f_entrega").datetimepicker({
@@ -53,21 +53,21 @@ $("#f_entrega").datetimepicker({
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 });
 $("#f_compromiso").datetimepicker({
     timepicker: true,
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 });
 $("#f_terminado").datetimepicker({
     timepicker: true,
     datepicker: true,
     format: 'm/d/Y H:i',
     hours12: false,
-    step: 5
+    step: 60
 });
 
 

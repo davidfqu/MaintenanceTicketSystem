@@ -14,99 +14,88 @@
 @using (Html.BeginForm("Create","t_tickets",FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 <br>
-<h2>Ticket</h2>
+<h2>Nuevo Ticket <a id="infosol" href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#ModalSOL">i</span></a> </h2> 
 <br>
-
-<h4>Solicitud</h4><hr>
-
+ 
 
     @Html.AntiForgeryToken()
 
     <div class="form-row">
+        <div class="col-md-6">
+            <h4>Solicitud </h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Solicitante</h4>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+       
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <!-- SOLICITUD  -->
 
         <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("depto", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
+            <br>
+            @Html.LabelFor(model => model.categoria, "Categoría", htmlAttributes: new { @class = "control-label" })
+            <a id="infoman" href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#ModalMAN">i</span></a>
+            <a id="infosis" href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#ModalSIS">i</span></a>
+            @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
+            <br>
             @Html.LabelFor(model => model.area, "Ubicación", htmlAttributes: new { @class = "control-label" })
             @Html.DropDownList("area", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
+            <br>
+            @Html.LabelFor(model => model.equipo, "Equipo", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("equipo", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.equipo, "", new { @class = "text-danger" })
+            <br>
+            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6" })
+            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            <br>
+            <label>Imagen</label>
+            <input type="file" name="ImageFile" id="ImageFile" class="form-control-file">
+            <br>
+            @Html.LabelFor(model => model.f_requerida, "Fecha Requerida", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.f_requerida, "", new { @class = "text-danger" })
+            <br>
+            <div class="checkbox">
+                <label><input type="checkbox" id="cburgencia" value=""> Urgente</label>
+            </div>
+            @Html.DropDownList("urgencia", null, htmlAttributes: new { @class = "form-control" })
         </div>
 
         <div class="form-group col-md-6">
             <label>Nombre</label>
             <input class="form-control" id="unombre" readonly value="">
-        </div>
-
-
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.categoria, "Categoría", htmlAttributes: new { @class = "control-label" })
-            <a  href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#exampleModal">i</span></a>
-            @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group col-md-6">
+            <br>
             <label>Usuario Windows</label>
             @Html.EditorFor(model => model.u_id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
             @Html.ValidationMessageFor(model => model.u_id, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.equipo, "Equipo", htmlAttributes: new { @class = "control-label" })
-            @Html.DropDownList("equipo", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.equipo, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-        </div>
-
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
-            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows="6"} )
-            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group col-md-6">
+            <br>
+            <label>Departamento Usuario</label>
+            <input class="form-control" id="udeptotress" readonly>
+            <br>
             <label>Turno</label>
-            <input class="form-control" id="uturno" readonly >
+            <input class="form-control" id="uturno" readonly>
             <br>
             <label>Puesto</label>
             <input class="form-control" id="upuesto" readonly value="">
-        </div>
-
-    
-    <div class="form-group col-md-6">
-            <label>Imagen</label>
-            <input type="file" name="ImageFile" id="ImageFile" class="form-control-file">
-        </div>
-          
-
-        <div class="form-group col-md-6">
+            <br>
             <label>Correo</label>
             <input class="form-control" id="ucorreo" readonly>
         </div>
 
 
-        <div class="form-group col-md-12">
-            @Html.LabelFor(model => model.f_requerida, "Fecha Requerida", htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.f_requerida, "", new { @class = "text-danger" })
-        </div>
 
-        <div class="form-group col-md-offset-2 col-md-12">
-            <div class="checkbox" >
-                <label><input type="checkbox" id="cburgencia" value=""> Urgente</label>
-            </div>
-            @Html.DropDownList("urgencia", null, htmlAttributes: new { @class = "form-control" })
-
-        </div>
-
-
-
+  
         <br>
         <br>
         <div class="form-group col-12">
@@ -124,11 +113,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalMAN" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Descripción de Categorias</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Descripción de Categorías</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -146,7 +135,46 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalSIS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Descripción de Categorías</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @foreach (var row in ViewBag.categoria3)
+                {
+                    <b>@row.Value</b>
+                    <p>
+                        @row.Text
+                    </p>
+                    <hr>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ModalSOL" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Info Solicitud</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container" style="height:650px; width:750px">
+                    <img style="max-width:100%;height:650px; object-fit: contain" src="~/img/Guía Rápida de Usuario Service Desk.png" />
+                </div>
 
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/DateTimePickerReady.js")
@@ -155,7 +183,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         updateUsuario();
+        $("#equipo").empty();
         $('#urgencia').hide();
+        $("#infosis").hide();
 
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -181,7 +211,7 @@
                     if(usuario[5] = "Usuario")
                     {
                         document.getElementById("u_id").value = usuario[0];
-                        document.getElementById("depto").value = usuario[1];
+                        document.getElementById("udeptotress").value = usuario[1];
                         document.getElementById("upuesto").value = usuario[2];
                         document.getElementById("uturno").value = usuario[3];
                         document.getElementById("ucorreo").value = usuario[4];
@@ -194,8 +224,46 @@
             });
          }
 
+        $("#depto").click(function () {
+            $("#equipo").empty();
+            $("#categoria").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getCategorias", "t_tickets")',
+                dataType: 'json',
+                data: { id: $("#depto").val() },
+                success: function (categoria) {
+
+                    $.each(categoria, function (i, categorias) {
+                        $("#categoria").append('<option value="'
+                                                   + categorias.Value + '">'
+                                             + categorias.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+
+            
+
+        })
+
+        $("#depto").change(function () {
+           
+            if( $("#depto").val() == "SIS")
+            {
+                $("#infosis").show();
+                $("#infoman").hide();
+            }
+            if ($("#depto").val() == "MAN") {
+                $("#infosis").hide();
+                $("#infoman").show();
+            }
+        })
 
         $("#categoria").click(function () {
+         
             $("#equipo").empty();
             $.ajax({
                 type: 'POST',

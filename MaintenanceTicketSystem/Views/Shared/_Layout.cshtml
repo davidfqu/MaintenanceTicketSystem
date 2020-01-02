@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintenance Ticket System</title>
+    <title>MXC Service Desk</title>
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="icon" href="~/favicon.ico" />
+    <link rel="shortcut icon" href="~/favicon.ico" />
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/jquery-ui.css")
     @Scripts.Render("~/bundles/jquery")
@@ -17,7 +19,7 @@
             <a href="@Url.Action("Index", "Home", new { area = "" })" class="navbar-brand">
     <i class="fas fa-tools fa-lg"></i>
     <span>
-        <strong>MXC Maintenance Ticket System</strong>
+        <strong>MXC Service Desk</strong>
     </span>            
 </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +39,10 @@
                                 @Html.ActionLink("Ubicaciones", "Index", "t_areas", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Usuarios", "Index", "t_usuarios", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Equipos", "Index", "t_equipos", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Fallas", "Index", "t_fallas", null, new { @class = "dropdown-item" })
+                                @if (Session["Depto"].ToString() == "MAN")
+                                {
+                                    @Html.ActionLink("Fallas", "Index", "t_fallas", null, new { @class = "dropdown-item" })
+                                }
                             </div>
                         </li>
                         <li class="nav-item">@Html.ActionLink("Configuraciones", "Edit", "t_config", new { id = "01" }, new { @class = "nav-link" })</li>
@@ -81,7 +86,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Medline MXC Maintenance Ticket System</p>
+            <p>&copy; @DateTime.Now.Year - MXC Service Desk</p>
         </footer>
     </div>
         

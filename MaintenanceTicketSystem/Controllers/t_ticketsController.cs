@@ -19,7 +19,7 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_tickets
         public ActionResult Index()
         {
-            var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_tickets_img).Include(t => t.t_fallas).Include(t => t.t_usuarios11).Include(t => t.t_estatus);
+            var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_fallas).Include(t => t.t_usuarios1).Include(t => t.t_estatus).Include(t => t.t_depto);
             return View(t_tickets.ToList());
         }
 
@@ -29,11 +29,11 @@ namespace MaintenanceTicketSystem.Controllers
             {
                 return RedirectToAction("Index", "Home", null);
             }
-                var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_tickets_img).Include(t => t.t_fallas).Include(t => t.t_usuarios11).Include(t => t.t_estatus);
+                var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_fallas).Include(t => t.t_usuarios1).Include(t => t.t_estatus).Include(t => t.t_depto);
 
             //Graficas pie de categorias
 
-            var cat = t_tickets.GroupBy(x => x.categoria).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
+            var cat = t_tickets.Where(x => x.depto == "MAN").GroupBy(x => x.categoria).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
             try
             {
                 ViewBag.calcerrados = cat.ElementAt(0).cerrados.ToString();
@@ -60,7 +60,7 @@ namespace MaintenanceTicketSystem.Controllers
 
             //grafica de tickets abiertos
 
-            var ticketsabiertos = db.t_tickets.Where(x => x.estatus != "CE").OrderBy(x => x.fecha).ToList();
+            var ticketsabiertos = db.t_tickets.Where(x => x.estatus != "CE" && x.depto == "MAN").OrderBy(x => x.fecha).ToList();
             int n = 0;
             string dataTA = "[";
             string labelsTA = "[";
@@ -123,9 +123,9 @@ namespace MaintenanceTicketSystem.Controllers
                    
             }
 
-            var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" &&  x.f_compromiso != null).OrderBy(x => x.f_compromiso).Take(10).ToList();
+            var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" &&  x.f_compromiso != null && x.depto == "MAN").OrderBy(x => x.f_compromiso).Take(10).ToList();
 
-            var ticketscerrados = db.t_tickets.Where(x => x.estatus == "CE" && x.fecha != null && x.f_cerrado != null).ToList();
+            var ticketscerrados = db.t_tickets.Where(x => x.estatus == "CE" && x.fecha != null && x.f_cerrado != null && x.depto == "MAN").ToList();
             TimeSpan diff;
             TimeSpan diffp;
             DateTime date1, date2;
@@ -175,6 +175,23 @@ namespace MaintenanceTicketSystem.Controllers
     
         }
 
+        public ActionResult getCategorias(string id)
+        {
+            var ddlCategorias = db.t_catego.Where(x => x.depto == id).OrderBy(x => x.descripcion).ToList();
+            List<SelectListItem> liCategorias = new List<SelectListItem>();
+
+            if (ddlCategorias != null)
+            {
+                foreach (var x in ddlCategorias)
+                {
+                    liCategorias.Add(new SelectListItem { Text = x.descripcion, Value = x.categoria });
+                }
+            }
+
+            return Json(new SelectList(liCategorias, "Value", "Text", JsonRequestBehavior.AllowGet));
+
+        }
+
         public ActionResult getInfoUsuario(string id)
         {
             var ddlUsuarios = db.t_usuarios.Where(x => x.usuario == id).ToList();
@@ -182,7 +199,7 @@ namespace MaintenanceTicketSystem.Controllers
 
             string[] infoUsuario = new string[7];
             infoUsuario[0] = ddlUsuarios[0].usuario.ToString();
-            infoUsuario[1] = ddlUsuarios[0].depto.ToString();
+            infoUsuario[1] = ddlUsuarios[0].depto_tress.ToString();
             infoUsuario[2] = ddlUsuarios[0].puesto.ToString();
             infoUsuario[3] = ddlUsuarios[0].turno.ToString();
             infoUsuario[4] = ddlUsuarios[0].email.ToString();
@@ -220,8 +237,10 @@ namespace MaintenanceTicketSystem.Controllers
 
 
             ViewBag.area = new SelectList(db.t_areas.OrderBy(x => x.descripcion), "area", "descripcion");
+            ViewBag.depto = new SelectList(db.t_depto.OrderBy(x => x.descripcion), "depto", "descripcion");
             ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion");
-            ViewBag.categoria2 = new SelectList(db.t_catego, "descripcion", "nota");
+            ViewBag.categoria2 = new SelectList(db.t_catego.Where(x => x.depto == "MAN"), "descripcion", "nota");
+            ViewBag.categoria3 = new SelectList(db.t_catego.Where(x => x.depto == "SIS"), "descripcion", "nota");
             ViewBag.equipo = new SelectList(db.t_equipos.OrderBy(x => x.descripcion), "equipo", "descripcion");
             ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "nombre");
             ViewBag.tecnico = new SelectList(db.t_usuarios.Where(x => x.rol == "4") , "usuario", "nombre");
@@ -236,7 +255,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado")] t_tickets t_tickets, HttpPostedFileBase ImageFile)
+        public ActionResult Create([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado,req_autoriza5,sup_autoriza5,sup_fautoriza5,nota_autoriza5,ind_autoriza5")] t_tickets t_tickets, HttpPostedFileBase ImageFile)
         {
 
             try
@@ -285,7 +304,8 @@ namespace MaintenanceTicketSystem.Controllers
         {
             t_config t_config = db.t_config.Find("01");
            string username = User.Identity.Name.ToString().Substring(11).ToLower();
-           //string username = "mxc01";
+            // string username = "hgraysom";
+            string deptoUsuario = "user";
             var ddlUsuarios = db.t_usuarios.Where(x => x.usuario == username).ToList();
 
             if (ddlUsuarios.Any())
@@ -300,13 +320,152 @@ namespace MaintenanceTicketSystem.Controllers
                 Session["UserRol"] = ddlUsuarios[0].rol.ToString();
                 Session["Category"] = "user";
                 Session["CategoryDesc"] = "user";
+                Session["Depto"] = "user";
                 var nombreusuario = ddlUsuarios[0].nombre.ToString().Split(' ');
                 Session["UserFirstName"] = nombreusuario[0];
 
                 if (ddlUsuarios[0].rol.ToString() == "Supervisor")
                 {
-                    Session["Category"] = ddlUsuarios[0].categoria.ToString();
-                    Session["CategoryDesc"] = ddlUsuarios[0].t_catego.descripcion.ToString();
+                    if (ddlUsuarios[0].depto.ToString() == "MAN")
+                    {
+                        string categoriaUsuario = ddlUsuarios[0].t_catego.descripcion.ToString();
+                        Session["Depto"] = "MAN";
+                        Session["Category"] = ddlUsuarios[0].categoria.ToString();
+                        Session["CategoryDesc"] = ddlUsuarios[0].t_catego.descripcion.ToString();
+
+                    }
+                    if (ddlUsuarios[0].depto.ToString() == "SIS")
+                    {
+                        deptoUsuario = ddlUsuarios[0].depto.ToString();
+                        Session["Depto"] = "SIS";
+                        Session["Category"] = "SIS";
+                        Session["CategoryDesc"] = "Sistemas";
+                    }
+                }
+                if (ddlUsuarios[0].rol.ToString() == "Admin")
+                {
+                    //   t_tickets = t_tickets.OrderBy(x => x.t_estatus.orden).OrderBy(x => x.urgencia).OrderBy(x => x.prioridad).OrderBy(x => x.fecha);
+                    deptoUsuario = ddlUsuarios[0].depto.ToString();
+                    Session["Depto"] = deptoUsuario;
+                }
+
+
+                ViewBag.autorizar = false;
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                t_tickets t_tickets = db.t_tickets.Find(id);
+                if (t_tickets == null)
+                {
+                    return HttpNotFound();
+                }
+
+                List<SelectListItem> prioridad = new List<SelectListItem>();
+                prioridad.Add(new SelectListItem() { Text = t_tickets.prioridad, Value = t_tickets.prioridad });
+
+                prioridad.Add(new SelectListItem() { Text = "Baja", Value = "Baja" });
+                prioridad.Add(new SelectListItem() { Text = "Media", Value = "Media" });
+                prioridad.Add(new SelectListItem() { Text = "Alta", Value = "Alta" });
+
+                if (t_tickets.prioridad != null)
+                {
+                    for (int i = prioridad.Count() - 1; i >= 0; i--)
+                    {
+                        if (prioridad[i].Value.ToString() == t_tickets.prioridad)
+                        {
+                            prioridad.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+
+
+                var areaje = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
+
+
+                if (autorizar != null)
+                {
+                    ViewBag.autorizar = true;
+                    if(!((t_tickets.sup_autoriza == username && t_tickets.ind_autoriza== null)|| (t_tickets.sup_autoriza2 == username && t_tickets.ind_autoriza2 == null) || (t_tickets.sup_autoriza3 == username &&  t_tickets.ind_autoriza3 == null) || (t_tickets.sup_autoriza4 == username && t_tickets.ind_autoriza == null) || (t_tickets.sup_autoriza5 == username && t_tickets.ind_autoriza5 == null)))
+                        ViewBag.IsUser = false;
+                }
+                else
+                {
+                    if (!((t_tickets.u_id == username) || (Session["UserRol"].ToString() == "Supervisor" && t_tickets.categoria == Session["Category"].ToString() && t_tickets.depto == "MAN") || (Session["UserRol"].ToString() == "Admin" && t_tickets.depto == "MAN") || (Session["UserAccount"].ToString() == "mxc01" && t_tickets.depto == "MAN")))
+                        ViewBag.IsUser = false;
+  
+                }
+
+                
+                ViewBag.editarFecha = t_config.editar_fechaseg.ToString();
+
+                ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
+                ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
+                ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "descripcion", t_tickets.equipo);
+                ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
+                ViewBag.tecnico = new SelectList(getTecnicos("", t_tickets.tecnico), "Value", "Text");
+                ViewBag.falla = new SelectList(db.t_fallas, "falla", "descripcion");
+                ViewBag.prioridad = new SelectList(prioridad, "Value", "Text");
+
+                return View(t_tickets);
+            }
+            else
+            {
+                ViewBag.IsUser = false;
+                return View();
+            }
+        }
+
+        public ActionResult EditSis(decimal id, bool? autorizar)
+        {
+            t_config t_config = db.t_config.Find("01");
+            string username = User.Identity.Name.ToString().Substring(11).ToLower();
+           // string username = "hgraysom";
+            var ddlUsuarios = db.t_usuarios.Where(x => x.usuario == username).ToList();
+            string deptoUsuario = "user";
+           
+            if (ddlUsuarios.Any())
+            {
+                ViewBag.IsUser = true;
+                if (ddlUsuarios[0].email.ToString() == t_config.gte_email.ToString())
+                    Session["IsManager"] = true;
+                else
+                    Session["IsManager"] = false;
+                Session["UserAccount"] = ddlUsuarios[0].usuario.ToString();
+                Session["UserName"] = ddlUsuarios[0].nombre.ToString();
+                Session["UserRol"] = ddlUsuarios[0].rol.ToString();
+                Session["Category"] = "user";
+                Session["CategoryDesc"] = "user";
+                Session["Depto"] = "user";
+                var nombreusuario = ddlUsuarios[0].nombre.ToString().Split(' ');
+                Session["UserFirstName"] = nombreusuario[0];
+
+                if (ddlUsuarios[0].rol.ToString() == "Supervisor")
+                {
+                    if (ddlUsuarios[0].depto.ToString() == "MAN")
+                    {
+                        string categoriaUsuario = ddlUsuarios[0].t_catego.descripcion.ToString();
+                        Session["Depto"] = "MAN";
+                        Session["Category"] = ddlUsuarios[0].categoria.ToString();
+                        Session["CategoryDesc"] = ddlUsuarios[0].t_catego.descripcion.ToString();
+
+                    }
+                    if (ddlUsuarios[0].depto.ToString() == "SIS")
+                    {
+                       deptoUsuario = ddlUsuarios[0].depto.ToString();
+                        Session["Depto"] = "SIS";
+                        Session["Category"] = "SIS";
+                        Session["CategoryDesc"] = "Sistemas";
+                    }
+                }
+
+                if (ddlUsuarios[0].rol.ToString() == "Admin")
+                {
+                    //   t_tickets = t_tickets.OrderBy(x => x.t_estatus.orden).OrderBy(x => x.urgencia).OrderBy(x => x.prioridad).OrderBy(x => x.fecha);
+                    deptoUsuario = ddlUsuarios[0].depto.ToString();
+                    Session["Depto"] = deptoUsuario;
                 }
 
                 ViewBag.autorizar = false;
@@ -347,17 +506,17 @@ namespace MaintenanceTicketSystem.Controllers
                 if (autorizar != null)
                 {
                     ViewBag.autorizar = true;
-                    if(!((t_tickets.sup_autoriza == username && t_tickets.ind_autoriza== null)|| (t_tickets.sup_autoriza2 == username && t_tickets.ind_autoriza2 == null) || (t_tickets.sup_autoriza3 == username &&  t_tickets.ind_autoriza3 == null) || (t_tickets.sup_autoriza4 == username && t_tickets.ind_autoriza == null)))
+                    if (!((t_tickets.sup_autoriza == username && t_tickets.ind_autoriza == null) || (t_tickets.sup_autoriza2 == username && t_tickets.ind_autoriza2 == null) || (t_tickets.sup_autoriza3 == username && t_tickets.ind_autoriza3 == null) || (t_tickets.sup_autoriza4 == username && t_tickets.ind_autoriza4 == null) || (t_tickets.sup_autoriza5 == username && t_tickets.ind_autoriza5 == null)))
                         ViewBag.IsUser = false;
                 }
                 else
                 {
-                    if(!((Session["UserRol"].ToString() == "Usuario" && t_tickets.u_id == username)|| (Session["UserRol"].ToString() == "Supervisor" && t_tickets.categoria == ddlUsuarios[0].categoria.ToString()) || (Session["UserRol"].ToString() == "Admin") || (Session["UserRol"].ToString() == "Supervisor" && t_tickets.u_id == username) || (Session["UserAccount"].ToString() == "mxc01" )))
+                    if (!((t_tickets.u_id == username) || (Session["UserRol"].ToString() == "Supervisor"  && t_tickets.depto == "SIS") || (Session["UserRol"].ToString() == "Admin" && t_tickets.depto == "SIS") ))
                         ViewBag.IsUser = false;
-  
+
                 }
 
-                
+
                 ViewBag.editarFecha = t_config.editar_fechaseg.ToString();
 
                 ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
@@ -367,6 +526,7 @@ namespace MaintenanceTicketSystem.Controllers
                 ViewBag.tecnico = new SelectList(getTecnicos("", t_tickets.tecnico), "Value", "Text");
                 ViewBag.falla = new SelectList(db.t_fallas, "falla", "descripcion");
                 ViewBag.prioridad = new SelectList(prioridad, "Value", "Text");
+                ViewBag.sup_revisado = new SelectList(db.t_usuarios.Where(x => (x.rol == "Supervisor" || x.rol == "Admin") && x.depto == "SIS"), "usuario", "nombre");
 
                 return View(t_tickets);
             }
@@ -382,7 +542,7 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado")] t_tickets t_tickets,  string command = "0")
+        public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado,req_autoriza5,sup_autoriza5,sup_fautoriza5,nota_autoriza5,ind_autoriza5")] t_tickets t_tickets,  string command = "0")
         {
             //si viene de una vista para autorizar
             if (command != "0")
@@ -411,6 +571,11 @@ namespace MaintenanceTicketSystem.Controllers
                         t_tickets.sup_fautoriza4 = System.DateTime.Now;
                         t_tickets.ind_autoriza4 = "1";
                     }
+                    if (t_tickets.sup_autoriza5 == username)
+                    {
+                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                        t_tickets.ind_autoriza5 = "1";
+                    }
                 }
                 if (command == "Rechazar")
                 {
@@ -433,6 +598,11 @@ namespace MaintenanceTicketSystem.Controllers
                     {
                         t_tickets.sup_fautoriza4 = System.DateTime.Now;
                         t_tickets.ind_autoriza4 = "0";
+                    }
+                    if (t_tickets.sup_autoriza5 == username)
+                    {
+                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                        t_tickets.ind_autoriza5 = "0";
                     }
                 }
             }
@@ -471,6 +641,109 @@ namespace MaintenanceTicketSystem.Controllers
             return RedirectToAction("Autorizar", "Home");
             else
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditSis([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado,req_autoriza5,sup_autoriza5,sup_fautoriza5,nota_autoriza5,ind_autoriza5")] t_tickets t_tickets, string command = "0")
+        {
+            //si viene de una vista para autorizar
+            if (command != "0")
+            {
+                string username = Session["UserAccount"].ToString();
+
+                if (command == "Autorizar")
+                {
+                    if (t_tickets.sup_autoriza == username)
+                    {
+                        t_tickets.sup_fautoriza = System.DateTime.Now;
+                        t_tickets.ind_autoriza = "1";
+                    }
+                    if (t_tickets.sup_autoriza2 == username)
+                    {
+                        t_tickets.sup_fautoriza2 = System.DateTime.Now;
+                        t_tickets.ind_autoriza2 = "1";
+                    }
+                    if (t_tickets.sup_autoriza3 == username)
+                    {
+                        t_tickets.sup_fautoriza3 = System.DateTime.Now;
+                        t_tickets.ind_autoriza3 = "1";
+                    }
+                    if (t_tickets.sup_autoriza4 == username)
+                    {
+                        t_tickets.sup_fautoriza4 = System.DateTime.Now;
+                        t_tickets.ind_autoriza4 = "1";
+                    }
+                    if (t_tickets.sup_autoriza5 == username)
+                    {
+                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                        t_tickets.ind_autoriza5 = "1";
+                    }
+                }
+                if (command == "Rechazar")
+                {
+                    if (t_tickets.sup_autoriza == username)
+                    {
+                        t_tickets.sup_fautoriza = System.DateTime.Now;
+                        t_tickets.ind_autoriza = "0";
+                    }
+                    if (t_tickets.sup_autoriza2 == username)
+                    {
+                        t_tickets.sup_fautoriza2 = System.DateTime.Now;
+                        t_tickets.ind_autoriza2 = "0";
+                    }
+                    if (t_tickets.sup_autoriza3 == username)
+                    {
+                        t_tickets.sup_fautoriza3 = System.DateTime.Now;
+                        t_tickets.ind_autoriza3 = "0";
+                    }
+                    if (t_tickets.sup_autoriza4 == username)
+                    {
+                        t_tickets.sup_fautoriza4 = System.DateTime.Now;
+                        t_tickets.ind_autoriza4 = "0";
+                    }
+                    if (t_tickets.sup_autoriza5 == username)
+                    {
+                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                        t_tickets.ind_autoriza5 = "0";
+                    }
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (Session["UserRol"].ToString() == "Supervisor")
+                {
+                    t_tickets.sup_revisado = Session["UserAccount"].ToString();
+                }
+
+                if (t_tickets.estatus != "CE")
+                {
+                    t_tickets.falla = null;
+                }
+                t_tickets.f_id = System.DateTime.Now;
+                //t_tickets.u_id = Session["UserAccount"].ToString();
+
+                db.Entry(t_tickets).State = EntityState.Modified;
+
+                db.SaveChanges();
+                if (Session["UserAccount"].ToString() == "mxc01")
+                {
+                    return RedirectToAction("TicketsTecnico", "Home", new { tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
+                }
+                else
+                    return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+            }
+            ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
+            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
+            ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "categoria", t_tickets.equipo);
+            ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
+            ViewBag.tecnico = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.tecnico);
+
+            if (command != "0")
+                return RedirectToAction("Autorizar", "Home");
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         // GET: t_tickets/Delete/5

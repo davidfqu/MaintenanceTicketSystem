@@ -4,30 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c9b45c071359468b805d21bac5a58a61" Name="Diagram1" ZoomLevel="90">
-        <EntityTypeShape EntityType="TicketSystemModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_areas" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_catego" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_config" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_correo_body" Width="1.5" PointX="10" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_correo_dest" Width="1.5" PointX="10" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_correos" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_equipos" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_tickets" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_tickets_img" Width="1.5" PointX="7.625" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_usuarios" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+      <Diagram DiagramId="9d0eca1218df4e91b7e46aaa0de387b4" Name="Diagram1" ZoomLevel="76">
+        <EntityTypeShape EntityType="TicketSystemModel.t_areas" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_catego" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_config" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_depto" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_equipos" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_estatus" Width="1.5" PointX="5.25" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_fallas" Width="1.5" PointX="5.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_tickets" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TicketSystemModel.t_usuarios" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
         <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_areas" ManuallyRouted="false" />
+        <AssociationConnector Association="TicketSystemModel.FK_depto" ManuallyRouted="false" />
         <AssociationConnector Association="TicketSystemModel.FK_equipos_cat" ManuallyRouted="false" />
         <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_catego" ManuallyRouted="false" />
-        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_equipos" ManuallyRouted="false" />
+        <AssociationConnector Association="TicketSystemModel.FK_t_usuarios_t_catego" ManuallyRouted="false" />
+        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_depto" ManuallyRouted="false" />
+        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_equipo" ManuallyRouted="false" />
+        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_estatus" ManuallyRouted="false" />
+        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_fallas" ManuallyRouted="false" />
         <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_usuarios" ManuallyRouted="false" />
-        <AssociationConnector Association="TicketSystemModel.FK_tickets_img_folio" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_fallas" Width="1.5" PointX="7.375" PointY="3.875" />
-        <AssociationConnector Association="TicketSystemModel.FK_t_usuarios_t_catego" />
-        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_fallas" />
-        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_usuarios11" />
-        <EntityTypeShape EntityType="TicketSystemModel.t_estatus" Width="1.5" PointX="12.375" PointY="0.875" />
-        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_estatus" />
+        <AssociationConnector Association="TicketSystemModel.FK_t_tickets_t_usuarios1" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

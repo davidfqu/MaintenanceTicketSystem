@@ -50,11 +50,11 @@
         </dd>
 
         <dt>
-           Departamento
+           Departamento Usuario
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.depto)
+            @Html.DisplayFor(model => model.depto_tress)
         </dd>
 
         <dt>
@@ -80,6 +80,26 @@
         <dd>
             @Html.DisplayFor(model => model.rol)
         </dd>
+
+        @if (Model.depto != null)
+        {
+            <dt>
+               Departamento
+            </dt>
+            if (Model.depto == "SIS")
+            {
+                <dd>
+                    Sistemas
+                </dd>
+            }
+            if (Model.depto == "MAN")
+            {
+                <dd>
+                    Mantenimiento
+                </dd>
+            }
+
+        }
 
         @if (Model.categoria != null)
         {

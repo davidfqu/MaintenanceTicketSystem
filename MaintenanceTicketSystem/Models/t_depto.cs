@@ -12,27 +12,22 @@ namespace MaintenanceTicketSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class t_catego
+    public partial class t_depto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public t_catego()
+        public t_depto()
         {
-            this.t_equipos = new HashSet<t_equipos>();
+            this.t_catego = new HashSet<t_catego>();
             this.t_tickets = new HashSet<t_tickets>();
-            this.t_usuarios = new HashSet<t_usuarios>();
         }
     
         public string depto { get; set; }
-        public string categoria { get; set; }
         public string descripcion { get; set; }
         public string nota { get; set; }
     
-        public virtual t_depto t_depto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_equipos> t_equipos { get; set; }
+        public virtual ICollection<t_catego> t_catego { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_tickets> t_tickets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_usuarios> t_usuarios { get; set; }
     }
 }

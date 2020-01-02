@@ -21,6 +21,7 @@ namespace MaintenanceTicketSystem.Models
         {
             this.t_tickets = new HashSet<t_tickets>();
         }
+
         [MaxLength(10, ErrorMessage = "Máximo 10 caracteres")]
         [Remote("existe", "t_fallas", HttpMethod = "POST", ErrorMessage = "Esta clave ya existe")]
         [Required(ErrorMessage = "Campo Obligatorio")]

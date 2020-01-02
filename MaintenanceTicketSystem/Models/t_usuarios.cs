@@ -13,15 +13,15 @@ namespace MaintenanceTicketSystem.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
-
     public partial class t_usuarios
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public t_usuarios()
         {
             this.t_tickets = new HashSet<t_tickets>();
-            this.t_tickets11 = new HashSet<t_tickets>();
+            this.t_tickets1 = new HashSet<t_tickets>();
         }
+
         [Remote("existe", "t_usuarios", HttpMethod = "POST", ErrorMessage = "Esta usuario ya existe")]
         [Required(ErrorMessage = "Campo Obligatorio")]
         public string usuario { get; set; }
@@ -39,11 +39,12 @@ namespace MaintenanceTicketSystem.Models
         public string u_id { get; set; }
         public Nullable<System.DateTime> f_id { get; set; }
         public string categoria { get; set; }
+        public string depto_tress { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_tickets> t_tickets { get; set; }
         public virtual t_catego t_catego { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_tickets> t_tickets11 { get; set; }
+        public virtual ICollection<t_tickets> t_tickets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<t_tickets> t_tickets1 { get; set; }
     }
 }

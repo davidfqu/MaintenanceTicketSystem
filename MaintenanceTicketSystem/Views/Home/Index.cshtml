@@ -35,12 +35,22 @@ else
                 
                 @if (Session["UserRol"].ToString() == "Supervisor")
                 {
-                    <p class="lead" style="font-size:2rem">@Session["CategoryDesc"].ToString()</p>
+                    <p class="lead" style="font-size:2rem">@Session["CategoryDesc"].ToString() - Supervisor</p>
                 }
                 @if (Session["UserRol"].ToString() == "Usuario")
                 {
-                    <p class="lead" style="font-size:2rem">Tus tickets de mantenimiento</p>
-
+                    <p class="lead" style="font-size:2rem">Tus tickets solicitados</p>
+                }
+                @if (Session["UserRol"].ToString() == "Admin")
+                {
+                    if (Session["Depto"].ToString() == "SIS")
+                    {
+                        <p class="lead" style="font-size:2rem">Sistemas - Admin</p>
+                    }
+                    if (Session["Depto"].ToString() == "MAN")
+                    {
+                        <p class="lead" style="font-size:2rem">Mantenimiento - Admin</p>
+                    }
                 }
                 
             </div>
@@ -73,7 +83,7 @@ else
                                     <option>Folio</option>
                                     <option>Descripción</option>
                                 }
-                                if (ViewBag.CurrentSearch == "Descripción")
+                                if (ViewBag.CurrentSearch == "Categoría")
                                 {
                                     <option>Folio</option>
                                     <option>Usuario</option>
@@ -87,7 +97,7 @@ else
                                     <option>Descripción</option>
                                 }
 
-                                if (ViewBag.CurrentSearch == "Descripción")
+                                if (ViewBag.CurrentSearch == "Categoría")
                                 {
                                     <option>Folio</option>
                                 }
@@ -104,7 +114,7 @@ else
                                     <option>Folio</option>
                                     <option>Descripción</option>
                                 }
-                                if (ViewBag.CurrentSearch == "Descripción")
+                                if (ViewBag.CurrentSearch == "Categoría")
                                 {
                                     <option>Folio</option>
                                     <option>Usuario</option>
@@ -118,19 +128,19 @@ else
                             if (Session["UserRol"].ToString() == "Usuario")
                             {
                                 <option>Folio</option>
-                                <option>Descripción</option>
+                                <option>Categoría</option>
                             }
                             if (Session["UserRol"].ToString() == "Supervisor")
                             {
                                 <option>Folio</option>
                                 <option>Usuario</option>
-                                <option>Descripción</option>
+                                <option>Categoría</option>
                             }
                             if (Session["UserRol"].ToString() == "Admin")
                             {
                                 <option>Folio</option>
                                 <option>Usuario</option>
-                                <option>Descripción</option>
+                                <option>Categoría</option>
                             }
 
                         }
@@ -160,22 +170,25 @@ else
 <!-- Tickets Usuario-->
     if (Session["UserRol"].ToString() == "Usuario")
     {
-            <table class="table">
+            <table class="table table-hover">
                 <tr>
                     <th>
                         @Html.ActionLink("Folio", "Index", new { sortOrder = ViewBag.FolioSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
                     </th>
                     <th>
-                        <label>Fecha y hora</label>
+                        @Html.ActionLink("Estatus", "Index", new { sortOrder = ViewBag.EstatusSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
                     </th>
                     <th>
-                        @Html.ActionLink("Estatus", "Index", new { sortOrder = ViewBag.EstatusSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+                       @Html.ActionLink("Departamento", "Index", new { sortOrder = ViewBag.DepartamentoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
                     </th>
                     <th>
                         @Html.ActionLink("Categoría", "Index", new { sortOrder = ViewBag.CategoriaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
                     </th>
                     <th>
-                        <label>Descripción</label>
+                        @Html.ActionLink("Ubicación", "Index", new { sortOrder = ViewBag.UbicacionSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Fecha y hora", "Index", new { sortOrder = ViewBag.FechaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
                     </th>
                     <th>
                         @Html.ActionLink("Fecha Compromiso", "Index", new { sortOrder = ViewBag.FCompromisoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
@@ -184,18 +197,29 @@ else
 
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    string editt = "Edit";
+                    if (item.depto == "SIS")
+                    {
+                        editt = "EditSis";
+                    }
+
+                    <tr class="table-row" style="cursor:pointer;" data-href= @Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
                         <td>
-                            @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                            @if (item.depto == "MAN")
+                            {
+                                @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                            }
+                           @if (item.depto == "SIS")
+                           {
+                            @Html.ActionLink(item.folio.ToString(), "EditSis", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                           }
                             @if (item.urgencia.ToString() != "0")
                             {
                                 <span class="badge badge-pill badge-warning">!</span>
                             }
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.fecha)
-                        </td>
-                        @if ((item.req_autoriza == "1" && item.ind_autoriza != "1") || (item.req_autoriza2 == "1" && item.ind_autoriza2 != "1") || (item.req_autoriza3 == "1" && item.ind_autoriza3 != "1") || (item.req_autoriza4 == "1" && item.ind_autoriza4 != "1"))
+                       
+                        @if ((item.req_autoriza == "1" && item.ind_autoriza != "1") || (item.req_autoriza2 == "1" && item.ind_autoriza2 != "1") || (item.req_autoriza3 == "1" && item.ind_autoriza3 != "1") || (item.req_autoriza4 == "1" && item.ind_autoriza4 != "1") || (item.req_autoriza5 == "1" && item.ind_autoriza5 != "1"))
                         {
                             <td>
                                 <span class="text-danger">@Html.DisplayFor(modelItem => item.t_estatus.descripcion)</span>
@@ -207,11 +231,20 @@ else
                                 @Html.DisplayFor(modelItem => item.t_estatus.descripcion)
                             </td>
                         }
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.t_depto.descripcion)
+                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.t_catego.descripcion)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.descripcion)
+                            @Html.DisplayFor(modelItem => item.t_areas.descripcion)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fecha)
                         </td>
                         <td>
                             @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.f_compromiso))
@@ -226,34 +259,35 @@ else
 <!-- Tickets Supervisor-->
 if (Session["UserRol"].ToString() == "Supervisor")
 {
-    <table class="table">
+    <table class="table  table-hover">
         <tr>
             <th>
                 @Html.ActionLink("Folio", "Index", new { sortOrder = ViewBag.FolioSortParm, currentFilter = ViewBag.CurrentFilter,searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Usuario</label>
+                @Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.UsuarioSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
                 @Html.ActionLink("Estatus", "Index", new { sortOrder = ViewBag.EstatusSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Ubicación</label>
+                @Html.ActionLink("Categoría", "Index", new { sortOrder = ViewBag.CategoriaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Fecha y hora</label>
+                @Html.ActionLink("Ubicación", "Index", new { sortOrder = ViewBag.UbicacionSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Descripción</label>
+               @Html.ActionLink("Fecha y hora", "Index", new { sortOrder = ViewBag.FechaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
+
             <th>
                 @Html.ActionLink("Fecha Compromiso", "Index", new { sortOrder = ViewBag.FCompromisoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Prioridad</label>
+                @Html.ActionLink("Prioridad", "Index", new { sortOrder = ViewBag.PrioridadSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Técnico asignado</label>
+                @Html.ActionLink("Supervisor", "Index", new { sortOrder = ViewBag.SupervisorSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             
 
@@ -261,9 +295,21 @@ if (Session["UserRol"].ToString() == "Supervisor")
 
         @foreach (var item in Model)
         {
-            <tr>
+            string editt = "Edit";
+            if (item.depto == "SIS")
+            {
+                editt = "EditSis";
+            }
+            <tr class="table-row" style="cursor:pointer;" data-href=@Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
                 <td>
-                    @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio }, null)
+                    @if (item.depto == "MAN")
+                    {
+                        @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                    }
+                    @if (item.depto == "SIS")
+                    {
+                        @Html.ActionLink(item.folio.ToString(), "EditSis", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                    }
                     @if (item.urgencia.ToString() != "0")
                     {
                         <span class="badge badge-pill badge-warning">!</span>
@@ -273,7 +319,7 @@ if (Session["UserRol"].ToString() == "Supervisor")
                 <td>
                     @Html.DisplayFor(modelItem => item.u_id)
                 </td>
-                @if ((item.req_autoriza == "1" && item.ind_autoriza != "1") || (item.req_autoriza2 == "1" && item.ind_autoriza2 != "1") || (item.req_autoriza3 == "1" && item.ind_autoriza3 != "1") || (item.req_autoriza4 == "1" && item.ind_autoriza4 != "1"))
+                @if ((item.req_autoriza == "1" && item.ind_autoriza != "1") || (item.req_autoriza2 == "1" && item.ind_autoriza2 != "1") || (item.req_autoriza3 == "1" && item.ind_autoriza3 != "1") || (item.req_autoriza4 == "1" && item.ind_autoriza4 != "1") || (item.req_autoriza5 == "1" && item.ind_autoriza5 != "1"))
                 {
                     <td>
                         <span class="text-danger">@Html.DisplayFor(modelItem => item.t_estatus.descripcion)</span>
@@ -285,15 +331,17 @@ if (Session["UserRol"].ToString() == "Supervisor")
                         @Html.DisplayFor(modelItem => item.t_estatus.descripcion)
                     </td>
                 }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.t_catego.descripcion)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.t_areas.descripcion)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.fecha)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.descripcion)
-                </td>
+
                 <td>
                     @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.f_compromiso))
                 </td>
@@ -301,9 +349,9 @@ if (Session["UserRol"].ToString() == "Supervisor")
                     @Html.DisplayFor(modelItem => item.prioridad)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.tecnico)
+                    @Html.DisplayFor(modelItem => item.t_usuarios1.nombre)
                 </td>
-               
+
 
             </tr>
         }
@@ -313,34 +361,34 @@ if (Session["UserRol"].ToString() == "Supervisor")
 
 if (Session["UserRol"].ToString() == "Admin")
 {
-    <table class="table">
+    <table class="table  table-hover">
         <tr>
             <th>
                 @Html.ActionLink("Folio", "Index", new { sortOrder = ViewBag.FolioSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Usuario</label>
+                @Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.UsuarioSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
                 @Html.ActionLink("Estatus", "Index", new { sortOrder = ViewBag.EstatusSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Ubicación</label>
+                @Html.ActionLink("Ubicación", "Index", new { sortOrder = ViewBag.UbicacionSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Fecha y hora</label>
+                @Html.ActionLink("Fecha y hora", "Index", new { sortOrder = ViewBag.FechaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
                 @Html.ActionLink("Categoría", "Index", new { sortOrder = ViewBag.CategoriaSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Supervisor</label>
+                @Html.ActionLink("Supervisor", "Index", new { sortOrder = ViewBag.SupervisorSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
                 @Html.ActionLink("Fecha Compromiso", "Index", new { sortOrder = ViewBag.FCompromisoSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
             <th>
-                <label>Prioridad</label>
+                @Html.ActionLink("Prioridad", "Index", new { sortOrder = ViewBag.PrioridadSortParm, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch })
             </th>
 
 
@@ -349,20 +397,32 @@ if (Session["UserRol"].ToString() == "Admin")
 
         @foreach (var item in Model)
         {
-            <tr>
+            string editt = "Edit";
+            if (item.depto == "SIS")
+            {
+                editt = "EditSis";
+            }
+            
+            <tr class="table-row" style="cursor:pointer;" data-href=@Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
                 <td>
-                    @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio }, null)
+                    @if (item.depto == "MAN")
+                    {
+                        @Html.ActionLink(item.folio.ToString(), "Edit", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                    }
+                    @if (item.depto == "SIS")
+                    {
+                        @Html.ActionLink(item.folio.ToString(), "EditSis", "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)
+                    }
                     @if (item.urgencia.ToString() != "0")
                     {
                         <span class="badge badge-pill badge-warning">!</span>
                     }
-                    
                 </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.u_id)
                 </td>
-                @if ((item.req_autoriza == "1" && item.ind_autoriza != "1") || (item.req_autoriza2 == "1" && item.ind_autoriza2 != "1") || (item.req_autoriza3 == "1" && item.ind_autoriza3 != "1") || (item.req_autoriza4 == "1" && item.ind_autoriza4 != "1"))
+                @if ((item.req_autoriza == "1" && item.ind_autoriza != "1") || (item.req_autoriza2 == "1" && item.ind_autoriza2 != "1") || (item.req_autoriza3 == "1" && item.ind_autoriza3 != "1") || (item.req_autoriza4 == "1" && item.ind_autoriza4 != "1") || (item.req_autoriza5 == "1" && item.ind_autoriza5 != "1"))
                 {
                     <td>
                         <span class="text-danger">@Html.DisplayFor(modelItem => item.t_estatus.descripcion)</span>
@@ -384,7 +444,7 @@ if (Session["UserRol"].ToString() == "Admin")
                     @Html.DisplayFor(modelItem => item.t_catego.descripcion)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.t_usuarios11.nombre)
+                    @Html.DisplayFor(modelItem => item.t_usuarios1.nombre)
                 </td>
                 <td>
                     @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.f_compromiso))
@@ -407,21 +467,28 @@ if (Session["UserRol"].ToString() == "Admin")
 
 }
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+
+<div id="exampleModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Simbología</h5>
+                <h5 class="modal-title"> Info Menú</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <p>
+                    <h6>Simbología</h6>
                     <span class="badge badge-pill badge-warning">!</span> =  Urgente
                     <br />
                     <span class="text-danger"> Revisión </span> = Esperando autorización
                 </p>
+                <h6>Guía</h6>
+                <div class="container" style="height:400px; width:750px">
+                    <img style="max-width:100%;height:400px; object-fit: contain" src="~/img/Ayuda Menu.PNG" />
+                </div>
+
             </div>
         </div>
     </div>
@@ -431,7 +498,12 @@ if (Session["UserRol"].ToString() == "Admin")
 }
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
+
+        $(".table-row").click(function () {
+            window.document.location = $(this).data("href");
+        });
+
     $("#bienvenida").fadeIn(3000);
     $('[data-toggle="tooltip"]').tooltip();
     @if(ViewBag.ticketcreado ==true)

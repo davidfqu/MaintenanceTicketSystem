@@ -25,18 +25,14 @@ namespace MaintenanceTicketSystem.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<t_areas> t_areas { get; set; }
         public virtual DbSet<t_catego> t_catego { get; set; }
         public virtual DbSet<t_config> t_config { get; set; }
-        public virtual DbSet<t_correo_body> t_correo_body { get; set; }
-        public virtual DbSet<t_correo_dest> t_correo_dest { get; set; }
-        public virtual DbSet<t_correos> t_correos { get; set; }
+        public virtual DbSet<t_depto> t_depto { get; set; }
         public virtual DbSet<t_equipos> t_equipos { get; set; }
-        public virtual DbSet<t_tickets> t_tickets { get; set; }
-        public virtual DbSet<t_tickets_img> t_tickets_img { get; set; }
-        public virtual DbSet<t_usuarios> t_usuarios { get; set; }
-        public virtual DbSet<t_fallas> t_fallas { get; set; }
         public virtual DbSet<t_estatus> t_estatus { get; set; }
+        public virtual DbSet<t_fallas> t_fallas { get; set; }
+        public virtual DbSet<t_tickets> t_tickets { get; set; }
+        public virtual DbSet<t_usuarios> t_usuarios { get; set; }
     }
 }

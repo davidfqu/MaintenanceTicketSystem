@@ -228,7 +228,6 @@
     <Compile Include="Controllers\t_equiposController.cs" />
     <Compile Include="Controllers\t_fallasController.cs" />
     <Compile Include="Controllers\t_ticketsController.cs" />
-    <Compile Include="Controllers\t_tickets_imgController.cs" />
     <Compile Include="Controllers\t_usuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -236,9 +235,6 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>TicketSystem.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TicketSystem.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -263,13 +259,7 @@
     <Compile Include="Models\t_config.cs">
       <DependentUpon>TicketSystem.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\t_correos.cs">
-      <DependentUpon>TicketSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\t_correo_body.cs">
-      <DependentUpon>TicketSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\t_correo_dest.cs">
+    <Compile Include="Models\t_depto.cs">
       <DependentUpon>TicketSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\t_equipos.cs">
@@ -282,9 +272,6 @@
       <DependentUpon>TicketSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\t_tickets.cs">
-      <DependentUpon>TicketSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\t_tickets_img.cs">
       <DependentUpon>TicketSystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\t_usuarios.cs">
@@ -343,9 +330,10 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\Ayuda Menu.PNG" />
+    <Content Include="img\Guía Rápida de Usuario Service Desk.png" />
     <Content Include="img\logo3.png" />
     <Content Include="img\medline-logo.png" />
     <Content Include="Models\TicketSystem.Context.tt">
@@ -362,13 +350,6 @@
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="Models\TicketSystem.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TicketSystem.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\TicketSystem.edmx.diagram">
-      <DependentUpon>TicketSystem.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -396,6 +377,13 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <EntityDeploy Include="Models\TicketSystem.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TicketSystem.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TicketSystem.edmx.diagram">
+      <DependentUpon>TicketSystem.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -423,6 +411,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="favicon.ico" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -499,10 +488,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Autorizar.cshtml" />
     <Content Include="Views\t_config\Edit.cshtml" />
-    <Content Include="Views\t_config\Index.cshtml" />
     <Content Include="Views\Home\IndexTecnico.cshtml" />
     <Content Include="Views\Home\TicketsTecnico.cshtml" />
     <Content Include="Views\t_tickets\Dashboard.cshtml" />
+    <Content Include="Views\t_tickets\EditSis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,12 +14,6 @@ namespace MaintenanceTicketSystem.Models
     
     public partial class t_tickets
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public t_tickets()
-        {
-            this.t_tickets_img = new HashSet<t_tickets_img>();
-        }
-    
         public decimal folio { get; set; }
         public string planta { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
@@ -83,15 +77,19 @@ namespace MaintenanceTicketSystem.Models
         public string imagen_path { get; set; }
         public Nullable<System.DateTime> f_terminado { get; set; }
         public string n_terminado { get; set; }
+        public string req_autoriza5 { get; set; }
+        public string sup_autoriza5 { get; set; }
+        public string nota_autoriza5 { get; set; }
+        public Nullable<System.DateTime> sup_fautoriza5 { get; set; }
+        public string ind_autoriza5 { get; set; }
     
         public virtual t_areas t_areas { get; set; }
         public virtual t_catego t_catego { get; set; }
+        public virtual t_depto t_depto { get; set; }
         public virtual t_equipos t_equipos { get; set; }
-        public virtual t_usuarios t_usuarios { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<t_tickets_img> t_tickets_img { get; set; }
-        public virtual t_fallas t_fallas { get; set; }
-        public virtual t_usuarios t_usuarios11 { get; set; }
         public virtual t_estatus t_estatus { get; set; }
+        public virtual t_fallas t_fallas { get; set; }
+        public virtual t_usuarios t_usuarios { get; set; }
+        public virtual t_usuarios t_usuarios1 { get; set; }
     }
 }

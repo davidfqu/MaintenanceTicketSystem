@@ -14,7 +14,6 @@ namespace MaintenanceTicketSystem.Models
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
-
     public partial class t_equipos
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,11 +24,12 @@ namespace MaintenanceTicketSystem.Models
     
         public string categoria { get; set; }
         [MaxLength(10, ErrorMessage = "Máximo 10 caracteres")]
-        [Remote("existe", "t_equipos", HttpMethod = "POST", ErrorMessage = "Esta clave ya existe")]
+        [Remote("existe", "t_equipos", AdditionalFields ="categoria" , HttpMethod = "POST", ErrorMessage = "Esta clave ya existe")]
         [Required(ErrorMessage = "Campo Obligatorio")]
         public string equipo { get; set; }
         [Required(ErrorMessage = "Campo Obligatorio")]
         public string descripcion { get; set; }
+        public string depto { get; set; }
     
         public virtual t_catego t_catego { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

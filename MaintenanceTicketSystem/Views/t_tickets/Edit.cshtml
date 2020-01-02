@@ -27,11 +27,22 @@
 else
 {
     <br>
-    <h2>Ticket #@Model.folio.ToString()</h2>
+    <h2>Ticket #@Model.folio.ToString() <small>Mantenimiento</small> </h2>
 
     <h4 id="badgeautoriza"style="display:none"><span  class="badge badge-primary">En espera de autorización</span></h4>
         <br>
-        <h4>Solicitud</h4><hr>
+    <div class="form-row">
+        <div class="col-md-6">
+            <h4>Solicitud</h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Solicitante</h4>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+     
         using (Html.BeginForm())
         {
         @Html.AntiForgeryToken()
@@ -41,7 +52,7 @@ else
         <div class="form-row">
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-           @Html.HiddenFor(model => model.imagen_path)
+            @Html.HiddenFor(model => model.imagen_path)
             @Html.HiddenFor(model => model.actividades)
             @Html.HiddenFor(model => model.area)
             @Html.HiddenFor(model => model.categoria)
@@ -108,6 +119,12 @@ else
             @Html.HiddenFor(model => model.nota_autoriza4)
             @Html.HiddenFor(model => model.sup_autoriza4)
             @Html.HiddenFor(model => model.sup_fautoriza4)
+
+            @Html.HiddenFor(model => model.req_autoriza5)
+            @Html.HiddenFor(model => model.ind_autoriza5)
+            @Html.HiddenFor(model => model.nota_autoriza5)
+            @Html.HiddenFor(model => model.sup_autoriza5)
+            @Html.HiddenFor(model => model.sup_fautoriza5)
             <!-- SOLICITUD  -->
 
             <div class="form-group col-md-6">
@@ -134,8 +151,8 @@ else
                 <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
             </div>
             <div class="form-group col-md-6">
-                <label>Departamento</label>
-                @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <label>Departamento Usuario</label>
+                <input class="form-control" id="udeptotress" readonly>
             </div>
 
             <div class="form-group col-md-6">
@@ -161,7 +178,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Correo</label>
-                <input class="form-control" id="ucorreo" readonly >
+                <input class="form-control" id="ucorreo" readonly>
             </div>
 
             <div class="form-group col-md-12">
@@ -183,7 +200,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Supervisor</label>
-                @Html.EditorFor(model => model.t_usuarios11.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.t_usuarios1.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 <br>
                 <label>Prioridad</label>
                 @Html.EditorFor(model => model.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -200,19 +217,23 @@ else
 
                 @if (Model.sup_autoriza == Session["UserAccount"].ToString())
                 {
-                    @Html.TextAreaFor(model => model.nota_autoriza, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.nota_autoriza, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
                 }
                 @if (Model.sup_autoriza2 == Session["UserAccount"].ToString())
                 {
-                    @Html.TextAreaFor(model => model.nota_autoriza2, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.nota_autoriza2, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
                 }
                 @if (Model.sup_autoriza3 == Session["UserAccount"].ToString())
                 {
-                    @Html.TextAreaFor(model => model.nota_autoriza3, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.nota_autoriza3, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
                 }
                 @if (Model.sup_autoriza4 == Session["UserAccount"].ToString())
                 {
-                    @Html.TextAreaFor(model => model.nota_autoriza4, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.nota_autoriza4, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
+                }
+                @if (Model.sup_autoriza5 == Session["UserAccount"].ToString())
+                {
+                @Html.TextAreaFor(model => model.nota_autoriza5, new { @class = "form-control", @rows = "13", @readonly = "readonly" })
                 }
             </div>
 
@@ -237,1053 +258,1047 @@ else
         }
         else
         {
-            if (Session["UserRol"].ToString() == "Usuario" || (Session["UserRol"].ToString() == "Supervisor" && Model.u_id == Session["UserAccount"].ToString() && Model.categoria != Session["Category"].ToString()))
-            {
-                if (Session["UserAccount"].ToString() == "mxc01")
-                {
-                    <div class="form-row">
+        if (Session["UserRol"].ToString() == "Usuario" || (Session["UserRol"].ToString() == "Supervisor" && Model.u_id == Session["UserAccount"].ToString() && Model.categoria != Session["Category"].ToString()) || (Session["UserRol"].ToString() == "Admin" && Model.u_id == Session["UserAccount"].ToString() && Model.depto != Session["Depto"].ToString()))
+        {
+        if (Session["UserAccount"].ToString() == "mxc01")
+        {
+        <div class="form-row">
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.imagen_path)
-                        @Html.HiddenFor(model => model.area)
-                        @Html.HiddenFor(model => model.categoria)
-                        @Html.HiddenFor(model => model.depto)
-                        @Html.HiddenFor(model => model.duracion)
-                        @Html.HiddenFor(model => model.equipo)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.imagen_path)
+            @Html.HiddenFor(model => model.area)
+            @Html.HiddenFor(model => model.categoria)
+            @Html.HiddenFor(model => model.depto)
+            @Html.HiddenFor(model => model.duracion)
+            @Html.HiddenFor(model => model.equipo)
 
-                        @Html.HiddenFor(model => model.fecha)
-                        @Html.HiddenFor(model => model.folio)
+            @Html.HiddenFor(model => model.fecha)
+            @Html.HiddenFor(model => model.folio)
 
-                        @Html.HiddenFor(model => model.f_cancela)
+            @Html.HiddenFor(model => model.f_cancela)
 
-                        @Html.HiddenFor(model => model.f_compromiso)
-                        @Html.HiddenFor(model => model.f_detenido)
-
-
-                        @Html.HiddenFor(model => model.f_id)
-                        @Html.HiddenFor(model => model.n_aprovacion)
-                        @Html.HiddenFor(model => model.n_revisado)
-                        @Html.HiddenFor(model => model.n_cerrado)
-                        @Html.HiddenFor(model => model.f_cerrado)
-                        @Html.HiddenFor(model => model.f_aprovacion)
-                        @Html.HiddenFor(model => model.f_revisado)
-
-                        @Html.HiddenFor(model => model.f_requerida)
-
-                        @Html.HiddenFor(model => model.ind_cancelado)
-                        @Html.HiddenFor(model => model.ind_entrega)
-                        @Html.HiddenFor(model => model.nota_cancel)
+            @Html.HiddenFor(model => model.f_compromiso)
+            @Html.HiddenFor(model => model.f_detenido)
 
 
-                        @Html.HiddenFor(model => model.n_detenido)
+            @Html.HiddenFor(model => model.f_id)
+            @Html.HiddenFor(model => model.n_aprovacion)
+            @Html.HiddenFor(model => model.n_revisado)
+            @Html.HiddenFor(model => model.n_cerrado)
+            @Html.HiddenFor(model => model.f_cerrado)
+            @Html.HiddenFor(model => model.f_aprovacion)
+            @Html.HiddenFor(model => model.f_revisado)
 
-                        @Html.HiddenFor(model => model.prioridad)
+            @Html.HiddenFor(model => model.f_requerida)
 
-                        @Html.HiddenFor(model => model.req_autoriza)
-                        @Html.HiddenFor(model => model.req_autoriza2)
-                        @Html.HiddenFor(model => model.sup_autoriza)
-                        @Html.HiddenFor(model => model.planta)
-                        @Html.HiddenFor(model => model.sup_autoriza2)
-                        @Html.HiddenFor(model => model.sup_fautoriza)
-                        @Html.HiddenFor(model => model.sup_fautoriza2)
-                        @Html.HiddenFor(model => model.sup_revisado)
-                        @Html.HiddenFor(model => model.tecnico)
-                        @Html.HiddenFor(model => model.turno)
-                        @Html.HiddenFor(model => model.descripcion)
-                        @Html.HiddenFor(model => model.u_id)
-                        @Html.HiddenFor(model => model.urgencia)
-                        @Html.HiddenFor(model => model.req_autoriza3)
-                        @Html.HiddenFor(model => model.sup_autoriza3)
-                        @Html.HiddenFor(model => model.sup_fautoriza3)
-
-                        @Html.HiddenFor(model => model.ind_autoriza)
-                        @Html.HiddenFor(model => model.ind_autoriza2)
-                        @Html.HiddenFor(model => model.ind_autoriza3)
-                        @Html.HiddenFor(model => model.nota_autoriza)
-                        @Html.HiddenFor(model => model.nota_autoriza2)
-                        @Html.HiddenFor(model => model.nota_autoriza3)
-
-                        @Html.HiddenFor(model => model.sup_autoriza4)
-                        @Html.HiddenFor(model => model.sup_fautoriza4)
-                        @Html.HiddenFor(model => model.ind_autoriza)
-                        @Html.HiddenFor(model => model.req_autoriza4)
-                        @Html.HiddenFor(model => model.nota_autoriza4)
+            @Html.HiddenFor(model => model.ind_cancelado)
+            @Html.HiddenFor(model => model.ind_entrega)
+            @Html.HiddenFor(model => model.nota_cancel)
 
 
+            @Html.HiddenFor(model => model.n_detenido)
 
-                        <!-- SOLICITUD  -->
+            @Html.HiddenFor(model => model.prioridad)
 
-                        <div class="form-group col-md-6">
-                            <label>Ubicación</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Nombre</label>
-                            <input class="form-control" id="unombre" readonly  value="">
-                        </div>
+            @Html.HiddenFor(model => model.req_autoriza)
+            @Html.HiddenFor(model => model.req_autoriza2)
+            @Html.HiddenFor(model => model.sup_autoriza)
+            @Html.HiddenFor(model => model.planta)
+            @Html.HiddenFor(model => model.sup_autoriza2)
+            @Html.HiddenFor(model => model.sup_fautoriza)
+            @Html.HiddenFor(model => model.sup_fautoriza2)
+            @Html.HiddenFor(model => model.sup_revisado)
+            @Html.HiddenFor(model => model.tecnico)
+            @Html.HiddenFor(model => model.turno)
+            @Html.HiddenFor(model => model.descripcion)
+            @Html.HiddenFor(model => model.u_id)
+            @Html.HiddenFor(model => model.urgencia)
+            @Html.HiddenFor(model => model.req_autoriza3)
+            @Html.HiddenFor(model => model.sup_autoriza3)
+            @Html.HiddenFor(model => model.sup_fautoriza3)
 
-                        <div class="form-group col-md-6">
-                            <label>Categoría</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Usuario Windows</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
-                        </div>
+            @Html.HiddenFor(model => model.ind_autoriza)
+            @Html.HiddenFor(model => model.ind_autoriza2)
+            @Html.HiddenFor(model => model.ind_autoriza3)
+            @Html.HiddenFor(model => model.nota_autoriza)
+            @Html.HiddenFor(model => model.nota_autoriza2)
+            @Html.HiddenFor(model => model.nota_autoriza3)
 
-                        <div class="form-group col-md-6">
-                            <label>Equipo</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Departamento</label>
-                            @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
-                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-                        </div>
+            @Html.HiddenFor(model => model.sup_autoriza4)
+            @Html.HiddenFor(model => model.sup_fautoriza4)
+            @Html.HiddenFor(model => model.ind_autoriza)
+            @Html.HiddenFor(model => model.req_autoriza4)
+            @Html.HiddenFor(model => model.nota_autoriza4)
+            @Html.HiddenFor(model => model.req_autoriza5)
+            @Html.HiddenFor(model => model.ind_autoriza5)
+            @Html.HiddenFor(model => model.nota_autoriza5)
+            @Html.HiddenFor(model => model.sup_autoriza5)
+            @Html.HiddenFor(model => model.sup_fautoriza5)
 
 
-                        <div class="form-group col-md-6">
-                            <label>Turno</label>
-                            <input class="form-control" id="uturno" readonly>
-                            <br>
-                            <label>Puesto</label>
-                            <input class="form-control" id="upuesto" readonly value="">
-                        </div>
+            <!-- SOLICITUD  -->
 
-                        <div class="form-group col-md-6">
-                            <label>Fecha Requerida</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Ubicación</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input class="form-control" id="unombre" readonly value="">
+            </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Correo</label>
-                            <input class="form-control" id="ucorreo" readonly>
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Categoría</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Usuario Windows</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
+            </div>
 
-                        @if (Model.imagen_path != null)
+            <div class="form-group col-md-6">
+                <label>Equipo</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Departamento Usuario</label>
+                <input class="form-control" id="udeptotress" readonly>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <label>Turno</label>
+                <input class="form-control" id="uturno" readonly>
+                <br>
+                <label>Puesto</label>
+                <input class="form-control" id="upuesto" readonly value="">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Fecha Requerida</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Correo</label>
+                <input class="form-control" id="ucorreo" readonly>
+            </div>
+
+            @if (Model.imagen_path != null)
                         {
-                            <div class="form-group col-md-12">
-                                <label>Imagen</label>
-                                <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
-                            </div>
+                        <div class="form-group col-md-12">
+                            <label>Imagen</label>
+                            <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
+                        </div>
                         }
 
-                        <div class="form-group col-md-12">
-                            <label id="lupro">Urgente (Afecta producción)<span class="badge badge-pill badge-warning">!</span></label>
-                            <label id="luseg">Urgente (Afecta seguridad)<span class="badge badge-pill badge-primary">!</span></label>
-                        </div>
+            <div class="form-group col-md-12">
+                <label id="lupro">Urgente (Afecta producción)<span class="badge badge-pill badge-warning">!</span></label>
+                <label id="luseg">Urgente (Afecta seguridad)<span class="badge badge-pill badge-primary">!</span></label>
+            </div>
 
-                        <!-- Segumiento  -->
-                        <div class="form-group col-md-12">
-                            <br>
-                            <h4>Seguimiento</h4><hr />
-                        </div>
+            <!-- Segumiento  -->
+            <div class="form-group col-md-12">
+                <br>
+                <h4>Seguimiento</h4><hr />
+            </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Supervisor</label>
-                            @Html.EditorFor(model => model.t_usuarios11.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            <br />
-                            <label>Técnico asignado</label>
-                            @Html.EditorFor(model => model.tecnico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            <br />
-                            <label>Prioridad</label>
-                            @Html.EditorFor(model => model.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            <br />
-                            <label>Fecha Compromiso</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_compromiso)>
-                            @if (Model.req_autoriza == "1" || Model.req_autoriza2 == "1" || Model.req_autoriza3 == "1" || Model.req_autoriza4 == "1")
+            <div class="form-group col-md-6">
+                <label>Supervisor</label>
+                @Html.EditorFor(model => model.t_usuarios1.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <br />
+                <label>Técnico asignado</label>
+                @Html.EditorFor(model => model.tecnico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <br />
+                <label>Prioridad</label>
+                @Html.EditorFor(model => model.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <br />
+                <label>Fecha Compromiso</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_compromiso)>
+                @if (Model.req_autoriza == "1" || Model.req_autoriza2 == "1" || Model.req_autoriza3 == "1" || Model.req_autoriza4 == "1")
                             {
-                                <br>
-                                <label> Solicitud de autorización</label>
-                                <br>
+                            <br>
+                            <label> Solicitud de autorización</label>
+                            <br>
                             }
 
-                            @if (Model.req_autoriza == "1")
+                @if (Model.req_autoriza == "1")
                             {
-                                <label class="ml-3"> - Gerente de mantenimiento</label>
+                            <label class="ml-3"> - Gerente de mantenimiento</label>
                                 if (Model.ind_autoriza == "1")
                                 {
-                                    <span class="badge badge-pill badge-primary">Autorizado</span>
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
                                 }
                                 if (Model.ind_autoriza == "0")
                                 {
-                                    <span class="badge badge-pill badge-primary">Rechazado</span>
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
+                            <br>
                             }
 
-                            @if (Model.req_autoriza2 == "1")
+                @if (Model.req_autoriza2 == "1")
                             {
-                                <label class="ml-3"> - EHS</label>
+                            <label class="ml-3"> - EHS</label>
                                 if (Model.ind_autoriza2 == "1")
                                 {
-                                    <span class="badge badge-pill badge-primary">Autorizado</span>
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
                                 }
                                 if (Model.ind_autoriza2 == "0")
                                 {
-                                    <span class="badge badge-pill badge-primary">Rechazado</span>
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
+                            <br>
                             }
-                            @if (Model.req_autoriza3 == "1")
+                @if (Model.req_autoriza3 == "1")
                             {
-                                <label class="ml-3"> - Supervisor del solicitante</label>
+                            <label class="ml-3"> - Supervisor del solicitante</label>
                                 if (Model.ind_autoriza3 == "1")
                                 {
-                                    <span class="badge badge-pill badge-primary">Autorizado</span>
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
                                 }
                                 if (Model.ind_autoriza3 == "0")
                                 {
-                                    <span class="badge badge-pill badge-primary">Rechazado</span>
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
+                            <br>
                             }
 
-                            @if (Model.req_autoriza4 == "1")
+                @if (Model.req_autoriza4 == "1")
                             {
-                                <label class="ml-3"> - Gerente de Ingeniería</label>
+                            <label class="ml-3"> - Gerente de Ingeniería</label>
                                 if (Model.ind_autoriza4 == "1")
                                 {
-                                    <span class="badge badge-pill badge-primary">Autorizado</span>
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
                                 }
                                 if (Model.ind_autoriza4 == "0")
                                 {
-                                    <span class="badge badge-pill badge-primary">Rechazado</span>
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
+                            <br>
                             }
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Notas </label>
-                            @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13" })
-                        </div>
-
-                        <br>
-                        <br>
-                        <div class="container">
-                            <div class="row">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 20%">Estatus </th>
-                                            <th style="width: 50%">Notas</th>
-                                            <th style="width: 20%">Fecha</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Espera
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Proceso
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Terminado
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6 rcerrado">
-                            @Html.LabelFor(model => model.falla, "Falla", htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownList("falla", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.falla, "", new { @class = "text-danger" })
+                @if (Model.req_autoriza5 == "1")
+                            {
+                            <label class="ml-3"> - Gerente de Sistemas</label>
+                                if (Model.ind_autoriza5 == "1")
+                                {
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
+                                }
+                                if (Model.ind_autoriza5 == "0")
+                                {
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
                             <br>
-                            @Html.LabelFor(model => model.f_entrega, "Fecha entrega", htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.f_entrega, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.f_entrega, "", new { @class = "text-danger" })
-                            <br>
-                            @Html.LabelFor(model => model.recibe, "Recibido por:", htmlAttributes: new { @class = "control-label" })
-                            <p>Ingrese # de empleado</p>
-                            <input class="form-control" id="no_recibe">
-                            @Html.EditorFor(model => model.recibe, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            @Html.ValidationMessageFor(model => model.recibe, "", new { @class = "text-danger" })
-                        </div>
+                            }
+            </div>
 
-                        <div class="form-group col-md-6 rcerrado">
-                            @Html.LabelFor(model => model.actividades, "Actividades", htmlAttributes: new { @class = "control-label" })
-                            @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6" })
-                            @Html.ValidationMessageFor(model => model.actividades, "", new { @class = "text-danger" })
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Notas </label>
+                @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13" })
+            </div>
 
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">Estatus </th>
+                                <th style="width: 50%">Notas</th>
+                                <th style="width: 20%">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Espera
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Proceso
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Terminado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                        <br>
-                        <br>
+            <div class="form-group col-md-6 rcerrado">
+                @Html.LabelFor(model => model.falla, "Falla", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("falla", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.falla, "", new { @class = "text-danger" })
+                <br>
+                @Html.LabelFor(model => model.f_entrega, "Fecha entrega", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.f_entrega, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.f_entrega, "", new { @class = "text-danger" })
+                <br>
+                @Html.LabelFor(model => model.recibe, "Recibido por:", htmlAttributes: new { @class = "control-label" })
+                <p>Ingrese # de empleado</p>
+                <input class="form-control" id="no_recibe">
+                @Html.EditorFor(model => model.recibe, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.recibe, "", new { @class = "text-danger" })
+            </div>
 
-                   
-                        <div class="form-group col-12">
-                            
-                                <input id="botonbuenomxc" type="submit" value="Actualizar" style="display:none"/>
-                                <button id="botonfalsomxc" type="button" class="btn btn-outline-primary btn-lg">Actualizar</button>
-                           
-                        </div>
-                    </div>
-                    <div>
-                        @Html.ActionLink("Regresar a lista", "TicketsTecnico", "Home") 
-                    </div>
-                }
-                else
-                {
-                    <div class="form-row">
-
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.imagen_path)
-    @Html.HiddenFor(model => model.actividades)
-    @Html.HiddenFor(model => model.area)
-    @Html.HiddenFor(model => model.categoria)
-    @Html.HiddenFor(model => model.depto)
-    @Html.HiddenFor(model => model.duracion)
-    @Html.HiddenFor(model => model.descripcion)
-    @Html.HiddenFor(model => model.equipo)
-    @Html.HiddenFor(model => model.estatus)
-    @Html.HiddenFor(model => model.falla)
-    @Html.HiddenFor(model => model.fecha)
-    @Html.HiddenFor(model => model.folio)
-    @Html.HiddenFor(model => model.f_aprovacion)
-    @Html.HiddenFor(model => model.f_cancela)
-    @Html.HiddenFor(model => model.f_cerrado)
-    @Html.HiddenFor(model => model.f_compromiso)
-    @Html.HiddenFor(model => model.f_detenido)
-    @Html.HiddenFor(model => model.f_entrega)
-    @Html.HiddenFor(model => model.f_espera)
-    @Html.HiddenFor(model => model.f_terminado)
-    @Html.HiddenFor(model => model.f_id)
-    @Html.HiddenFor(model => model.f_proceso)
-    @Html.HiddenFor(model => model.f_requerida)
-    @Html.HiddenFor(model => model.f_revisado)
-    @Html.HiddenFor(model => model.ind_cancelado)
-    @Html.HiddenFor(model => model.ind_entrega)
-    @Html.HiddenFor(model => model.nota_cancel)
-    @Html.HiddenFor(model => model.n_aprovacion)
-    @Html.HiddenFor(model => model.n_cerrado)
-    @Html.HiddenFor(model => model.n_detenido)
-    @Html.HiddenFor(model => model.n_espera)
-    @Html.HiddenFor(model => model.n_proceso)
-    @Html.HiddenFor(model => model.n_revisado)
-    @Html.HiddenFor(model => model.n_terminado)
-    @Html.HiddenFor(model => model.prioridad)
-    @Html.HiddenFor(model => model.recibe)
-    @Html.HiddenFor(model => model.req_autoriza)
-    @Html.HiddenFor(model => model.req_autoriza2)
-    @Html.HiddenFor(model => model.sup_autoriza)
-    @Html.HiddenFor(model => model.planta)
-    @Html.HiddenFor(model => model.sup_autoriza2)
-    @Html.HiddenFor(model => model.sup_fautoriza)
-    @Html.HiddenFor(model => model.sup_fautoriza2)
-    @Html.HiddenFor(model => model.sup_revisado)
-    @Html.HiddenFor(model => model.tecnico)
-    @Html.HiddenFor(model => model.turno)
-
-    @Html.HiddenFor(model => model.u_id)
-    @Html.HiddenFor(model => model.urgencia)
-    @Html.HiddenFor(model => model.req_autoriza3)
-    @Html.HiddenFor(model => model.sup_autoriza3)
-    @Html.HiddenFor(model => model.sup_fautoriza3)
-    @Html.HiddenFor(model => model.notas)
-    @Html.HiddenFor(model => model.ind_autoriza)
-    @Html.HiddenFor(model => model.ind_autoriza2)
-    @Html.HiddenFor(model => model.ind_autoriza3)
-    @Html.HiddenFor(model => model.nota_autoriza)
-    @Html.HiddenFor(model => model.nota_autoriza2)
-    @Html.HiddenFor(model => model.nota_autoriza3)
-
-    @Html.HiddenFor(model => model.sup_autoriza4)
-    @Html.HiddenFor(model => model.sup_fautoriza4)
-    <!-- SOLICITUD  -->
-
-    <div class="form-group col-md-6">
-        <label>Ubicación</label>
-        <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label>Nombre</label>
-        <input class="form-control" id="unombre" readonly value="">
-    </div>
-
-    <div class="form-group col-md-6">
-        <label>Categoría</label>
-        <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
-    </div>
-    <div class="form-group col-md-6">
-        <label>Usuario Windows</label>
-        <input class="form-control" readonly  value=@Html.DisplayFor(model => model.u_id)>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label>Equipo</label>
-        <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
-    </div>
-    <div class="form-group col-md-6">
-        <label>Departamento</label>
-        @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-    </div>
-
-    <div class="form-group col-md-6">
-        @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
-        @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
-        @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-    </div>
+            <div class="form-group col-md-6 rcerrado">
+                @Html.LabelFor(model => model.actividades, "Actividades", htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6" })
+                @Html.ValidationMessageFor(model => model.actividades, "", new { @class = "text-danger" })
+            </div>
 
 
-    <div class="form-group col-md-6">
+            <br>
+            <br>
 
-        <label>Turno</label>
-        <input class="form-control" id="uturno" readonly >
-        <br>
-        <label>Puesto</label>
-        <input class="form-control" id="upuesto" readonly  value="">
-    </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Fecha Requerida</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
-                        </div>                
+            <div class="form-group col-12">
 
-    <div class="form-group col-md-6">
-        <label>Correo</label>
-        <input class="form-control" id="ucorreo" readonly >
-    </div>
+                <input id="botonbuenomxc" type="submit" value="Actualizar" style="display:none" />
+                <button id="botonfalsomxc" type="button" class="btn btn-outline-primary btn-lg">Actualizar</button>
 
-    
+            </div>
+        </div>
+        <div>
+            @Html.ActionLink("Regresar a lista", "TicketsTecnico", "Home")
+        </div>
+        }
+        else
+        {
+        <div class="form-row">
 
-                        @if (Model.imagen_path != null)
+            <!-- SOLICITUD  -->
+
+            <div class="form-group col-md-6">
+                <label>Ubicación</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input class="form-control" id="unombre" readonly value="">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Categoría</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Usuario Windows</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Equipo</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Departamento Usuario</label>
+                <input class="form-control" id="udeptotress" readonly>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group col-md-6">
+
+                <label>Turno</label>
+                <input class="form-control" id="uturno" readonly>
+                <br>
+                <label>Puesto</label>
+                <input class="form-control" id="upuesto" readonly value="">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Fecha Requerida</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Correo</label>
+                <input class="form-control" id="ucorreo" readonly>
+            </div>
+
+
+
+            @if (Model.imagen_path != null)
                         {
-                            <div class="form-group col-md-12">
-                                <label>Imagen</label>
-                                <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
-                            </div>
+                        <div class="form-group col-md-12">
+                            <label>Imagen</label>
+                            <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
+                        </div>
                         }
 
 
-    <div class="form-group col-md-12">
-        <label id="lupro">Urgente (Afecta producción) <span class="badge badge-pill badge-warning">!</span></label>
-        <label id="luseg">Urgente (Afecta seguridad) <span class="badge badge-pill badge-primary">!</span></label>
-    </div>
+            <div class="form-group col-md-12">
+                <label id="lupro">Urgente (Afecta producción) <span class="badge badge-pill badge-warning">!</span></label>
+                <label id="luseg">Urgente (Afecta seguridad) <span class="badge badge-pill badge-primary">!</span></label>
+            </div>
 
-    <!--SEGUIMIENTO-->
+            <!--SEGUIMIENTO-->
 
-    <div class="form-group col-md-12">
-        <br>
-        <h4>Seguimiento</h4><hr />
-    </div>
+            <div class="form-group col-md-12">
+                <br>
+                <h4>Seguimiento</h4><hr />
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Supervisor</label>
-        @Html.EditorFor(model => model.t_usuarios11.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-    </div>
+            <div class="form-group col-md-6">
+                <label>Supervisor</label>
+                @Html.EditorFor(model => model.t_usuarios1.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Falla</label>
-        <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_fallas.descripcion)>
-    </div>
+            <div class="form-group col-md-6">
+                <label>Falla</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_fallas.descripcion)>
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Técnico asignado</label>
-        @Html.EditorFor(model => model.tecnico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-    </div>
+            <div class="form-group col-md-6">
+                <label>Técnico asignado</label>
+                @Html.EditorFor(model => model.tecnico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Fecha de entrega</label>
-        <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_entrega)>
-    </div>
+            <div class="form-group col-md-6">
+                <label>Fecha de entrega</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_entrega)>
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Prioridad</label>
-        @Html.EditorFor(model => model.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-    </div>
+            <div class="form-group col-md-6">
+                <label>Prioridad</label>
+                @Html.EditorFor(model => model.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Recibido por:</label>
-        @Html.EditorFor(model => model.recibe, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-    </div>
+            <div class="form-group col-md-6">
+                <label>Recibido por:</label>
+                @Html.EditorFor(model => model.recibe, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Fecha Compromiso</label>
-        <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_compromiso)>
-        @if (Model.req_autoriza == "1" || Model.req_autoriza2 == "1" || Model.req_autoriza3 == "1" || Model.req_autoriza4 == "1")
+            <div class="form-group col-md-6">
+                <label>Fecha Compromiso</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_compromiso)>
+                @if (Model.req_autoriza == "1" || Model.req_autoriza2 == "1" || Model.req_autoriza3 == "1" || Model.req_autoriza4 == "1")
         {
-            <br>
-            <label> Solicitud de autorización</label>
-                                <br>
+        <br>
+        <label> Solicitud de autorización</label>
+        <br>
         }
 
-        @if (Model.req_autoriza == "1")
+                @if (Model.req_autoriza == "1")
         {
-            <label class="ml-3"> - Gerente de mantenimiento</label>
+        <label class="ml-3"> - Gerente de mantenimiento</label>
             if (Model.ind_autoriza == "1")
             {
-                <span class="badge badge-pill badge-primary">Autorizado</span>
+        <span class="badge badge-pill badge-primary">Autorizado</span>
             }
             if (Model.ind_autoriza == "0")
             {
-                <span class="badge badge-pill badge-primary">Rechazado</span>
+        <span class="badge badge-pill badge-primary">Rechazado</span>
             }
-            <br>
+        <br>
         }
 
-        @if (Model.req_autoriza2 == "1")
+                @if (Model.req_autoriza2 == "1")
         {
-            <label class="ml-3"> - EHS</label>
+        <label class="ml-3"> - EHS</label>
             if (Model.ind_autoriza2 == "1")
             {
-                <span class="badge badge-pill badge-primary">Autorizado</span>
+        <span class="badge badge-pill badge-primary">Autorizado</span>
             }
             if (Model.ind_autoriza2 == "0")
             {
-                <span class="badge badge-pill badge-primary">Rechazado</span>
+        <span class="badge badge-pill badge-primary">Rechazado</span>
             }
-            <br>
+        <br>
         }
-        @if (Model.req_autoriza3 == "1")
+                @if (Model.req_autoriza3 == "1")
         {
-            <label class="ml-3"> - Supervisor del solicitante</label>
+        <label class="ml-3"> - Supervisor del solicitante</label>
             if (Model.ind_autoriza3 == "1")
             {
-                <span class="badge badge-pill badge-primary">Autorizado</span>
+        <span class="badge badge-pill badge-primary">Autorizado</span>
             }
             if (Model.ind_autoriza3 == "0")
             {
-                <span class="badge badge-pill badge-primary">Rechazado</span>
+        <span class="badge badge-pill badge-primary">Rechazado</span>
             }
-            <br>
+        <br>
         }
 
-        @if (Model.req_autoriza4 == "1")
+                @if (Model.req_autoriza4 == "1")
         {
-            <label class="ml-3"> - Gerente de Ingeniería</label>
+        <label class="ml-3"> - Gerente de Ingeniería</label>
             if (Model.ind_autoriza4 == "1")
             {
-                <span class="badge badge-pill badge-primary">Autorizado</span>
+        <span class="badge badge-pill badge-primary">Autorizado</span>
             }
             if (Model.ind_autoriza4 == "0")
             {
-                <span class="badge badge-pill badge-primary">Rechazado</span>
+        <span class="badge badge-pill badge-primary">Rechazado</span>
             }
-            <br>
+        <br>
+        }
+                @if (Model.req_autoriza5 == "1")
+        {
+        <label class="ml-3"> - Gerente de Sistemas</label>
+            if (Model.ind_autoriza5 == "1")
+            {
+        <span class="badge badge-pill badge-primary">Autorizado</span>
+            }
+            if (Model.ind_autoriza5 == "0")
+            {
+        <span class="badge badge-pill badge-primary">Rechazado</span>
+            }
+        <br>
         }
 
-    </div>
+            </div>
 
-    <div class="form-group col-md-6">
-        <label>Actividades</label>
-        <textarea class="form-control" rows="6" readonly>@Html.DisplayFor(model => model.actividades)</textarea>
-    </div>
-    <br>
-    <br>
-    <div class="container">
-        <div class="row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th style="width: 20%">Estatus </th>
-                        <th style="width: 50%">Notas</th>
-                        <th style="width: 20%">Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            @Html.RadioButtonFor(model => model.estatus, "RE", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Revisión
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.RadioButtonFor(model => model.estatus, "AP", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Autorizado
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Espera
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Proceso
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Terminado
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
+            <div class="form-group col-md-6">
+                <label>Actividades</label>
+                <textarea class="form-control" rows="6" readonly>@Html.DisplayFor(model => model.actividades)</textarea>
+            </div>
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">Estatus </th>
+                                <th style="width: 50%">Notas</th>
+                                <th style="width: 20%">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "RE", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Revisión
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "AP", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Autorizado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Espera
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Proceso
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Terminado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
 
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.RadioButtonFor(model => model.estatus, "CE", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Cerrado
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "CE", htmlAttributes: new { @class = "control-label", onclick = "return false;" }) Cerrado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
 
-                    </tr>
-                </tbody>
-            </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
         </div>
-    </div>
+        }
+        }
 
-    <br>
-    <br>
+        else
+        {
+        if (Session["UserRol"].ToString() == "Supervisor")
+        {
+        <div class="form-row">
 
-</div>
-                }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.imagen_path)
+            @Html.HiddenFor(model => model.area)
+            @Html.HiddenFor(model => model.categoria)
+            @Html.HiddenFor(model => model.depto)
+            @Html.HiddenFor(model => model.duracion)
+            @Html.HiddenFor(model => model.descripcion)
+            @Html.HiddenFor(model => model.equipo)
+            @Html.HiddenFor(model => model.fecha)
+            @Html.HiddenFor(model => model.folio)
 
-            }
+            @Html.HiddenFor(model => model.f_cancela)
 
-            else
-            {
-                if (Session["UserRol"].ToString() == "Supervisor")
-                {
-                    <div class="form-row">
+            @Html.HiddenFor(model => model.f_detenido)
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.imagen_path)
-                        @Html.HiddenFor(model => model.area)
-                        @Html.HiddenFor(model => model.categoria)
-                        @Html.HiddenFor(model => model.depto)
-                        @Html.HiddenFor(model => model.duracion)
-                        @Html.HiddenFor(model => model.descripcion)
-                        @Html.HiddenFor(model => model.equipo)
-                        @Html.HiddenFor(model => model.fecha)
-                        @Html.HiddenFor(model => model.folio)
+            @Html.HiddenFor(model => model.f_id)
 
-                        @Html.HiddenFor(model => model.f_cancela)
+            @Html.HiddenFor(model => model.f_requerida)
 
-                        @Html.HiddenFor(model => model.f_detenido)
+            @Html.HiddenFor(model => model.ind_cancelado)
+            @Html.HiddenFor(model => model.ind_entrega)
+            @Html.HiddenFor(model => model.nota_cancel)
+            @Html.HiddenFor(model => model.n_detenido)
 
-                        @Html.HiddenFor(model => model.f_id)
+            @Html.HiddenFor(model => model.sup_autoriza)
+            @Html.HiddenFor(model => model.sup_autoriza2)
+            @Html.HiddenFor(model => model.sup_fautoriza)
+            @Html.HiddenFor(model => model.sup_fautoriza2)
+            @Html.HiddenFor(model => model.sup_autoriza3)
+            @Html.HiddenFor(model => model.sup_fautoriza3)
+            @Html.HiddenFor(model => model.sup_autoriza4)
+            @Html.HiddenFor(model => model.sup_fautoriza4)
+            @Html.HiddenFor(model => model.turno)
+            @Html.HiddenFor(model => model.planta)
+            @Html.HiddenFor(model => model.u_id)
+            @Html.HiddenFor(model => model.urgencia)
 
-                        @Html.HiddenFor(model => model.f_requerida)
+            @Html.HiddenFor(model => model.ind_autoriza)
+            @Html.HiddenFor(model => model.ind_autoriza2)
+            @Html.HiddenFor(model => model.ind_autoriza3)
+            @Html.HiddenFor(model => model.ind_autoriza4)
 
-                        @Html.HiddenFor(model => model.ind_cancelado)
-                        @Html.HiddenFor(model => model.ind_entrega)
-                        @Html.HiddenFor(model => model.nota_cancel)
-                        @Html.HiddenFor(model => model.n_detenido)
+            @Html.HiddenFor(model => model.ind_autoriza5)
+            @Html.HiddenFor(model => model.sup_autoriza5)
+            @Html.HiddenFor(model => model.sup_fautoriza5)
 
-                        @Html.HiddenFor(model => model.sup_autoriza)
-                        @Html.HiddenFor(model => model.sup_autoriza2)
-                        @Html.HiddenFor(model => model.sup_fautoriza)
-                        @Html.HiddenFor(model => model.sup_fautoriza2)
-                        @Html.HiddenFor(model => model.sup_autoriza3)
-                        @Html.HiddenFor(model => model.sup_fautoriza3)
-                        @Html.HiddenFor(model => model.sup_autoriza4)
-                        @Html.HiddenFor(model => model.sup_fautoriza4)
-                        @Html.HiddenFor(model => model.turno)
-                        @Html.HiddenFor(model => model.planta)
-                        @Html.HiddenFor(model => model.u_id)
-                        @Html.HiddenFor(model => model.urgencia)
+            <!-- SOLICITUD  -->
 
-                        @Html.HiddenFor(model => model.ind_autoriza)
-                        @Html.HiddenFor(model => model.ind_autoriza2)
-                        @Html.HiddenFor(model => model.ind_autoriza3)
-                        @Html.HiddenFor(model => model.ind_autoriza4)
+            <div class="form-group col-md-6">
+                <label>Ubicación</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Nombre</label>
+                <input class="form-control" id="unombre" readonly value="">
+            </div>
 
-                        <!-- SOLICITUD  -->
+            <div class="form-group col-md-6">
+                <label>Categoría</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Usuario Windows</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
+            </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Ubicación</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Nombre</label>
-                            <input class="form-control" id="unombre" readonly  value="">
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Equipo</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
+            </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Categoría</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Usuario Windows</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Departamento Usuario</label>
+                <input class="form-control" id="udeptotress" readonly>
+            </div>
 
-                        <div class="form-group col-md-6">
-                            <label>Equipo</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Departamento</label>
-                            @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
-                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-                        </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
 
 
-                        <div class="form-group col-md-6">
-                            <label>Turno</label>
-                            <input class="form-control" id="uturno" readonly >
-                            <br>
-                            <label>Puesto</label>
-                            <input class="form-control" id="upuesto" readonly  value="">
-                        </div>
-
-                        
-                        <div class="form-group col-md-6">
-                            <label>Fecha Requerida</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
-                        </div>    
-                       
-
-                        <div class="form-group col-md-6">
-                            <label>Correo</label>
-                            <input class="form-control" id="ucorreo" readonly >
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Turno</label>
+                <input class="form-control" id="uturno" readonly>
+                <br>
+                <label>Puesto</label>
+                <input class="form-control" id="upuesto" readonly value="">
+            </div>
 
 
-                        
-                            @if (Model.imagen_path != null)
+            <div class="form-group col-md-6">
+                <label>Fecha Requerida</label>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <label>Correo</label>
+                <input class="form-control" id="ucorreo" readonly>
+            </div>
+
+
+
+            @if (Model.imagen_path != null)
                             {
-                                <div class="form-group col-md-12">
-                                    <label>Imagen</label>
-                                    <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
-                                </div>
+                        <div class="form-group col-md-12">
+                            <label>Imagen</label>
+                            <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
+                        </div>
                             }
-                                
 
 
-                        <div class="form-group col-md-12">
-                            <label id="lupro">Urgente (Afecta producción)<span class="badge badge-pill badge-warning">!</span></label>
-                            <label id="luseg">Urgente (Afecta seguridad)<span class="badge badge-pill badge-primary">!</span></label>
-                        </div>
 
-                        <!-- Segumiento  -->
-                        <div class="form-group col-md-12">
-                            <br>
-                            <h4>Seguimiento</h4><hr />
-                        </div>
+            <div class="form-group col-md-12">
+                <label id="lupro">Urgente (Afecta producción)<span class="badge badge-pill badge-warning">!</span></label>
+                <label id="luseg">Urgente (Afecta seguridad)<span class="badge badge-pill badge-primary">!</span></label>
+            </div>
 
-                        <div class="form-group col-md-6">
-                            @Html.LabelFor(model => model.sup_revisado, "Supervisor", htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.sup_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readyonly", @Value = Session["UserName"].ToString() } })
-                            @Html.ValidationMessageFor(model => model.sup_revisado, "", new { @class = "text-danger" })
-                            <br>
-                            @Html.LabelFor(model => model.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownList("prioridad", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.prioridad, "", new { @class = "text-danger" })
-                            <br>
-                            
-                            @Html.LabelFor(model => model.f_compromiso, "Fecha compromiso", htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.f_compromiso, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.f_compromiso, "", new { @class = "text-danger" })
-                            <br>
+            <!-- Segumiento  -->
+            <div class="form-group col-md-12">
+                <br>
+                <h4>Seguimiento</h4><hr />
+            </div>
 
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="cbautoriza" value=""> Solicitar Autorización</label>
-                            </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.sup_revisado, "Supervisor", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.sup_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readyonly", @Value = Session["UserName"].ToString() } })
+                @Html.ValidationMessageFor(model => model.sup_revisado, "", new { @class = "text-danger" })
+                <br>
+                @Html.LabelFor(model => model.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("prioridad", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.prioridad, "", new { @class = "text-danger" })
+                <br>
+
+                @Html.LabelFor(model => model.f_compromiso, "Fecha compromiso", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.f_compromiso, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.f_compromiso, "", new { @class = "text-danger" })
+                <br>
+
+                <div class="checkbox">
+                    <label><input type="checkbox" id="cbautoriza" value=""> Solicitar Autorización</label>
+                </div>
 
 
-                            <div id="cbcautoriza" class="ml-3">
-                                <input data-val="true" id="req_autoriza3" name="req_autoriza3" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza3 == "1" ? "checked='checked'" : "") />
-                                <input name="req_autoriza3" type="hidden" value="0" />
-                                @Html.LabelFor(model => model.req_autoriza3, "Supervisor del solicitante", htmlAttributes: new { @class = "control-label ml-4" })
-                                <span id="mfautoriza3" class="badge badge-pill badge-primary">Autorizado</span>
-                                @if (Model.ind_autoriza3 == "0")
+                <div id="cbcautoriza" class="ml-3">
+                    <input data-val="true" id="req_autoriza3" name="req_autoriza3" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza3 == "1" ? "checked='checked'" : "") />
+                    <input name="req_autoriza3" type="hidden" value="0" />
+                    @Html.LabelFor(model => model.req_autoriza3, "Supervisor del solicitante", htmlAttributes: new { @class = "control-label ml-4" })
+                    <span id="mfautoriza3" class="badge badge-pill badge-primary">Autorizado</span>
+                    @if (Model.ind_autoriza3 == "0")
                                 {
                                 <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
-                                <input data-val="true" id="req_autoriza" name="req_autoriza" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza == "1" ? "checked='checked'" : "") />
-                                <input name="req_autoriza" type="hidden" value="0" />
-                                @Html.LabelFor(model => model.req_autoriza, "Gerente Mantenimiento", htmlAttributes: new { @class = "control-label ml-4" })
-                                <span id="mfautoriza1" class="badge badge-pill badge-primary">Autorizado</span>
-                                @if (Model.ind_autoriza == "0")
+                    <br>
+                    <input data-val="true" id="req_autoriza" name="req_autoriza" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza == "1" ? "checked='checked'" : "") />
+                    <input name="req_autoriza" type="hidden" value="0" />
+                    @Html.LabelFor(model => model.req_autoriza, "Gerente Mantenimiento", htmlAttributes: new { @class = "control-label ml-4" })
+                    <span id="mfautoriza1" class="badge badge-pill badge-primary">Autorizado</span>
+                    @if (Model.ind_autoriza == "0")
                                 {
                                 <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
-                                <input data-val="true" id="req_autoriza4" name="req_autoriza4" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza4 == "1" ? "checked='checked'" : "") />
-                                <input name="req_autoriza4" type="hidden" value="0" />
-                                @Html.LabelFor(model => model.req_autoriza4, "Gerente Ingeniería", htmlAttributes: new { @class = "control-label ml-4" })
-                                <span id="mfautoriza4" class="badge badge-pill badge-primary">Autorizado</span>
-                                @if (Model.ind_autoriza4 == "0")
+                    <br>
+                    <input data-val="true" id="req_autoriza4" name="req_autoriza4" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza4 == "1" ? "checked='checked'" : "") />
+                    <input name="req_autoriza4" type="hidden" value="0" />
+                    @Html.LabelFor(model => model.req_autoriza4, "Gerente Ingeniería", htmlAttributes: new { @class = "control-label ml-4" })
+                    <span id="mfautoriza4" class="badge badge-pill badge-primary">Autorizado</span>
+                    @if (Model.ind_autoriza4 == "0")
                                 {
-                                    <span class="badge badge-pill badge-primary">Rechazado</span>
+                                <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                                <br>
-                                <input data-val="true" id="req_autoriza2" name="req_autoriza2" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza2 == "1" ? "checked='checked'" : "") />
-                                <input name="req_autoriza2" type="hidden" value="0" />
-                                @Html.LabelFor(model => model.req_autoriza2, "EHS", htmlAttributes: new { @class = "control-label ml-4" })
-                                <span id="mfautoriza2" class="badge badge-pill badge-primary">Autorizado</span>
-                                @if (Model.ind_autoriza2 == "0")
+                    <br>
+                    <input data-val="true" id="req_autoriza5" name="req_autoriza5" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza5 == "1" ? "checked='checked'" : "") />
+                    <input name="req_autoriza5" type="hidden" value="0" />
+                    @Html.LabelFor(model => model.req_autoriza5, "Gerente Sistemas", htmlAttributes: new { @class = "control-label ml-4" })
+                    <span id="mfautoriza5" class="badge badge-pill badge-primary">Autorizado</span>
+                    @if (Model.ind_autoriza5 == "0")
                                 {
-                                    <span class="badge badge-pill badge-primary">Rechazado</span>
+                                <span class="badge badge-pill badge-primary">Rechazado</span>
                                 }
-                            </div>
+                    <br>
+                    <input data-val="true" id="req_autoriza2" name="req_autoriza2" type="checkbox" value="1" class="form-check-input ml-1" @(Model.req_autoriza2 == "1" ? "checked='checked'" : "") />
+                    <input name="req_autoriza2" type="hidden" value="0" />
+                    @Html.LabelFor(model => model.req_autoriza2, "EHS", htmlAttributes: new { @class = "control-label ml-4" })
+                    <span id="mfautoriza2" class="badge badge-pill badge-primary">Autorizado</span>
+                    @if (Model.ind_autoriza2 == "0")
+                                {
+                                <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
 
-                        </div>
+                </div>
+
+            </div>
 
 
-                        <div class="form-group col-md-6">
-                            <label>Notas Supervisor</label>
-                            @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13" })
-                        </div>
+            <div class="form-group col-md-6">
+                <label>Notas Supervisor</label>
+                @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13" })
+            </div>
 
-                        <br>
-                        <br>
-                        <div class="container">
-                            <div class="row">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 20%">Estatus </th>
-                                            <th style="width: 50%">Notas</th>
-                                            <th style="width: 20%">Fecha</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "RE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Revisión
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control " } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "AP", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Autorizado
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Espera
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Proceso
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Terminado
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">Estatus </th>
+                                <th style="width: 50%">Notas</th>
+                                <th style="width: 20%">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "RE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Revisión
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control " } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "AP", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Autorizado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Espera
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Proceso
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Terminado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
 
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.RadioButtonFor(model => model.estatus, "CE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Cerrado
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-12 rproceso" style=@(Model.tecnico != null ? "'display:true'" : "'display:none'")>
-                            @Html.LabelFor(model => model.tecnico, "Técnico asignado", htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownList("tecnico", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.tecnico, "", new { @class = "text-danger" })
-                        </div>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.RadioButtonFor(model => model.estatus, "CE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Cerrado
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group col-md-12 rproceso" style=@(Model.tecnico != null ? "'display:true'" : "'display:none'")>
+                @Html.LabelFor(model => model.tecnico, "Técnico asignado", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("tecnico", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tecnico, "", new { @class = "text-danger" })
+            </div>
 
-                        <div class="form-group col-md-6 rcerrado">
-                            @Html.LabelFor(model => model.falla, "Falla", htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownList("falla", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.falla, "", new { @class = "text-danger" })
-                            <br>
-                            @Html.LabelFor(model => model.f_entrega, "Fecha entrega", htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.f_entrega, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.f_entrega, "", new { @class = "text-danger" })
-                            <br>
-                            @Html.LabelFor(model => model.recibe, "Recibido por:", htmlAttributes: new { @class = "control-label" })
-                            <p>Ingrese # de empleado</p>
-                            <input class="form-control" id="no_recibe">
-                            @Html.EditorFor(model => model.recibe, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
-                            @Html.ValidationMessageFor(model => model.recibe, "", new { @class = "text-danger" })
-                        </div>
+            <div class="form-group col-md-6 rcerrado">
+                @Html.LabelFor(model => model.falla, "Falla", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("falla", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.falla, "", new { @class = "text-danger" })
+                <br>
+                @Html.LabelFor(model => model.f_entrega, "Fecha entrega", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.f_entrega, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.f_entrega, "", new { @class = "text-danger" })
+                <br>
+                @Html.LabelFor(model => model.recibe, "Recibido por:", htmlAttributes: new { @class = "control-label" })
+                <p>Ingrese # de empleado</p>
+                <input class="form-control" id="no_recibe">
+                @Html.EditorFor(model => model.recibe, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
+                @Html.ValidationMessageFor(model => model.recibe, "", new { @class = "text-danger" })
+            </div>
 
-                        <div class="form-group col-md-6 rcerrado">
-                            @Html.LabelFor(model => model.actividades, "Actividades", htmlAttributes: new { @class = "control-label" })
-                            @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6" })
-                            @Html.ValidationMessageFor(model => model.actividades, "", new { @class = "text-danger" })
-                        </div>
+            <div class="form-group col-md-6 rcerrado">
+                @Html.LabelFor(model => model.actividades, "Actividades", htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6" })
+                @Html.ValidationMessageFor(model => model.actividades, "", new { @class = "text-danger" })
+            </div>
 
-                       
-                                <br>
-                                <br>
 
-                                <div class="form-group col-12">
+            <br>
+            <br>
 
-                                    <input id="botonbuenosuper" type="submit" value="Actualizar" style="display:none" />
-                                    <button id="botonfalsosuper" type="button" class="btn btn-outline-primary">Actualizar</button>
+            <div class="form-group col-12">
 
-                                </div>
-                            </div>
+                <input id="botonbuenosuper" type="submit" value="Actualizar" style="display:none" />
+                <button id="botonfalsosuper" type="button" class="btn btn-outline-primary">Actualizar</button>
+
+            </div>
+        </div>
 
         <!-- Modal-->
-                    <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza1">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Razón</h5>
-                                </div>
-                                <div class="modal-body">
-                                    @Html.TextAreaFor(model => model.nota_autoriza, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                                </div>
-                            </div>
-                        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Razón</h5>
                     </div>
-
-                    <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza2">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Razón</h5>
-                                </div>
-                                <div class="modal-body">
-                                    @Html.TextAreaFor(model => model.nota_autoriza2, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-body">
+                        @Html.TextAreaFor(model => model.nota_autoriza, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
                     </div>
-
-                    <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza3">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Razón</h5>
-                                </div>
-                                <div class="modal-body">
-                                    @Html.TextAreaFor(model => model.nota_autoriza3, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza4">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Razón</h5>
-                                </div>
-                                <div class="modal-body">
-                                    @Html.TextAreaFor(model => model.nota_autoriza4, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                                </div>
-                            </div>
-                        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Razón</h5>
                     </div>
+                    <div class="modal-body">
+                        @Html.TextAreaFor(model => model.nota_autoriza2, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                }
-            }
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza3">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Razón</h5>
+                    </div>
+                    <div class="modal-body">
+                        @Html.TextAreaFor(model => model.nota_autoriza3, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza4">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Razón</h5>
+                    </div>
+                    <div class="modal-body">
+                        @Html.TextAreaFor(model => model.nota_autoriza4, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            if (Session["UserRol"].ToString() == "Admin")
-            {
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalAutoriza5">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Razón</h5>
+                    </div>
+                    <div class="modal-body">
+                        @Html.TextAreaFor(model => model.nota_autoriza5, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        }
+        if (Session["UserRol"].ToString() == "Admin")
+        {
         <div class="form-row">
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -1352,6 +1367,11 @@ else
             @Html.HiddenFor(model => model.nota_autoriza4)
             @Html.HiddenFor(model => model.sup_autoriza4)
             @Html.HiddenFor(model => model.sup_fautoriza4)
+            @Html.HiddenFor(model => model.req_autoriza5)
+            @Html.HiddenFor(model => model.ind_autoriza5)
+            @Html.HiddenFor(model => model.nota_autoriza5)
+            @Html.HiddenFor(model => model.sup_autoriza5)
+            @Html.HiddenFor(model => model.sup_fautoriza5)
 
 
             <!-- SOLICITUD  -->
@@ -1363,7 +1383,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Nombre</label>
-                <input class="form-control" id="unombre" readonly  value="">
+                <input class="form-control" id="unombre" readonly value="">
             </div>
 
             <div class="form-group col-md-6">
@@ -1373,7 +1393,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Usuario Windows</label>
-                <input class="form-control" readonly  value=@Html.DisplayFor(model => model.u_id)>
+                <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
             </div>
 
             <div class="form-group col-md-6">
@@ -1382,8 +1402,8 @@ else
             </div>
 
             <div class="form-group col-md-6">
-                <label>Departamento</label>
-                @Html.EditorFor(model => model.depto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <label>Departamento Usuario</label>
+                <input class="form-control" id="udeptotress" readonly>
             </div>
 
             <div class="form-group col-md-6">
@@ -1395,10 +1415,10 @@ else
             <div class="form-group col-md-6">
 
                 <label>Turno</label>
-                <input class="form-control" id="uturno" readonly >
+                <input class="form-control" id="uturno" readonly>
                 <br>
                 <label>Puesto</label>
-                <input class="form-control" id="upuesto" readonly  value="">
+                <input class="form-control" id="upuesto" readonly value="">
             </div>
 
             <div class="form-group col-md-6">
@@ -1408,16 +1428,16 @@ else
 
             <div class="form-group col-md-6">
                 <label>Correo</label>
-                <input class="form-control" id="ucorreo" readonly >
+                <input class="form-control" id="ucorreo" readonly>
             </div>
 
             @if (Model.imagen_path != null)
-                            {
-                <div class="form-group col-md-12">
-                    <label>Imagen</label>
-                    <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
-                </div>
-            }
+                        {
+                        <div class="form-group col-md-12">
+                            <label>Imagen</label>
+                            <a href="#"><span data-toggle="modal" data-target="#FotoTicket"><i class="fas fa-search"></i></span></a>
+                        </div>
+                        }
 
 
             <div class="form-group col-md-12">
@@ -1434,7 +1454,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Supervisor</label>
-                @Html.EditorFor(model => model.t_usuarios11.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.t_usuarios1.nombre, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 <br>
                 <label>Prioridad</label>
                 @Html.EditorFor(model => model.prioridad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1446,68 +1466,81 @@ else
                 <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_compromiso)>
                 <br>
                 @if (Model.req_autoriza == "1" || Model.req_autoriza2 == "1" || Model.req_autoriza3 == "1")
-                {
-                    <br>
-                    <label> Solicitud de autorización</label>
-                    <br>
-                }
+                            {
+                            <br>
+                            <label> Solicitud de autorización</label>
+                            <br>
+                            }
 
                 @if (Model.req_autoriza == "1")
-                {
-                    <label class="ml-3"> - Gerente de mantenimiento</label>
-                    if (Model.ind_autoriza == "1")
-                    {
-                        <span class="badge badge-pill badge-primary">Autorizado</span>
-                    }
-                    if (Model.ind_autoriza == "0")
-                    {
-                        <span class="badge badge-pill badge-primary">Rechazado</span>
-                    }
-                    <br>
+                            {
+                            <label class="ml-3"> - Gerente de mantenimiento</label>
+                                if (Model.ind_autoriza == "1")
+                                {
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
+                                }
+                                if (Model.ind_autoriza == "0")
+                                {
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
+                            <br>
 
-                }
+                            }
 
                 @if (Model.req_autoriza2 == "1")
-                {
-                    <label class="ml-3"> - EHS</label>
-                    if (Model.ind_autoriza2 == "1")
-                    {
-                        <span class="badge badge-pill badge-primary">Autorizado</span>
-                    }
-                    if (Model.ind_autoriza2 == "0")
-                    {
-                        <span class="badge badge-pill badge-primary">Rechazado</span>
-                    }
-                    <br>
-                }
+                            {
+                            <label class="ml-3"> - EHS</label>
+                                if (Model.ind_autoriza2 == "1")
+                                {
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
+                                }
+                                if (Model.ind_autoriza2 == "0")
+                                {
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
+                            <br>
+                            }
 
                 @if (Model.req_autoriza3 == "1")
-                {
-                    <label class="ml-3"> - Supervisor del solicitante</label>
-                    if (Model.ind_autoriza3 == "1")
-                    {
-                        <span class="badge badge-pill badge-primary">Autorizado</span>
-                    }
-                    if (Model.ind_autoriza3 == "0")
-                    {
-                        <span class="badge badge-pill badge-primary">Rechazado</span>
-                    }
-                    <br>
-                }
+                            {
+                            <label class="ml-3"> - Supervisor del solicitante</label>
+                                if (Model.ind_autoriza3 == "1")
+                                {
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
+                                }
+                                if (Model.ind_autoriza3 == "0")
+                                {
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
+                            <br>
+                            }
 
                 @if (Model.req_autoriza4 == "1")
-                {
-                    <label class="ml-3"> - Gerente Ingeniería</label>
-                    if (Model.ind_autoriza4 == "1")
-                    {
-                        <span class="badge badge-pill badge-primary">Autorizado</span>
-                    }
-                    if (Model.ind_autoriza4 == "0")
-                    {
-                        <span class="badge badge-pill badge-primary">Rechazado</span>
-                    }
-                    <br>
-                }
+                            {
+                            <label class="ml-3"> - Gerente Ingeniería</label>
+                                if (Model.ind_autoriza4 == "1")
+                                {
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
+                                }
+                                if (Model.ind_autoriza4 == "0")
+                                {
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
+                            <br>
+                            }
+                @if (Model.req_autoriza5 == "1")
+                            {
+                            <label class="ml-3"> - Gerente de Sistemas</label>
+                                if (Model.ind_autoriza5 == "1")
+                                {
+                            <span class="badge badge-pill badge-primary">Autorizado</span>
+                                }
+                                if (Model.ind_autoriza5 == "0")
+                                {
+                            <span class="badge badge-pill badge-primary">Rechazado</span>
+                                }
+                            <br>
+                            }
 
             </div>
 
@@ -1621,50 +1654,52 @@ else
             <br>
             <br>
             @if (Model.estatus != "CE")
-            {
-                <div class="form-group col-md-12">
-                    <input type="submit" value="Actualizar" class="btn btn-outline-primary" />
-                </div>
-            }
-            
+                        {
+                        <div class="form-group col-md-12">
+                            <input type="submit" value="Actualizar" class="btn btn-outline-primary" />
+                        </div>
+                        }
+
         </div>
-            }
+        }
+        }
+
         }
 
         if (ViewBag.autorizar != true && Session["UserAccount"].ToString() != "mxc01")
         {
-            <div>
-                @Html.ActionLink("Regresar a lista", "Index", "Home")
+        <div>
+            @Html.ActionLink("Regresar a lista", "Index", "Home")
+        </div>
+        }
+
+
+        }
+        }
+
+        @if (Model.imagen_path != null)
+        {
+            <div id="FotoTicket" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Imagen</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container" style="height:600px; width:700px">
+                                <img style="max-width:100%;height:600px; object-fit: contain" src="@Url.Content(Model.imagen_path)" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         }
 
 
-    }
-}
-
-@if (Model.imagen_path != null)
-{
-    <div id="FotoTicket" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Imagen</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container" style="height:600px; width:700px">
-                        <img style="max-width:100%;height:600px; object-fit: contain" src="@Url.Content(Model.imagen_path)" />
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-        
 
         @section Scripts {
             @Scripts.Render("~/bundles/jqueryval")
@@ -1681,6 +1716,7 @@ else
                 $('#mfautoriza2').hide();
                 $('#mfautoriza3').hide();
                 $('#mfautoriza4').hide();
+                $('#mfautoriza5').hide();
                 $("#alertmxc").hide();
                 var solicitados = 0;
                 var autorizados = 0;
@@ -1709,6 +1745,7 @@ else
                         $('#req_autoriza2').prop('checked', false);
                         $('#req_autoriza3').prop('checked', false);
                         $('#req_autoriza4').prop('checked', false);
+                        $('#req_autoriza5').prop('checked', false);
                     }
                 });
 
@@ -1718,6 +1755,7 @@ else
                 var bloqueoCheck2 = false;
                 var bloqueoCheck3 = false;
                 var bloqueoCheck4 = false;
+                var bloqueoCheck5 = false;
 
                 @{
             if (Model.req_autoriza == "1" && (Model.sup_fautoriza == null || Model.ind_autoriza == "0"))
@@ -1755,6 +1793,16 @@ else
                 <text>
                 $('#req_autoriza4').attr("onclick", "return false;");
                 bloqueoCheck4 = true;
+                BloqueoAutorizacion();
+                SeSolicitoAuto();
+                solicitados++;
+                </text>
+                }
+             if (Model.req_autoriza5 == "1" && (Model.sup_fautoriza5 == null || Model.ind_autoriza5 == "0"))
+                {
+                <text>
+                $('#req_autoriza5').attr("onclick", "return false;");
+                bloqueoCheck5 = true;
                 BloqueoAutorizacion();
                 SeSolicitoAuto();
                 solicitados++;
@@ -1800,7 +1848,16 @@ else
                 autorizados++;
                 </text>
                 }
-
+              if ((Model.req_autoriza5 == "1" && Model.ind_autoriza5 == "1"))
+                {
+                <text>
+                $('#req_autoriza5').attr("onclick", "return false;");
+                bloqueoCheck5 = true;
+                $('#mfautoriza5').show();
+                SeSolicitoAuto();
+                autorizados++;
+                </text>
+                }
             if (Model.urgencia == "1" )
                 {
                 <text>
@@ -1828,7 +1885,7 @@ else
                         $('#ModalAutoriza1').modal('toggle');
                     }
                     else {
-                        if ((!bloqueoGeneral && !bloqueoCheck1) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3) && ((!bloqueoCheck4 && !($('#req_autoriza4').prop('checked'))) || bloqueoCheck4)) {
+                        if ((!bloqueoGeneral && !bloqueoCheck1) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3) && ((!bloqueoCheck4 && !($('#req_autoriza4').prop('checked'))) || bloqueoCheck4) && ((!bloqueoCheck5 && !($('#req_autoriza5').prop('checked'))) || bloqueoCheck5)) {
                             $(":radio[value=ES]").attr("onclick", "return true;");
                             $(":radio[value=AP]").attr("onclick", "return true;");
                             $(":radio[value=PR]").attr("onclick", "return true;");
@@ -1845,7 +1902,7 @@ else
                         $('#ModalAutoriza2').modal('toggle');
                     }
                     else {
-                        if ((!bloqueoGeneral && !bloqueoCheck3) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3) && ((!bloqueoCheck4 && !($('#req_autoriza4').prop('checked'))) || bloqueoCheck4)) {
+                        if ((!bloqueoGeneral && !bloqueoCheck3) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3) && ((!bloqueoCheck4 && !($('#req_autoriza4').prop('checked'))) || bloqueoCheck4) && ((!bloqueoCheck5 && !($('#req_autoriza5').prop('checked'))) || bloqueoCheck5)) {
                             $(":radio[value=ES]").attr("onclick", "return true;");
                             $(":radio[value=AP]").attr("onclick", "return true;");
                             $(":radio[value=PR]").attr("onclick", "return true;");
@@ -1862,7 +1919,7 @@ else
                         $('#ModalAutoriza3').modal('toggle');
                     }
                     else {
-                        if ((!bloqueoGeneral && !bloqueoCheck3) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck4 && !($('#req_autoriza4').prop('checked'))) || bloqueoCheck4)) {
+                        if ((!bloqueoGeneral && !bloqueoCheck3) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck4 && !($('#req_autoriza4').prop('checked'))) || bloqueoCheck4) && ((!bloqueoCheck5 && !($('#req_autoriza5').prop('checked'))) || bloqueoCheck5)) {
                             $(":radio[value=ES]").attr("onclick", "return true;");
                             $(":radio[value=AP]").attr("onclick", "return true;");
                             $(":radio[value=PR]").attr("onclick", "return true;");
@@ -1879,7 +1936,24 @@ else
                         $('#ModalAutoriza4').modal('toggle');
                     }
                     else {
-                        if ((!bloqueoGeneral && !bloqueoCheck4) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3)) {
+                        if ((!bloqueoGeneral && !bloqueoCheck4) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3) && ((!bloqueoCheck5 && !($('#req_autoriza5').prop('checked'))) || bloqueoCheck5)) {
+                            $(":radio[value=ES]").attr("onclick", "return true;");
+                            $(":radio[value=AP]").attr("onclick", "return true;");
+                            $(":radio[value=PR]").attr("onclick", "return true;");
+                            $(":radio[value=TE]").attr("onclick", "return true;");
+                            bloqueoRadios = false;
+                        }
+                    }
+
+                });
+
+                $("#req_autoriza5").click(function () {
+                    if (!bloqueoCheck5 && $('#req_autoriza5').prop('checked')) {
+                        BloqueoTemporal();
+                        $('#ModalAutoriza5').modal('toggle');
+                    }
+                    else {
+                        if ((!bloqueoGeneral && !bloqueoCheck5) && ((!bloqueoCheck2 && !($('#req_autoriza2').prop('checked'))) || bloqueoCheck2) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1) && ((!bloqueoCheck3 && !($('#req_autoriza3').prop('checked'))) || bloqueoCheck3) && ((!bloqueoCheck1 && !($('#req_autoriza').prop('checked'))) || bloqueoCheck1)) {
                             $(":radio[value=ES]").attr("onclick", "return true;");
                             $(":radio[value=AP]").attr("onclick", "return true;");
                             $(":radio[value=PR]").attr("onclick", "return true;");
@@ -1891,13 +1965,13 @@ else
                 });
 
                 $("input.checkboxEstatus").click(function () {
-                   @if(Model.estatus.ToString() != "CE")
+                    @if(Model.estatus.ToString() != "CE")
                     {
                        <text>
-                        if (!bloqueoRadios || $("input.checkboxEstatus:checked").val() == "CE" || $("input.checkboxEstatus:checked").val() == "RE") {
-                            SeleccionEstatus();
-                        }
-                        </text>
+                    if (!bloqueoRadios || $("input.checkboxEstatus:checked").val() == "CE" || $("input.checkboxEstatus:checked").val() == "RE") {
+                        SeleccionEstatus();
+                    }
+                    </text>
                     }
 
                 });
@@ -2214,7 +2288,7 @@ else
                         success: function (usuario) {
                             if (usuario[5] = "Usuario" && usuario[6] != "mxc01") {
                                 //document.getElementById("u_id").value = usuario[0];
-                                document.getElementById("depto").value = usuario[1];
+                                document.getElementById("udeptotress").value = usuario[1];
                                 document.getElementById("upuesto").value = usuario[2];
                                 document.getElementById("uturno").value = usuario[3];
                                 document.getElementById("ucorreo").value = usuario[4];
@@ -2314,11 +2388,11 @@ else
                 }
 
                 //si ya se cerro
-            @if (Model.estatus == "CE" )
+                @if (Model.estatus == "CE" )
             {
                 <text>
                 //radio de estados
-            $(":radio[value=ES]").attr("onclick", "return false;");
+                $(":radio[value=ES]").attr("onclick", "return false;");
                 $(":radio[value=AP]").attr("onclick", "return false;");
                 $(":radio[value=PR]").attr("onclick", "return false;");
                 $(":radio[value=TE]").attr("onclick", "return false;");
@@ -2354,6 +2428,7 @@ else
                 $("#req_autoriza2").attr("onclick", "return false;");
                 $("#req_autoriza3").attr("onclick", "return false;");
                 $("#req_autoriza4").attr("onclick", "return false;");
+                $("#req_autoriza5").attr("onclick", "return false;");
                 bloqueoCheck1 = true;
                 bloqueoCheck2 = true;
                 bloqueoCheck3 = true;
@@ -2364,16 +2439,16 @@ else
             }
 
                 //habilitar / deshabilitar datepickers
-            @if(Session["UserAccount"].ToString() == "mxc01")
+                @if(Session["UserAccount"].ToString() == "mxc01")
             {
                 <text>
-           $("#f_entrega").datetimepicker({
-               timepicker: true,
-               datepicker: true,
-               format: 'm/d/Y H:i',
-               hours12: false,
-               step: 5
-           });
+                $("#f_entrega").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
+                });
                 </text>
             }
             else
@@ -2381,71 +2456,71 @@ else
                 if((Model.estatus != "CE"))
                 {
                     <text>
-             $("#f_entrega").datetimepicker({
-                 timepicker: true,
-                 datepicker: true,
-                 format: 'm/d/Y H:i',
-                 hours12: false,
-                 step: 5
-             });
+                $("#f_entrega").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
+                });
 
-             $("#f_compromiso").datetimepicker({
-                 timepicker: true,
-                 datepicker: true,
-                 format: 'm/d/Y H:i',
-                 hours12: false,
-                 step: 5
-             });
-                    </text>
+                $("#f_compromiso").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
+                });
+                </text>
                     if (ViewBag.editarFecha == "1")
                     {
                         <text>
-         $("#f_cerrado").datetimepicker({
-             timepicker: true,
-             datepicker: true,
-             format: 'm/d/Y H:i',
-             hours12: false,
-             step: 5
+                $("#f_cerrado").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
 
-         });
-                        $("#f_revisado").datetimepicker({
-                            timepicker: true,
-                            datepicker: true,
-                            format: 'm/d/Y H:i',
-                            hours12: false,
-                            step: 5
-                        });
-                        $("#f_aprovacion").datetimepicker({
-                            timepicker: true,
-                            datepicker: true,
-                            format: 'm/d/Y H:i',
-                            hours12: false,
-                            step: 5
-                        });
-                        $("#f_espera").datetimepicker({
-                            timepicker: true,
-                            datepicker: true,
-                            format: 'm/d/Y H:i',
-                            hours12: false,
-                            step: 5
+                });
+                $("#f_revisado").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
+                });
+                $("#f_aprovacion").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
+                });
+                $("#f_espera").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
 
-                        });
-                        $("#f_proceso").datetimepicker({
-                            timepicker: true,
-                            datepicker: true,
-                            format: 'm/d/Y H:i',
-                            hours12: false,
-                            step: 5
+                });
+                $("#f_proceso").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
 
-                        });
-                        $("#f_terminado").datetimepicker({
-                            timepicker: true,
-                            datepicker: true,
-                            format: 'm/d/Y H:i',
-                            hours12: false,
-                            step: 5
-                        });
-                        </text>
+                });
+                $("#f_terminado").datetimepicker({
+                    timepicker: true,
+                    datepicker: true,
+                    format: 'm/d/Y H:i',
+                    hours12: false,
+                    step: 5
+                });
+                </text>
                     }
                 }
             }
@@ -2454,6 +2529,6 @@ else
 
             //Alertas, prevencion de error de usuario
 
-           
+
 
         </script>

@@ -20,94 +20,102 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_usuarios
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, string searchOption, int? page)
         {
-            if (Session["UserRol"].ToString() != "Admin")
-                return View();
-
-            var t_usuarios = db.t_usuarios.Include(t => t.t_catego);
-
-            if (searchString != null)
+            try
             {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            ViewBag.CurrentFilter = searchString;
+                if (Session["UserRol"].ToString() != "Admin")
+                    return RedirectToAction("Index", "Home");
 
+                var t_usuarios = db.t_usuarios.Include(t => t.t_catego);
 
-            ViewBag.CurrentSearch = null;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                ViewBag.CurrentSearch = searchOption;
-                if (searchOption == "No. de empleado")
+                if (searchString != null)
                 {
+                    page = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                ViewBag.CurrentFilter = searchString;
 
-                    t_usuarios = t_usuarios.Where(x => x.no_emp.ToString() == searchString);
+
+                ViewBag.CurrentSearch = null;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    ViewBag.CurrentSearch = searchOption;
+                    if (searchOption == "No. de empleado")
+                    {
+
+                        t_usuarios = t_usuarios.Where(x => x.no_emp.ToString() == searchString);
+                    }
+
+
+                    if (searchOption == "Nombre")
+                    {
+
+                        t_usuarios = t_usuarios.Where(x => x.nombre.Contains(searchString));
+                    }
+
+
+                    if (searchOption == "Rol")
+                    {
+
+                        t_usuarios = t_usuarios.Where(x => x.rol.Contains(searchString));
+                    }
+
+                }
+
+                ViewBag.CurrentSort = sortOrder;
+
+                ViewBag.NoEmpleadoSortParm = sortOrder == "No. de empleado" ? "No. de empleado_desc" : "No. de empleado";
+                ViewBag.NombreSortParm = sortOrder == "Nombre" ? "Nombre_desc" : "Nombre";
+                ViewBag.RolSortParm = sortOrder == "Rol" ? "Rol_desc" : "Rol";
+
+
+
+                if (sortOrder != null)
+                {
+                    switch (sortOrder)
+                    {
+                        case "No. de empleado":
+                            t_usuarios = t_usuarios.OrderBy(x => x.no_emp);
+                            break;
+                        case "Nombre":
+                            t_usuarios = t_usuarios.OrderBy(x => x.nombre);
+                            break;
+                        case "Rol":
+                            t_usuarios = t_usuarios.OrderBy(x => x.rol);
+                            break;
+                        case "No. de empleado_desc":
+                            t_usuarios = t_usuarios.OrderByDescending(x => x.no_emp);
+                            break;
+                        case "Nombre_desc":
+                            t_usuarios = t_usuarios.OrderByDescending(x => x.nombre);
+                            break;
+                        case "Rol_desc":
+                            t_usuarios = t_usuarios.OrderByDescending(x => x.rol);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    t_usuarios = t_usuarios.OrderBy(x => x.nombre);
+
                 }
 
 
-                if (searchOption == "Nombre")
-                {
+                int pageSize = 50;
+                int pageNumber = (page ?? 1);
 
-                    t_usuarios = t_usuarios.Where(x => x.nombre.Contains(searchString));
-                }
-
-
-                if (searchOption == "Rol")
-                {
-
-                    t_usuarios = t_usuarios.Where(x => x.rol.Contains(searchString));
-                }
-
+                return View(t_usuarios.ToPagedList(pageNumber, pageSize));
             }
-
-            ViewBag.CurrentSort = sortOrder;
-
-            ViewBag.NoEmpleadoSortParm = sortOrder == "No. de empleado" ? "No. de empleado_desc" : "No. de empleado";
-            ViewBag.NombreSortParm = sortOrder == "Nombre" ? "Nombre_desc" : "Nombre";
-            ViewBag.RolSortParm = sortOrder == "Rol" ? "Rol_desc" : "Rol";
-
-
-
-            if (sortOrder != null)
+            catch
             {
-                switch (sortOrder)
-                {
-                    case "No. de empleado":
-                        t_usuarios = t_usuarios.OrderBy(x => x.no_emp);
-                        break;
-                    case "Nombre":
-                        t_usuarios = t_usuarios.OrderBy(x => x.nombre);
-                        break;
-                    case "Rol":
-                        t_usuarios = t_usuarios.OrderBy(x => x.rol);
-                        break;
-                    case "No. de empleado_desc":
-                        t_usuarios = t_usuarios.OrderByDescending(x => x.no_emp);
-                        break;
-                    case "Nombre_desc":
-                        t_usuarios = t_usuarios.OrderByDescending(x => x.nombre);
-                        break;
-                    case "Rol_desc":
-                        t_usuarios = t_usuarios.OrderByDescending(x => x.rol);
-                        break;
-
-                    default:
-                        break;
-                }
+                return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                t_usuarios = t_usuarios.OrderBy(x => x.nombre);
-
-            }
-
-
-            int pageSize = 50;
-            int pageNumber = (page ?? 1);
-                        
-            return View(t_usuarios.ToPagedList(pageNumber, pageSize));
+            
         }
 
         // GET: t_usuarios/Details/5
@@ -128,15 +136,26 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_usuarios/Create
         public ActionResult Create(int? idEmpleado)
         {
-            List<SelectListItem> rol = new List<SelectListItem>();
-            rol.Add(new SelectListItem() { Text = "Usuario", Value = "Usuario" });
-            rol.Add(new SelectListItem() { Text = "Supervisor", Value = "Supervisor" });
-            rol.Add(new SelectListItem() { Text = "Admin", Value = "Admin" });
+            try
+            {
+                if (Session["UserRol"].ToString() != "Admin")
+                    return RedirectToAction("Index", "Home");
 
-            ViewBag.rol = new SelectList(rol, "Value", "Text");
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion");
+                List<SelectListItem> rol = new List<SelectListItem>();
+                rol.Add(new SelectListItem() { Text = "Usuario", Value = "Usuario" });
+                rol.Add(new SelectListItem() { Text = "Supervisor", Value = "Supervisor" });
+                rol.Add(new SelectListItem() { Text = "Admin", Value = "Admin" });
 
-            return View();
+                ViewBag.rol = new SelectList(rol, "Value", "Text");
+                ViewBag.depto = new SelectList(db.t_depto, "depto", "descripcion");
+                ViewBag.categoria = new SelectList(db.t_catego.Where(x => x.depto == "MAN"), "categoria", "descripcion");
+
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         public ActionResult datosTress(int id)
@@ -187,12 +206,22 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "usuario,no_emp,planta,nombre,email,turno,puesto,supervisor,depto,rol,categoria")] t_usuarios t_usuarios)
+        public ActionResult Create([Bind(Include = "usuario,no_emp,planta,nombre,email,turno,puesto,supervisor,depto,rol,categoria,depto_tress")] t_usuarios t_usuarios)
         {
             if (ModelState.IsValid)
             {
-                if( t_usuarios.rol.ToString() != "Supervisor")
-                t_usuarios.categoria = null;
+                if( t_usuarios.rol.ToString() == "Usuario")
+                {
+                    t_usuarios.depto = null;
+                    t_usuarios.categoria = null;
+                }
+               else
+                {
+                    if (t_usuarios.depto == "SIS")
+                        t_usuarios.categoria = null;
+                }
+
+                
 
                 t_usuarios.email = t_usuarios.email.ToLower();
                 if(t_usuarios.supervisor !=null)
@@ -244,8 +273,8 @@ namespace MaintenanceTicketSystem.Controllers
 
 
 
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion");
-
+            ViewBag.depto = new SelectList(db.t_depto, "depto", "descripcion");
+            ViewBag.categoria = new SelectList(db.t_catego.Where(x => x.depto == "MAN"), "categoria", "descripcion");
             ViewBag.rol = new SelectList(rol, "Value", "Text");
             return View(t_usuarios);
         }
@@ -255,10 +284,21 @@ namespace MaintenanceTicketSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "usuario,no_emp,planta,nombre,email,turno,puesto,supervisor,depto,rol,u_id,f_id, categoria")] t_usuarios t_usuarios)
+        public ActionResult Edit([Bind(Include = "usuario,no_emp,planta,nombre,email,turno,puesto,supervisor,depto,rol,u_id,f_id, categoria,depto_tress")] t_usuarios t_usuarios)
         {
             if (ModelState.IsValid)
             {
+                if (t_usuarios.rol.ToString() == "Usuario")
+                {
+                    t_usuarios.depto = null;
+                    t_usuarios.categoria = null;
+                }
+                else
+                {
+                    if (t_usuarios.depto == "SIS")
+                        t_usuarios.categoria = null;
+                }
+
                 t_usuarios.email = t_usuarios.email.ToLower();
                 if(t_usuarios.supervisor != null)
                 t_usuarios.supervisor = t_usuarios.supervisor.ToLower();
@@ -307,6 +347,7 @@ namespace MaintenanceTicketSystem.Controllers
         // GET: t_usuarios/Delete/5
         public ActionResult Delete(string id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
