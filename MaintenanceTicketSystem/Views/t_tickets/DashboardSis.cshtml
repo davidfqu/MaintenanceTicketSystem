@@ -1,8 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "DashboardSis";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <div class="container">
     <div class="row my-3">
@@ -11,52 +12,26 @@
         </div>
     </div>
     <div class="row my-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-header text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
-                        Facilities
+                        Cerrados/Abiertos
                     </h1>
                 </div>
                 <div class="card-body">
-                    <canvas id="fac" height="95"></canvas>
+                    <canvas id="fac" height="240"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
-                        Sealer Lab
+                        Tickets con mayor tiempo abiertos
                     </h1>
                 </div>
-                <div class="card-body">
-                    <canvas id="seal" height="95"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
-                        Calibraciones
-                    </h1>
-                </div>
-                <div class="card-body">
-                    <canvas id="cal" height="95"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12  mt-4">
-            <div class="card">
-                <div class="card-header text-center">
-                <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
-                    Tickets con mayor tiempo abiertos
-                </h1>
-            </div>
                 <div class="card-body">
                     <canvas id="chLine" height="65"></canvas>
                 </div>
@@ -72,7 +47,8 @@
                 <div class="card-body">
                     <table class="table table-sm">
                         <thead>
-                            <tr><th scope="col"></th>
+                            <tr>
+                                <th scope="col"></th>
                                 <th scope="col">Folio</th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Categoría</th>
@@ -93,8 +69,8 @@
                                     <td>@item.f_compromiso</td>
                                     @{n++;}
                                 </tr>
-                            }
-                          
+                                        }
+
                         </tbody>
                     </table>
                 </div>
@@ -104,18 +80,18 @@
             <div class="card">
                 <div class="card-header text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
-                       Promedio de ciclo de vida de ticket
+                        Promedio de ciclo de vida de ticket
                     </h1>
                 </div>
                 <div class="card-body text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 3vw">
-                       @ViewBag.ciclovida hrs
+                        @ViewBag.ciclovida hrs
                     </h1>
                 </div>
             </div>
         </div>
 
-        
+
 
     </div>
 </div>
@@ -131,9 +107,9 @@
             data: {
                 labels: ["Tickets cerrados", "Tickets abiertos"],
                 datasets: [{
-                    data: [@ViewBag.faccerrados, @ViewBag.facabiertos],
-                    backgroundColor: ["#ffb340", "#e6e8eb"],
-                    hoverBackgroundColor: ["#d99734", "#616774"]
+                    data: [@ViewBag.cerrados, @ViewBag.abiertos],
+                    backgroundColor: ["#139401", "#e6e8eb"],
+                    hoverBackgroundColor: ["#0d6601", "#616774"]
                 }]
             },
             options: {
@@ -148,73 +124,7 @@
                             var size = Math.round(height / 6);
                             return {
                                 size: size
-                        
-                            };
 
-                        },
-
-                    }
-                }
-            }
-        });
-
-        var ctxD = document.getElementById("seal").getContext('2d');
-        var myLineChart = new Chart(ctxD, {
-            type: 'doughnut',
-            data: {
-                labels: ["Tickets cerrados", "Tickets abiertos"],
-                datasets: [{
-                    data: [@ViewBag.sealcerrados, @ViewBag.sealabiertos],
-                    backgroundColor: ["#004dc6", "#e6e8eb"],
-                    hoverBackgroundColor: ["#003a94", "#616774"]
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: { display: false },
-                plugins: {
-                    // Change options for ALL labels of THIS CHART
-                    datalabels: {
-                        color: "rgb(0,0,0)",
-                        font: function(context) {
-                            var height = context.chart.height;
-                            var size = Math.round(height / 6);
-                            return {
-                                size: size
-                        
-                            };
-
-                        },
-
-                    }
-                }
-            }
-        });
-
-        var ctxD = document.getElementById("cal").getContext('2d');
-        var myLineChart = new Chart(ctxD, {
-            type: 'doughnut',
-            data: {
-                labels: ["Tickets cerrados", "Tickets abiertos"],
-                datasets: [{
-                    data: [@ViewBag.calcerrados, @ViewBag.calabiertos],
-                    backgroundColor: ["#e00000", "#e6e8eb"],
-                    hoverBackgroundColor: ["#a30000", "#616774"]
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: { display: false },
-                plugins: {
-                    // Change options for ALL labels of THIS CHART
-                    datalabels: {
-                        color: "rgb(0,0,0)",
-                        font: function(context) {
-                            var height = context.chart.height;
-                            var size = Math.round(height / 6);
-                            return {
-                                size: size
-                        
                             };
 
                         },
@@ -273,7 +183,7 @@
                             var size = Math.round(height / 10);
                             return {
                                 size: size
-                        
+
                             };
 
                         },
@@ -283,6 +193,8 @@
 
             }
         });
+
+
 
 
     });

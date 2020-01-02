@@ -868,6 +868,7 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.f_cerrado, "", new { @class = "text-danger" })
                                 </td>
 
                             </tr>
@@ -1169,6 +1170,7 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.f_cerrado, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
                         </tbody>
@@ -1627,6 +1629,7 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.f_cerrado, "", new { @class = "text-danger" })
                                 </td>
 
                             </tr>

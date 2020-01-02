@@ -492,6 +492,7 @@
     <Content Include="Views\Home\TicketsTecnico.cshtml" />
     <Content Include="Views\t_tickets\Dashboard.cshtml" />
     <Content Include="Views\t_tickets\EditSis.cshtml" />
+    <Content Include="Views\t_tickets\DashboardSis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

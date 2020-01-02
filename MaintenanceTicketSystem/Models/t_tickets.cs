@@ -11,7 +11,9 @@ namespace MaintenanceTicketSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
     public partial class t_tickets
     {
         public decimal folio { get; set; }
@@ -35,6 +37,7 @@ namespace MaintenanceTicketSystem.Models
         public string n_espera { get; set; }
         public Nullable<System.DateTime> f_detenido { get; set; }
         public string n_detenido { get; set; }
+        [Remote("fcerradoVal", "t_tickets", AdditionalFields = "f_revisado", HttpMethod = "POST", ErrorMessage = "La fecha de cerrado no puede ser menor que la de revisión")]
         public Nullable<System.DateTime> f_cerrado { get; set; }
         public string n_cerrado { get; set; }
         public string tecnico { get; set; }

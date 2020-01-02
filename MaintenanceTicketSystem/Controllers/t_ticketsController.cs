@@ -105,14 +105,7 @@ namespace MaintenanceTicketSystem.Controllers
                 labelsTA = labelsTA + item.folio.ToString();
                 
                 n++;
-                if (n != 5)
-                {
-                    dataTA = dataTA + ",";
-                    labelsTA = labelsTA + ",";
-                    bgcolorTA = bgcolorTA + ",";
-                    bocolorTA = bocolorTA + ",";
-                }
-                else
+                if (n == 5 || n == ticketsabiertos.Count())
                 {
                     dataTA = dataTA + "]";
                     labelsTA = labelsTA + "]";
@@ -120,7 +113,14 @@ namespace MaintenanceTicketSystem.Controllers
                     bocolorTA = bocolorTA + "]";
                     break;
                 }
-                   
+                else
+                {
+                    dataTA = dataTA + ",";
+                    labelsTA = labelsTA + ",";
+                    bgcolorTA = bgcolorTA + ",";
+                    bocolorTA = bocolorTA + ",";
+                }
+
             }
 
             var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" &&  x.f_compromiso != null && x.depto == "MAN").OrderBy(x => x.f_compromiso).Take(10).ToList();
@@ -142,6 +142,111 @@ namespace MaintenanceTicketSystem.Controllers
                     totalhrs = totalhrs + diff.TotalHours;
                    no++;
                 
+            }
+
+            promediohrs = Math.Round(totalhrs / no);
+
+            ViewBag.ciclovida = promediohrs.ToString();
+            ViewBag.ticketsPA = ticketsporatender;
+            ViewBag.datagraph = dataTA;
+            ViewBag.labelsgraph = labelsTA;
+            ViewBag.bgcolorgraph = bgcolorTA;
+            ViewBag.bocolorgraph = bocolorTA;
+
+
+
+            return View();
+        }
+
+        public ActionResult DashboardSis()
+        {
+            if (!(Session["UserRol"].ToString() == "Admin" || Session["UserRol"].ToString() == "Supervisor"))
+            {
+                return RedirectToAction("Index", "Home", null);
+            }
+            var t_tickets = db.t_tickets.Include(t => t.t_areas).Include(t => t.t_catego).Include(t => t.t_equipos).Include(t => t.t_usuarios).Include(t => t.t_fallas).Include(t => t.t_usuarios1).Include(t => t.t_estatus).Include(t => t.t_depto);
+
+            //Graficas pie de categorias
+            
+            var cat = t_tickets.Where(x => x.depto == "SIS").GroupBy(x => x.depto).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
+            try
+            {
+                ViewBag.cerrados = cat.ElementAt(0).cerrados.ToString();
+                ViewBag.abiertos = cat.ElementAt(0).abiertos.ToString();
+
+            }
+            catch
+            {
+                ViewBag.cerrados = "0";
+                ViewBag.abiertos = "0";
+            }
+
+
+            //grafica de tickets abiertos
+
+            var ticketsabiertos = db.t_tickets.Where(x => x.estatus != "CE" && x.depto == "SIS").OrderBy(x => x.fecha).ToList();
+            int n = 0;
+            string dataTA = "[";
+            string labelsTA = "[";
+            string bgcolorTA = "[";
+            string bocolorTA = "[";
+            string ccal = "'rgba(224, 0, 0, 1)'";
+            string bcal = "'rgba(224, 0, 0, 1)'";
+
+            DateTime hoy = DateTime.Now;
+            DateTime fechaticket;
+            double dif;
+
+            foreach (var item in ticketsabiertos)
+            {
+                fechaticket = (DateTime)item.fecha;
+                dif = Math.Round((hoy - fechaticket).TotalDays);
+
+           
+                    bgcolorTA = bgcolorTA + ccal;
+                    bocolorTA = bocolorTA + bcal;
+                
+
+                dataTA = dataTA + dif.ToString();
+                labelsTA = labelsTA + item.folio.ToString();
+
+                n++;
+                if (n == 5 || n== ticketsabiertos.Count())
+                {
+                    dataTA = dataTA + "]";
+                    labelsTA = labelsTA + "]";
+                    bgcolorTA = bgcolorTA + "]";
+                    bocolorTA = bocolorTA + "]";
+                    break;
+                }
+                else
+                {
+                    dataTA = dataTA + ",";
+                    labelsTA = labelsTA + ",";
+                    bgcolorTA = bgcolorTA + ",";
+                    bocolorTA = bocolorTA + ",";
+                }
+
+            }
+
+            var ticketsporatender = db.t_tickets.Where(x => x.estatus != "CE" && x.f_compromiso != null && x.depto == "SIS").OrderBy(x => x.f_compromiso).Take(10).ToList();
+
+            var ticketscerrados = db.t_tickets.Where(x => x.estatus == "CE" && x.f_revisado != null && x.f_cerrado != null && x.depto == "SIS").ToList();
+            TimeSpan diff;
+            DateTime date1, date2;
+            double promediohrs, totalhrs = 0;
+            int no = 0;
+
+            foreach (var item in ticketscerrados)
+            {
+
+                date1 = (DateTime)item.f_revisado;
+                date2 = (DateTime)item.f_cerrado;
+
+                diff = date2.Subtract(date1);
+                totalhrs = totalhrs + diff.TotalHours;
+                no++;
+
             }
 
             promediohrs = Math.Round(totalhrs / no);
@@ -732,7 +837,12 @@ namespace MaintenanceTicketSystem.Controllers
                     return RedirectToAction("TicketsTecnico", "Home", new { tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
                 }
                 else
-                    return RedirectToAction("EditSis", "t_tickets", new { id = t_tickets.folio });
+                {
+                    if(Session["UserRol"].ToString() == "Admin")
+                        return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+                    else
+                        return RedirectToAction("EditSis", "t_tickets", new { id = t_tickets.folio });
+                }
                 
             }
             ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
@@ -833,6 +943,20 @@ namespace MaintenanceTicketSystem.Controllers
             tecnicos.Add(new SelectListItem() { Text = "N/A", Value = "N/A" });
 
             return tecnicos;
+        }
+
+        [HttpPost]
+        public JsonResult fcerradoVal(string f_cerrado, string f_revisado)
+        {
+           
+            if ((DateTime.Parse(f_cerrado) < DateTime.Parse(f_revisado)))
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
