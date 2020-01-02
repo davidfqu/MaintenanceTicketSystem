@@ -732,7 +732,8 @@ namespace MaintenanceTicketSystem.Controllers
                     return RedirectToAction("TicketsTecnico", "Home", new { tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
                 }
                 else
-                    return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+                    return RedirectToAction("EditSis", "t_tickets", new { id = t_tickets.folio });
+                
             }
             ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
             ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);

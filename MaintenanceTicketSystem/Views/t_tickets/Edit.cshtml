@@ -983,7 +983,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Fecha Requerida</label>
-                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
+               @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
             </div>
 
 
@@ -1423,7 +1423,7 @@ else
 
             <div class="form-group col-md-6">
                 <label>Fecha Requerida</label>
-                <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
+               @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
             </div>
 
             <div class="form-group col-md-6">
