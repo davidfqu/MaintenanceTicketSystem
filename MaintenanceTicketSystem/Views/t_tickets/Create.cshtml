@@ -39,7 +39,10 @@
         <div class="form-group col-md-6">
             @Html.LabelFor(model => model.depto, "Departamento", htmlAttributes: new { @class = "control-label" })
             @Html.DropDownList("depto", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
+            <span class="field-validation-valid text-danger"
+                  data-valmsg-for="StudentName"
+                  data-valmsg-replace="true">
+            </span>
             <br>
             @Html.LabelFor(model => model.categoria, "Categoría", htmlAttributes: new { @class = "control-label" })
             <a id="infoman" href="#" data-toggle="tooltip" data-placement="top" title="Info"> <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#ModalMAN">i</span></a>
@@ -47,16 +50,16 @@
             @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
             <br>
-            @Html.LabelFor(model => model.area, "Ubicación", htmlAttributes: new { @class = "control-label" })
-            @Html.DropDownList("area", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
-            <br>
             @Html.LabelFor(model => model.equipo, "Equipo", htmlAttributes: new { @class = "control-label" })
             @Html.DropDownList("equipo", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.equipo, "", new { @class = "text-danger" })
             <br>
+            @Html.LabelFor(model => model.area, "Ubicación", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownList("area", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
+            <br>
             @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
-            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6" })
+            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @maxlength = "1000" })
             @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
             <br>
             <label>Imagen</label>
@@ -70,6 +73,9 @@
                 <label><input type="checkbox" id="cburgencia" value=""> Urgente</label>
             </div>
             @Html.DropDownList("urgencia", null, htmlAttributes: new { @class = "form-control" })
+
+
+
         </div>
 
         <div class="form-group col-md-6">
@@ -93,16 +99,12 @@
             <input class="form-control" id="ucorreo" readonly>
         </div>
 
-
-
   
         <br>
         <br>
-        <div class="form-group col-12">
-
+        <div class="form-group col-3">
             <input id="botonbuenocrear" type="submit" style="display:none" />
-            <button id="botonfalsocrear" type="button" class="btn btn-outline-primary">Crear</button>
-
+            <button id="botonfalsocrear" type="button" class="btn btn-primary btn-lg btn-block">Crear</button>
         </div>
         </div>
 
@@ -182,10 +184,36 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        updateUsuario();
-        $("#equipo").empty();
         $('#urgencia').hide();
         $("#infosis").hide();
+        updateUsuario();
+        updateCategoriasEquipos();
+       // alert(firstcat);
+      //  updateEquipos();
+
+       
+
+        function updateUsuario() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getInfoUsuario", "t_tickets")',
+                dataType: 'json',
+                data: { id: '@User.Identity.Name.ToString().Substring(11).ToLower()' },
+                success: function (usuario) {
+                    if (usuario[5] = "Usuario") {
+                        document.getElementById("u_id").value = usuario[0];
+                        document.getElementById("udeptotress").value = usuario[1];
+                        document.getElementById("upuesto").value = usuario[2];
+                        document.getElementById("uturno").value = usuario[3];
+                        document.getElementById("ucorreo").value = usuario[4];
+                        document.getElementById("unombre").value = usuario[6];
+                    }
+                },
+                error: function (ex) {
+                    // alert('Failed.' + ex);
+                }
+            });
+        }
 
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -201,31 +229,29 @@
         });
 
 
-         function updateUsuario() {
-      $.ajax({
-                type: 'POST',
-                url: '@Url.Action("getInfoUsuario", "t_tickets")',
-                dataType: 'json',
-                data: { id: '@User.Identity.Name.ToString().Substring(11).ToLower()' },
-                success: function (usuario) {
-                    if(usuario[5] = "Usuario")
-                    {
-                        document.getElementById("u_id").value = usuario[0];
-                        document.getElementById("udeptotress").value = usuario[1];
-                        document.getElementById("upuesto").value = usuario[2];
-                        document.getElementById("uturno").value = usuario[3];
-                        document.getElementById("ucorreo").value = usuario[4];
-                        document.getElementById("unombre").value = usuario[6];
-                    }
-                },
-                error: function (ex) {
-                   // alert('Failed.' + ex);
-                }
-            });
-         }
+        $("#depto").click(
+            updateCategoriasEquipos
+            );
 
-        $("#depto").click(function () {
-            $("#equipo").empty();
+        $("#depto").change(function () {
+
+            if ($("#depto").val() == "SIS") {
+                $("#infosis").show();
+                $("#infoman").hide();
+            }
+            if ($("#depto").val() == "MAN") {
+                $("#infosis").hide();
+                $("#infoman").show();
+            }
+        });
+
+        $("#categoria").click(
+            updateEquipos
+            );
+
+
+        function updateCategoriasEquipos() {
+            //updatecategorias
             $("#categoria").empty();
             $.ajax({
                 type: 'POST',
@@ -233,7 +259,26 @@
                 dataType: 'json',
                 data: { id: $("#depto").val() },
                 success: function (categoria) {
+                    //updateequipos
+                    $("#equipo").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("getEquipo", "t_tickets")',
+                        dataType: 'json',
+                        data: { id: categoria[0].Value },
+                        success: function (equipo) {
 
+                            $.each(equipo, function (i, equipos) {
+                                $("#equipo").append('<option value="'
+                                                           + equipos.Value + '">'
+                                                     + equipos.Text + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed.' + ex);
+                        }
+                    });
+                    
                     $.each(categoria, function (i, categorias) {
                         $("#categoria").append('<option value="'
                                                    + categorias.Value + '">'
@@ -244,26 +289,11 @@
                     alert('Failed.' + ex);
                 }
             });
+            return false;
+        }
 
-            
-
-        })
-
-        $("#depto").change(function () {
-           
-            if( $("#depto").val() == "SIS")
-            {
-                $("#infosis").show();
-                $("#infoman").hide();
-            }
-            if ($("#depto").val() == "MAN") {
-                $("#infosis").hide();
-                $("#infoman").show();
-            }
-        })
-
-        $("#categoria").click(function () {
-         
+        function updateEquipos() {
+            //alert($("#categoria").val());
             $("#equipo").empty();
             $.ajax({
                 type: 'POST',
@@ -279,11 +309,12 @@
                     });
                 },
                 error: function (ex) {
-                   alert('Failed.' + ex);
+                    alert('Failed.' + ex);
                 }
             });
             return false;
-        })
+        }
+
 
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {

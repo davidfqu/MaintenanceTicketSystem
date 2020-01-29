@@ -6,7 +6,7 @@
 
 
 <div id="alertsuper1" class="alert alert-danger alert-dismissible fade in" role="alert">
-    <strong>Vaya!</strong> Parece que no has seleccionado ningún técnico y asignado una fecha compromiso
+    <strong>Vaya!</strong> Parece que no has asignado una fecha compromiso
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -261,62 +261,46 @@ else
                     <div class="form-row">
 
                         <!-- SOLICITUD  -->
-
                         <div class="form-group col-md-6">
                             <label>Ubicación</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
-                        </div>
+                            @Html.EditorFor(model => model.t_areas.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            <label>Categoría</label>
+                            @Html.EditorFor(model => model.t_catego.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            <label>Equipo</label>
+                            @Html.EditorFor(model => model.t_equipos.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
+                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "9", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                            <br>
+                            <label>Fecha Requerida</label>
+                            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
 
+                        </div>
                         <div class="form-group col-md-6">
                             <label>Nombre</label>
                             <input class="form-control" id="unombre" readonly value="">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Categoría</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Usuario Windows</label>
                             <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Equipo</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Departamento Usuario</label>
                             <input class="form-control" id="udeptotress" readonly>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label" })
-                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-                        </div>
-
-
-                        <div class="form-group col-md-6">
-
+                            <br>
                             <label>Turno</label>
                             <input class="form-control" id="uturno" readonly>
                             <br>
                             <label>Puesto</label>
                             <input class="form-control" id="upuesto" readonly value="">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Fecha Requerida</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.f_requerida)>
-                        </div>
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Correo</label>
                             <input class="form-control" id="ucorreo" readonly>
+                            <br>
+                            <label>Supervisor</label>
+                            @Html.EditorFor(model => model.t_usuarios.supervisor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
-
-
 
                         @if (Model.imagen_path != null)
                         {
@@ -326,10 +310,9 @@ else
                             </div>
                         }
 
-
                         <div class="form-group col-md-12">
-                            <label id="lupro">Urgente (Afecta producción) <span class="badge badge-pill badge-warning">!</span></label>
-                            <label id="luseg">Urgente (Afecta seguridad) <span class="badge badge-pill badge-primary">!</span></label>
+                            <label id="lupro">Urgente (Afecta producción)<span class="badge badge-pill badge-warning">!</span></label>
+                            <label id="luseg">Urgente (Afecta seguridad)<span class="badge badge-pill badge-primary">!</span></label>
                         </div>
 
                         <!--SEGUIMIENTO-->
@@ -581,60 +564,44 @@ else
 
                         <div class="form-group col-md-6">
                             <label>Ubicación</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
+                            @Html.EditorFor(model => model.t_areas.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            <label>Categoría</label>
+                             @Html.EditorFor(model => model.t_catego.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            <label>Equipo</label>
+                                @Html.EditorFor(model => model.t_equipos.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
+                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "9", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                            <br>
+                            <label>Fecha Requerida</label>
+                            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
                         </div>
                         <div class="form-group col-md-6">
                             <label>Nombre</label>
                             <input class="form-control" id="unombre" readonly value="">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Categoría</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Usuario Windows</label>
                             <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Equipo</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
-                        </div>
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Departamento Usuario</label>
                             <input class="form-control" id="udeptotress" readonly>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
-                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-                        </div>
-
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Turno</label>
                             <input class="form-control" id="uturno" readonly>
                             <br>
                             <label>Puesto</label>
                             <input class="form-control" id="upuesto" readonly value="">
-                        </div>
-
-
-                        <div class="form-group col-md-6">
-                            <label>Fecha Requerida</label>
-                           @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Correo</label>
                             <input class="form-control" id="ucorreo" readonly>
+                            <br>
+                            <label>Supervisor</label>
+                            @Html.EditorFor(model => model.t_usuarios.supervisor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
-
-
 
                         @if (Model.imagen_path != null)
                         {
@@ -730,7 +697,7 @@ else
 
                         <div class="form-group col-md-6">
                             <label>Notas Supervisor</label>
-                            @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13" })
+                            @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13", @maxlength = "1000" })
                         </div>
 
                         <br>
@@ -751,7 +718,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "RE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Revisión
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control " } })
+                                                @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control ", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -762,7 +729,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "AP", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Autorizado
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -773,7 +740,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Espera
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -784,7 +751,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Proceso
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -795,7 +762,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Terminado
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -807,7 +774,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "CE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Cerrado
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -828,7 +795,7 @@ else
 
                         <div class="form-group col-md-6 rcerrado">
                             @Html.LabelFor(model => model.actividades, "Actividades", htmlAttributes: new { @class = "control-label" })
-                            @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6" })
+                            @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6", @maxlength = "1000", @width = "100%" })
                             @Html.ValidationMessageFor(model => model.actividades, "", new { @class = "text-danger" })
                         </div>
 
@@ -837,7 +804,6 @@ else
                         <br>
 
                         <div class="form-group col-12">
-
                             <input id="botonbuenosuper" type="submit" value="Actualizar" style="display:none" />
                             <button id="botonfalsosuper" type="button" class="btn btn-outline-primary">Actualizar</button>
 
@@ -852,7 +818,7 @@ else
                                             <h5 class="modal-title">Razón</h5>
                                         </div>
                                         <div class="modal-body">
-                                            @Html.TextAreaFor(model => model.nota_autoriza, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                                            @Html.TextAreaFor(model => model.nota_autoriza, new { @class = "form-control", @rows = "8", @style = "min-width: 100%", @maxlength = "1000" })
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
@@ -868,7 +834,7 @@ else
                                             <h5 class="modal-title">Razón</h5>
                                         </div>
                                         <div class="modal-body">
-                                            @Html.TextAreaFor(model => model.nota_autoriza2, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                                            @Html.TextAreaFor(model => model.nota_autoriza2, new { @class = "form-control", @rows = "8", @style = "min-width: 100%", @maxlength = "1000" })
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
@@ -884,7 +850,7 @@ else
                                             <h5 class="modal-title">Razón</h5>
                                         </div>
                                         <div class="modal-body">
-                                            @Html.TextAreaFor(model => model.nota_autoriza3, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                                            @Html.TextAreaFor(model => model.nota_autoriza3, new { @class = "form-control", @rows = "8", @style = "min-width: 100%", @maxlength = "1000" })
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
@@ -900,7 +866,7 @@ else
                                             <h5 class="modal-title">Razón</h5>
                                         </div>
                                         <div class="modal-body">
-                                            @Html.TextAreaFor(model => model.nota_autoriza4, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                                            @Html.TextAreaFor(model => model.nota_autoriza4, new { @class = "form-control", @rows = "8", @style = "min-width: 100%", @maxlength = "1000" })
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
@@ -916,7 +882,7 @@ else
                                             <h5 class="modal-title">Razón</h5>
                                         </div>
                                         <div class="modal-body">
-                                            @Html.TextAreaFor(model => model.nota_autoriza5, new { @class = "form-control", @rows = "8", @style = "min-width: 100%" })
+                                            @Html.TextAreaFor(model => model.nota_autoriza5, new { @class = "form-control", @rows = "8", @style = "min-width: 100%", @maxlength = "1000" })
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
@@ -978,62 +944,47 @@ else
 
                         <!-- SOLICITUD  -->
 
+
                         <div class="form-group col-md-6">
                             <label>Ubicación</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_areas.descripcion)>
+                            @Html.EditorFor(model => model.t_areas.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            <label>Categoría</label>
+                            @Html.EditorFor(model => model.t_catego.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            <label>Equipo</label>
+                            @Html.EditorFor(model => model.t_equipos.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            <br>
+                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
+                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "9", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                            <br>
+                            <label>Fecha Requerida</label>
+                            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
                         </div>
                         <div class="form-group col-md-6">
                             <label>Nombre</label>
                             <input class="form-control" id="unombre" readonly value="">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Categoría</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_catego.descripcion)>
-                        </div>
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Usuario Windows</label>
                             <input class="form-control" readonly value=@Html.DisplayFor(model => model.u_id)>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Equipo</label>
-                            <input class="form-control" readonly value=@Html.DisplayFor(model => model.t_equipos.descripcion)>
-                        </div>
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Departamento Usuario</label>
                             <input class="form-control" id="udeptotress" readonly>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label", @readonly = "readonly" })
-                            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control", @rows = "6", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-                        </div>
-
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Turno</label>
                             <input class="form-control" id="uturno" readonly>
                             <br>
                             <label>Puesto</label>
                             <input class="form-control" id="upuesto" readonly value="">
-                        </div>
-
-
-                        <div class="form-group col-md-6">
-                            <label>Fecha Requerida</label>
-                            @Html.EditorFor(model => model.f_requerida, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-
-
-                        <div class="form-group col-md-6">
+                            <br>
                             <label>Correo</label>
                             <input class="form-control" id="ucorreo" readonly>
+                            <br>
+                            <label>Supervisor</label>
+                            @Html.EditorFor(model => model.t_usuarios.supervisor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
-
-
 
                         @if (Model.imagen_path != null)
                         {
@@ -1129,7 +1080,7 @@ else
 
                         <div class="form-group col-md-6">
                             <label>Notas Supervisor</label>
-                            @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13" })
+                            @Html.TextAreaFor(model => model.notas, new { @class = "form-control", @rows = "13", @maxlength = "1000" })
                         </div>
 
                         <br>
@@ -1150,7 +1101,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "RE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Revisión
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control " } })
+                                                @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control ", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1161,7 +1112,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "AP", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Autorizado
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1172,7 +1123,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "ES", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Espera
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1183,7 +1134,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "PR", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Proceso
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1194,7 +1145,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "TE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Terminado
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1206,7 +1157,7 @@ else
                                                 @Html.RadioButtonFor(model => model.estatus, "CE", htmlAttributes: new { @class = "control-label checkboxEstatus" }) Cerrado
                                             </td>
                                             <td>
-                                                @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                             </td>
                                             <td>
                                                 @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1226,7 +1177,7 @@ else
 
                         <div class="form-group col-md-6 rcerrado">
                             @Html.LabelFor(model => model.actividades, "Actividades", htmlAttributes: new { @class = "control-label" })
-                            @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6" })
+                            @Html.TextAreaFor(model => model.actividades, new { @class = "form-control", @rows = "6", @maxlength = "1000" })
                         </div>
 
 
@@ -1365,6 +1316,7 @@ else
         </div>
     </div>
 }
+
 
 
 

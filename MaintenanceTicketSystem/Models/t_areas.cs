@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+
 namespace MaintenanceTicketSystem.Models
 {
     using System;
@@ -27,8 +28,9 @@ namespace MaintenanceTicketSystem.Models
         public string area { get; set; }
         [Required(ErrorMessage = "Campo Obligatorio")]
         public string descripcion { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_tickets> t_tickets { get; set; }
     }
 }
+

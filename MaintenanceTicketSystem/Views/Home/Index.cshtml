@@ -13,6 +13,14 @@
         </button>
     </div>
 
+<div id="alertticketerror" class="alert alert-danger alert-dismissible fade in" role="alert">
+    <strong>Vaya!</strong> Hubo un error en el proceso. Intentar de nuevo 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
 <div id="alertticketeditado" class="alert alert-success alert-dismissible fade in" role="alert">
     <strong>Bien!</strong> El ticket con el folio @ViewBag.numticket ha sido actualizado
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -203,7 +211,7 @@ else
                         editt = "EditSis";
                     }
 
-                    <tr class="table-row" style="cursor:pointer;" data-href= @Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
+                    <tr class="table-row" data-toggle="popover" data-trigger="hover" data-content='@Html.Raw(item.descripcion)' style="@(item.estatus == "CE" ? "cursor:pointer; background-color:#ededed" : "cursor:pointer")" data-href= @Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
                         <td>
                             @if (item.depto == "MAN")
                             {
@@ -300,7 +308,7 @@ if (Session["UserRol"].ToString() == "Supervisor")
             {
                 editt = "EditSis";
             }
-            <tr class="table-row" style="cursor:pointer;" data-href=@Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
+            <tr data-toggle="popover" data-trigger="hover" data-content='@Html.Raw(item.descripcion)' class="table-row" style="@(item.estatus == "CE" ? "cursor:pointer; background-color:#ededed" : "cursor:pointer")" data-href=@Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
                 <td>
                     @if (item.depto == "MAN")
                     {
@@ -403,7 +411,7 @@ if (Session["UserRol"].ToString() == "Admin")
                 editt = "EditSis";
             }
             
-            <tr class="table-row" style="cursor:pointer;" data-href=@Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
+            <tr class="table-row" data-toggle="popover" data-trigger="hover" data-content='@Html.Raw(item.descripcion)'  style="@(item.estatus == "CE" ? "cursor:pointer; background-color:#ededed" : "cursor:pointer")" data-href=@Url.Action(editt, "t_tickets", new { id = item.folio, currentFilter = ViewBag.CurrentFilter, searchOption = ViewBag.CurrentSearch }, null)>
                 <td>
                     @if (item.depto == "MAN")
                     {
@@ -499,6 +507,18 @@ if (Session["UserRol"].ToString() == "Admin")
 
 <script>
     $(document).ready(function () {
+        $('[data-toggle="popover"]').popover({
+            title: "Descripción",
+            delay: {
+                show: 1000,
+                hide: 50
+            },
+            placement: "top",
+            show: function () {
+                $(this).fadeIn('slow');
+            }
+
+        });
 
         $(".table-row").click(function () {
             window.document.location = $(this).data("href");
@@ -527,6 +547,17 @@ if (Session["UserRol"].ToString() == "Admin")
      setTimeout(function () { $("#alertticketeditado").css('z-index', 0); }, 5000);
          </text>
      }
+
+        @if(ViewBag.ticketerror ==true)
+        {
+            <text>
+        $("#alertticketerror").css('z-index', 10);
+            $("#alertticketerror").fadeTo(4000, 1000).slideUp(1000, function () {
+                $("#alertticketerror").slideUp(1000);
+            });
+            setTimeout(function () { $("#alertticketerror").css('z-index', 0); }, 5000);
+            </text>
+        }
 
 });
 </script>

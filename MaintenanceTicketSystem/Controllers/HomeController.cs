@@ -21,7 +21,7 @@ namespace MaintenanceTicketSystem.Controllers
             t_config t_config = db.t_config.Find("01");
             
             string username = User.Identity.Name.ToString().Substring(11).ToLower();
-            //string username = "hgraysom";
+            //string username = "pcandelario";
             string deptoUsuario = "user";
             if (username == "mxc01")
             {
@@ -58,7 +58,7 @@ namespace MaintenanceTicketSystem.Controllers
                 if (ddlUsuarios[0].rol.ToString() == "Usuario")
                  
                     {
-                        t_tickets = t_tickets.Where(x => x.u_id == username).OrderBy(x => x.fecha).OrderBy(x => x.t_estatus.orden);
+                        t_tickets = t_tickets.Where(x => x.u_id == username).OrderByDescending(x => x.folio).OrderBy(x => x.fecha).OrderBy(x => x.t_estatus.orden);
                     }
                     
                 if (ddlUsuarios[0].rol.ToString() == "Supervisor")
@@ -71,7 +71,7 @@ namespace MaintenanceTicketSystem.Controllers
                         Session["CategoryDesc"] = ddlUsuarios[0].t_catego.descripcion.ToString();
                         t_tickets = t_tickets.Where(x => x.t_catego.descripcion == categoriaUsuario);
                         t_tickets = t_tickets.Concat(t_tickets2.Where(x => x.u_id == username));
-                        t_tickets = t_tickets.Distinct().OrderByDescending(x => x.urgencia).OrderBy(x => x.t_estatus.orden);
+                        t_tickets = t_tickets.Distinct().OrderByDescending(x => x.folio).OrderByDescending(x => x.urgencia).OrderBy(x => x.t_estatus.orden);
                     }
                     if (ddlUsuarios[0].depto.ToString() == "SIS")
                     {
@@ -81,7 +81,7 @@ namespace MaintenanceTicketSystem.Controllers
                         Session["CategoryDesc"] = "Sistemas";
                         t_tickets = t_tickets.Where(x => x.depto == deptoUsuario);
                         t_tickets = t_tickets.Concat(t_tickets2.Where(x => x.u_id == username));
-                        t_tickets = t_tickets.Distinct().OrderByDescending(x => x.urgencia).OrderBy(x => x.t_estatus.orden);
+                        t_tickets = t_tickets.Distinct().OrderByDescending(x => x.folio).OrderByDescending(x => x.urgencia).OrderBy(x => x.t_estatus.orden);
                     }
 
                 }
@@ -90,7 +90,7 @@ namespace MaintenanceTicketSystem.Controllers
                     //   t_tickets = t_tickets.OrderBy(x => x.t_estatus.orden).OrderBy(x => x.urgencia).OrderBy(x => x.prioridad).OrderBy(x => x.fecha);
                     deptoUsuario = ddlUsuarios[0].depto.ToString();
                     Session["Depto"] = deptoUsuario;
-                    t_tickets = t_tickets.Where(x => x.depto == deptoUsuario || x.u_id == username).OrderBy(x => x.fecha).OrderByDescending(x => x.urgencia).OrderBy(x => x.t_estatus.orden);
+                    t_tickets = t_tickets.Where(x => x.depto == deptoUsuario || x.u_id == username).OrderBy(x => x.folio).OrderByDescending(x => x.urgencia).OrderBy(x => x.t_estatus.orden);
                     
                 }
                 
@@ -248,6 +248,11 @@ namespace MaintenanceTicketSystem.Controllers
                     ViewBag.numticket = numticket;
                 }
 
+                if (accion == "error" )
+                {
+                    ViewBag.ticketerror = true;
+                }
+                
                 int tpendientesauto=  TicketsPendientesAutorizar(username);
 
                 ViewBag.tpendientes = tpendientesauto.ToString();

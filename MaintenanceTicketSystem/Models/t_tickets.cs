@@ -85,8 +85,9 @@ namespace MaintenanceTicketSystem.Models
         public string nota_autoriza5 { get; set; }
         public Nullable<System.DateTime> sup_fautoriza5 { get; set; }
         public string ind_autoriza5 { get; set; }
-    
+
         public virtual t_areas t_areas { get; set; }
+        
         public virtual t_catego t_catego { get; set; }
         public virtual t_depto t_depto { get; set; }
         public virtual t_equipos t_equipos { get; set; }

@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+
 namespace MaintenanceTicketSystem.Models
 {
     using System;
@@ -40,7 +41,7 @@ namespace MaintenanceTicketSystem.Models
         public Nullable<System.DateTime> f_id { get; set; }
         public string categoria { get; set; }
         public string depto_tress { get; set; }
-    
+
         public virtual t_catego t_catego { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<t_tickets> t_tickets { get; set; }

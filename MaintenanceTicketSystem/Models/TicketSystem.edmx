@@ -102,24 +102,24 @@
           <Property Name="categoria" Type="varchar" MaxLength="10" />
           <Property Name="estatus" Type="varchar" MaxLength="20" />
           <Property Name="f_revisado" Type="datetime" />
-          <Property Name="n_revisado" Type="varchar" MaxLength="100" />
+          <Property Name="n_revisado" Type="varchar" MaxLength="1000" />
           <Property Name="f_aprovacion" Type="datetime" />
-          <Property Name="n_aprovacion" Type="varchar" MaxLength="100" />
+          <Property Name="n_aprovacion" Type="varchar" MaxLength="1000" />
           <Property Name="f_proceso" Type="datetime" />
-          <Property Name="n_proceso" Type="varchar" MaxLength="100" />
+          <Property Name="n_proceso" Type="varchar" MaxLength="1000" />
           <Property Name="f_espera" Type="datetime" />
-          <Property Name="n_espera" Type="varchar" MaxLength="100" />
+          <Property Name="n_espera" Type="varchar" MaxLength="1000" />
           <Property Name="f_detenido" Type="datetime" />
-          <Property Name="n_detenido" Type="varchar" MaxLength="100" />
+          <Property Name="n_detenido" Type="varchar" MaxLength="1000" />
           <Property Name="f_cerrado" Type="datetime" />
-          <Property Name="n_cerrado" Type="varchar" MaxLength="100" />
+          <Property Name="n_cerrado" Type="varchar" MaxLength="1000" />
           <Property Name="tecnico" Type="varchar" MaxLength="50" />
           <Property Name="turno" Type="varchar" MaxLength="10" />
           <Property Name="prioridad" Type="varchar" MaxLength="20" />
           <Property Name="urgencia" Type="nvarchar" MaxLength="1" />
           <Property Name="depto" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="250" />
-          <Property Name="actividades" Type="varchar" MaxLength="250" />
+          <Property Name="descripcion" Type="varchar" MaxLength="1000" />
+          <Property Name="actividades" Type="varchar" MaxLength="1000" />
           <Property Name="duracion" Type="decimal" Precision="6" Scale="2" />
           <Property Name="f_compromiso" Type="datetime" />
           <Property Name="req_autoriza" Type="varchar" MaxLength="1" />
@@ -134,28 +134,28 @@
           <Property Name="sup_revisado" Type="varchar" MaxLength="50" />
           <Property Name="ind_cancelado" Type="varchar" MaxLength="1" />
           <Property Name="f_cancela" Type="datetime" />
-          <Property Name="nota_cancel" Type="varchar" MaxLength="100" />
+          <Property Name="nota_cancel" Type="varchar" MaxLength="1000" />
           <Property Name="req_autoriza3" Type="varchar" MaxLength="1" />
           <Property Name="sup_autoriza3" Type="varchar" MaxLength="50" />
           <Property Name="sup_fautoriza3" Type="datetime" />
-          <Property Name="notas" Type="varchar" MaxLength="500" />
+          <Property Name="notas" Type="varchar" MaxLength="1000" />
           <Property Name="ind_autoriza" Type="varchar" MaxLength="1" />
           <Property Name="ind_autoriza2" Type="varchar" MaxLength="1" />
           <Property Name="ind_autoriza3" Type="varchar" MaxLength="1" />
-          <Property Name="nota_autoriza" Type="varchar" MaxLength="100" />
-          <Property Name="nota_autoriza2" Type="varchar" MaxLength="100" />
-          <Property Name="nota_autoriza3" Type="varchar" MaxLength="100" />
+          <Property Name="nota_autoriza" Type="varchar" MaxLength="1000" />
+          <Property Name="nota_autoriza2" Type="varchar" MaxLength="1000" />
+          <Property Name="nota_autoriza3" Type="varchar" MaxLength="1000" />
           <Property Name="req_autoriza4" Type="varchar" MaxLength="1" />
           <Property Name="sup_autoriza4" Type="varchar" MaxLength="50" />
           <Property Name="sup_fautoriza4" Type="datetime" />
-          <Property Name="nota_autoriza4" Type="varchar" MaxLength="100" />
+          <Property Name="nota_autoriza4" Type="varchar" MaxLength="1000" />
           <Property Name="ind_autoriza4" Type="varchar" MaxLength="1" />
           <Property Name="imagen_path" Type="varchar(max)" />
           <Property Name="f_terminado" Type="datetime" />
-          <Property Name="n_terminado" Type="varchar" MaxLength="100" />
+          <Property Name="n_terminado" Type="varchar" MaxLength="1000" />
           <Property Name="req_autoriza5" Type="varchar" MaxLength="1" />
           <Property Name="sup_autoriza5" Type="varchar" MaxLength="50" />
-          <Property Name="nota_autoriza5" Type="varchar" MaxLength="100" />
+          <Property Name="nota_autoriza5" Type="varchar" MaxLength="1000" />
           <Property Name="sup_fautoriza5" Type="datetime" />
           <Property Name="ind_autoriza5" Type="varchar" MaxLength="1" />
         </EntityType>
@@ -487,24 +487,24 @@
           <Property Name="categoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="estatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="f_revisado" Type="DateTime" Precision="3" />
-          <Property Name="n_revisado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_revisado" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="f_aprovacion" Type="DateTime" Precision="3" />
-          <Property Name="n_aprovacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_aprovacion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="f_proceso" Type="DateTime" Precision="3" />
-          <Property Name="n_proceso" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_proceso" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="f_espera" Type="DateTime" Precision="3" />
-          <Property Name="n_espera" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_espera" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="f_detenido" Type="DateTime" Precision="3" />
-          <Property Name="n_detenido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_detenido" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="f_cerrado" Type="DateTime" Precision="3" />
-          <Property Name="n_cerrado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_cerrado" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="tecnico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="turno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="prioridad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="urgencia" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
           <Property Name="depto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="actividades" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="actividades" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="duracion" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="f_compromiso" Type="DateTime" Precision="3" />
           <Property Name="req_autoriza" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
@@ -519,28 +519,28 @@
           <Property Name="sup_revisado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ind_cancelado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="f_cancela" Type="DateTime" Precision="3" />
-          <Property Name="nota_cancel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota_cancel" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="req_autoriza3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="sup_autoriza3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="sup_fautoriza3" Type="DateTime" Precision="3" />
-          <Property Name="notas" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="notas" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="ind_autoriza" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="ind_autoriza2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="ind_autoriza3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="nota_autoriza" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="nota_autoriza2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="nota_autoriza3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza2" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza3" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="req_autoriza4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="sup_autoriza4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="sup_fautoriza4" Type="DateTime" Precision="3" />
-          <Property Name="nota_autoriza4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza4" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="ind_autoriza4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="imagen_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="f_terminado" Type="DateTime" Precision="3" />
-          <Property Name="n_terminado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="n_terminado" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="req_autoriza5" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="sup_autoriza5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="nota_autoriza5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nota_autoriza5" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="sup_fautoriza5" Type="DateTime" Precision="3" />
           <Property Name="ind_autoriza5" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_areas" Relationship="Self.FK_t_tickets_t_areas" FromRole="t_tickets" ToRole="t_areas" />

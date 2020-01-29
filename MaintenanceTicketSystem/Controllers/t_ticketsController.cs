@@ -372,10 +372,12 @@ namespace MaintenanceTicketSystem.Controllers
             {
                 t_tickets.folio = 1;
             }
+            
 
             if (t_tickets.urgencia == null)
                 t_tickets.urgencia = "0";
 
+         
             t_tickets.fecha = System.DateTime.Now;
             t_tickets.estatus = "RE";
             t_tickets.f_revisado = System.DateTime.Now;
@@ -389,7 +391,7 @@ namespace MaintenanceTicketSystem.Controllers
                     t_tickets.imagen_path = "~/FotosTickets/" + t_tickets.folio.ToString() + Path.GetExtension(ImageFile.FileName);
                 }
 
-
+               
                 db.t_tickets.Add(t_tickets);
                 db.SaveChanges();
                 
@@ -401,7 +403,9 @@ namespace MaintenanceTicketSystem.Controllers
             ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "categoria", t_tickets.equipo);
             ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
             ViewBag.tecnico = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.tecnico);
-            return View(t_tickets);
+
+
+            return RedirectToAction("Index", "Home", new { accion = "Error"});
         }
 
         // GET: t_tickets/Edit/5
@@ -649,212 +653,233 @@ namespace MaintenanceTicketSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado,req_autoriza5,sup_autoriza5,sup_fautoriza5,nota_autoriza5,ind_autoriza5")] t_tickets t_tickets,  string command = "0")
         {
-            //si viene de una vista para autorizar
-            if (command != "0")
+            try
             {
-                string username = Session["UserAccount"].ToString();
+                //si viene de una vista para autorizar
+                if (command != "0")
+                {
+                    string username = Session["UserAccount"].ToString();
 
-                if (command == "Autorizar")
-                {
-                    if(t_tickets.sup_autoriza == username)
+                    if (command == "Autorizar")
                     {
-                        t_tickets.sup_fautoriza = System.DateTime.Now;
-                        t_tickets.ind_autoriza = "1";
+                        if (t_tickets.sup_autoriza == username)
+                        {
+                            t_tickets.sup_fautoriza = System.DateTime.Now;
+                            t_tickets.ind_autoriza = "1";
+                        }
+                        if (t_tickets.sup_autoriza2 == username)
+                        {
+                            t_tickets.sup_fautoriza2 = System.DateTime.Now;
+                            t_tickets.ind_autoriza2 = "1";
+                        }
+                        if (t_tickets.sup_autoriza3 == username)
+                        {
+                            t_tickets.sup_fautoriza3 = System.DateTime.Now;
+                            t_tickets.ind_autoriza3 = "1";
+                        }
+                        if (t_tickets.sup_autoriza4 == username)
+                        {
+                            t_tickets.sup_fautoriza4 = System.DateTime.Now;
+                            t_tickets.ind_autoriza4 = "1";
+                        }
+                        if (t_tickets.sup_autoriza5 == username)
+                        {
+                            t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                            t_tickets.ind_autoriza5 = "1";
+                        }
                     }
-                    if (t_tickets.sup_autoriza2 == username)
+                    if (command == "Rechazar")
                     {
-                        t_tickets.sup_fautoriza2 = System.DateTime.Now;
-                        t_tickets.ind_autoriza2 = "1";
+                        if (t_tickets.sup_autoriza == username)
+                        {
+                            t_tickets.sup_fautoriza = System.DateTime.Now;
+                            t_tickets.ind_autoriza = "0";
+                        }
+                        if (t_tickets.sup_autoriza2 == username)
+                        {
+                            t_tickets.sup_fautoriza2 = System.DateTime.Now;
+                            t_tickets.ind_autoriza2 = "0";
+                        }
+                        if (t_tickets.sup_autoriza3 == username)
+                        {
+                            t_tickets.sup_fautoriza3 = System.DateTime.Now;
+                            t_tickets.ind_autoriza3 = "0";
+                        }
+                        if (t_tickets.sup_autoriza4 == username)
+                        {
+                            t_tickets.sup_fautoriza4 = System.DateTime.Now;
+                            t_tickets.ind_autoriza4 = "0";
+                        }
+                        if (t_tickets.sup_autoriza5 == username)
+                        {
+                            t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                            t_tickets.ind_autoriza5 = "0";
+                        }
                     }
-                    if (t_tickets.sup_autoriza3 == username)
-                    {
-                        t_tickets.sup_fautoriza3 = System.DateTime.Now;
-                        t_tickets.ind_autoriza3 = "1";
-                    }
-                    if (t_tickets.sup_autoriza4 == username)
-                    {
-                        t_tickets.sup_fautoriza4 = System.DateTime.Now;
-                        t_tickets.ind_autoriza4 = "1";
-                    }
-                    if (t_tickets.sup_autoriza5 == username)
-                    {
-                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
-                        t_tickets.ind_autoriza5 = "1";
-                    }
-                }
-                if (command == "Rechazar")
-                {
-                    if (t_tickets.sup_autoriza == username)
-                    {
-                        t_tickets.sup_fautoriza = System.DateTime.Now;
-                        t_tickets.ind_autoriza = "0";
-                    }
-                    if (t_tickets.sup_autoriza2 == username)
-                    {
-                        t_tickets.sup_fautoriza2 = System.DateTime.Now;
-                        t_tickets.ind_autoriza2 = "0";
-                    }
-                    if (t_tickets.sup_autoriza3 == username)
-                    {
-                        t_tickets.sup_fautoriza3 = System.DateTime.Now;
-                        t_tickets.ind_autoriza3 = "0";
-                    }
-                    if (t_tickets.sup_autoriza4 == username)
-                    {
-                        t_tickets.sup_fautoriza4 = System.DateTime.Now;
-                        t_tickets.ind_autoriza4 = "0";
-                    }
-                    if (t_tickets.sup_autoriza5 == username)
-                    {
-                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
-                        t_tickets.ind_autoriza5 = "0";
-                    }
-                }
-            }
-            
-            if (ModelState.IsValid)
-            {
-                if (Session["UserRol"].ToString() == "Supervisor")
-                {
-                    t_tickets.sup_revisado = Session["UserAccount"].ToString();
                 }
 
-                if (t_tickets.estatus != "CE")
+                if (ModelState.IsValid)
                 {
-                    t_tickets.falla = null;
-                }
-                t_tickets.f_id = System.DateTime.Now;
-                //t_tickets.u_id = Session["UserAccount"].ToString();
+                    if (Session["UserRol"].ToString() == "Supervisor")
+                    {
+                        t_tickets.sup_revisado = Session["UserAccount"].ToString();
+                    }
 
-                db.Entry(t_tickets).State = EntityState.Modified;
+                    if (t_tickets.estatus != "CE")
+                    {
+                        t_tickets.falla = null;
+                    }
+                    t_tickets.f_id = System.DateTime.Now;
+                    //t_tickets.u_id = Session["UserAccount"].ToString();
 
-                db.SaveChanges();
-                if (Session["UserAccount"].ToString() == "mxc01")
-                {
-                    return RedirectToAction("TicketsTecnico", "Home", new {tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
+                    db.Entry(t_tickets).State = EntityState.Modified;
+
+                    db.SaveChanges();
+                    if (Session["UserAccount"].ToString() == "mxc01")
+                    {
+                        return RedirectToAction("TicketsTecnico", "Home", new { tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
+                    }
+                    else
+                        return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
                 }
+                ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
+                ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
+                ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "categoria", t_tickets.equipo);
+                ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
+                ViewBag.tecnico = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.tecnico);
+
+                if (command != "0")
+                    return RedirectToAction("Autorizar", "Home");
                 else
-                    return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+                    return RedirectToAction("Index", "Home");
             }
-            ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
-            ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "categoria", t_tickets.equipo);
-            ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
-            ViewBag.tecnico = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.tecnico);
-
-            if (command != "0")
-            return RedirectToAction("Autorizar", "Home");
-            else
-            return RedirectToAction("Index", "Home");
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { accion = "Error" });
+            }
+           
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditSis([Bind(Include = "folio,planta,fecha,f_requerida,u_id,f_id,area,equipo,falla,categoria,estatus,f_revisado,n_revisado,f_aprovacion,n_aprovacion,f_proceso,n_proceso,f_espera,n_espera,f_detenido,n_detenido,f_cerrado,n_cerrado,tecnico,turno,prioridad,urgencia,depto,descripcion,actividades,duracion,f_compromiso,req_autoriza,sup_autoriza,sup_fautoriza,req_autoriza2,sup_autoriza2,sup_fautoriza2,ind_entrega,f_entrega,recibe,sup_revisado,ind_cancelado,f_cancela,nota_cancel,req_autoriza3,sup_autoriza3,sup_fautoriza3,notas,ind_autoriza,ind_autoriza2,ind_autoriza3,nota_autoriza,nota_autoriza2,nota_autoriza3,req_autoriza4,sup_autoriza4,sup_fautoriza4,nota_autoriza4,ind_autoriza4,imagen_path,f_terminado,n_terminado,req_autoriza5,sup_autoriza5,sup_fautoriza5,nota_autoriza5,ind_autoriza5")] t_tickets t_tickets, string command = "0")
         {
-            //si viene de una vista para autorizar
-            if (command != "0")
+            try
             {
-                string username = Session["UserAccount"].ToString();
-
-                if (command == "Autorizar")
+                //si viene de una vista para autorizar
+                if (command != "0")
                 {
-                    if (t_tickets.sup_autoriza == username)
+                    string username = Session["UserAccount"].ToString();
+
+                    if (command == "Autorizar")
                     {
-                        t_tickets.sup_fautoriza = System.DateTime.Now;
-                        t_tickets.ind_autoriza = "1";
+                        if (t_tickets.sup_autoriza == username)
+                        {
+                            t_tickets.sup_fautoriza = System.DateTime.Now;
+                            t_tickets.ind_autoriza = "1";
+                        }
+                        if (t_tickets.sup_autoriza2 == username)
+                        {
+                            t_tickets.sup_fautoriza2 = System.DateTime.Now;
+                            t_tickets.ind_autoriza2 = "1";
+                        }
+                        if (t_tickets.sup_autoriza3 == username)
+                        {
+                            t_tickets.sup_fautoriza3 = System.DateTime.Now;
+                            t_tickets.ind_autoriza3 = "1";
+                        }
+                        if (t_tickets.sup_autoriza4 == username)
+                        {
+                            t_tickets.sup_fautoriza4 = System.DateTime.Now;
+                            t_tickets.ind_autoriza4 = "1";
+                        }
+                        if (t_tickets.sup_autoriza5 == username)
+                        {
+                            t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                            t_tickets.ind_autoriza5 = "1";
+                        }
                     }
-                    if (t_tickets.sup_autoriza2 == username)
+                    if (command == "Rechazar")
                     {
-                        t_tickets.sup_fautoriza2 = System.DateTime.Now;
-                        t_tickets.ind_autoriza2 = "1";
-                    }
-                    if (t_tickets.sup_autoriza3 == username)
-                    {
-                        t_tickets.sup_fautoriza3 = System.DateTime.Now;
-                        t_tickets.ind_autoriza3 = "1";
-                    }
-                    if (t_tickets.sup_autoriza4 == username)
-                    {
-                        t_tickets.sup_fautoriza4 = System.DateTime.Now;
-                        t_tickets.ind_autoriza4 = "1";
-                    }
-                    if (t_tickets.sup_autoriza5 == username)
-                    {
-                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
-                        t_tickets.ind_autoriza5 = "1";
+                        if (t_tickets.sup_autoriza == username)
+                        {
+                            t_tickets.sup_fautoriza = System.DateTime.Now;
+                            t_tickets.ind_autoriza = "0";
+                        }
+                        if (t_tickets.sup_autoriza2 == username)
+                        {
+                            t_tickets.sup_fautoriza2 = System.DateTime.Now;
+                            t_tickets.ind_autoriza2 = "0";
+                        }
+                        if (t_tickets.sup_autoriza3 == username)
+                        {
+                            t_tickets.sup_fautoriza3 = System.DateTime.Now;
+                            t_tickets.ind_autoriza3 = "0";
+                        }
+                        if (t_tickets.sup_autoriza4 == username)
+                        {
+                            t_tickets.sup_fautoriza4 = System.DateTime.Now;
+                            t_tickets.ind_autoriza4 = "0";
+                        }
+                        if (t_tickets.sup_autoriza5 == username)
+                        {
+                            t_tickets.sup_fautoriza5 = System.DateTime.Now;
+                            t_tickets.ind_autoriza5 = "0";
+                        }
                     }
                 }
-                if (command == "Rechazar")
-                {
-                    if (t_tickets.sup_autoriza == username)
-                    {
-                        t_tickets.sup_fautoriza = System.DateTime.Now;
-                        t_tickets.ind_autoriza = "0";
-                    }
-                    if (t_tickets.sup_autoriza2 == username)
-                    {
-                        t_tickets.sup_fautoriza2 = System.DateTime.Now;
-                        t_tickets.ind_autoriza2 = "0";
-                    }
-                    if (t_tickets.sup_autoriza3 == username)
-                    {
-                        t_tickets.sup_fautoriza3 = System.DateTime.Now;
-                        t_tickets.ind_autoriza3 = "0";
-                    }
-                    if (t_tickets.sup_autoriza4 == username)
-                    {
-                        t_tickets.sup_fautoriza4 = System.DateTime.Now;
-                        t_tickets.ind_autoriza4 = "0";
-                    }
-                    if (t_tickets.sup_autoriza5 == username)
-                    {
-                        t_tickets.sup_fautoriza5 = System.DateTime.Now;
-                        t_tickets.ind_autoriza5 = "0";
-                    }
-                }
-            }
 
-            if (ModelState.IsValid)
-            {
-                if (Session["UserRol"].ToString() == "Supervisor")
+                if (ModelState.IsValid)
                 {
-                    t_tickets.sup_revisado = Session["UserAccount"].ToString();
-                }
+                    if (Session["UserRol"].ToString() == "Supervisor")
+                    {
+                        t_tickets.sup_revisado = Session["UserAccount"].ToString();
+                    }
 
-                if (t_tickets.estatus != "CE")
-                {
-                    t_tickets.falla = null;
-                }
-                t_tickets.f_id = System.DateTime.Now;
-                //t_tickets.u_id = Session["UserAccount"].ToString();
+                    if (t_tickets.estatus != "CE")
+                    {
+                        t_tickets.falla = null;
+                    }
 
-                db.Entry(t_tickets).State = EntityState.Modified;
 
-                db.SaveChanges();
-                if (Session["UserAccount"].ToString() == "mxc01")
-                {
-                    return RedirectToAction("TicketsTecnico", "Home", new { tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
-                }
-                else
-                {
-                    if(Session["UserRol"].ToString() == "Admin")
-                        return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+                    t_tickets.f_id = System.DateTime.Now;
+                    //t_tickets.u_id = Session["UserAccount"].ToString();
+
+                    db.Entry(t_tickets).State = EntityState.Modified;
+
+                    db.SaveChanges();
+                    if (Session["UserAccount"].ToString() == "mxc01")
+                    {
+                        return RedirectToAction("TicketsTecnico", "Home", new { tecnico = t_tickets.tecnico, accion = "editar", numticket = t_tickets.folio });
+                    }
                     else
-                        return RedirectToAction("EditSis", "t_tickets", new { id = t_tickets.folio });
-                }
-                
-            }
-            ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
-            ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
-            ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "categoria", t_tickets.equipo);
-            ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
-            ViewBag.tecnico = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.tecnico);
+                    {
+                        if (Session["UserRol"].ToString() == "Admin")
+                            return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+                        else
+                            if (t_tickets.estatus == "CE")
+                            return RedirectToAction("Index", "Home", new { accion = "editar", numticket = t_tickets.folio });
+                        else
+                            return RedirectToAction("EditSis", "t_tickets", new { id = t_tickets.folio });
+                    }
 
-            if (command != "0")
-                return RedirectToAction("Autorizar", "Home");
-            else
-                return RedirectToAction("Index", "Home");
+                }
+                ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
+                ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
+                ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "categoria", t_tickets.equipo);
+                ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
+                ViewBag.tecnico = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.tecnico);
+
+                if (command != "0")
+                    return RedirectToAction("Autorizar", "Home");
+                else
+                    return RedirectToAction("Index", "Home");
+
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { accion = "Error" });
+            }
         }
 
         // GET: t_tickets/Delete/5
