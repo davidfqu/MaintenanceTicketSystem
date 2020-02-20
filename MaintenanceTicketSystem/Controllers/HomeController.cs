@@ -600,6 +600,7 @@ namespace MaintenanceTicketSystem.Controllers
         }
         public string getTecnico( string numtecnico)
         {
+            
             TextInfo cultInfo = new CultureInfo("en-US", false).TextInfo;
             var db = WebMatrix.Data.Database.Open("TressConn");
 
@@ -612,8 +613,7 @@ namespace MaintenanceTicketSystem.Controllers
    inner join [Tress_MedlineMXL].[dbo].NIVEL3 n3 on co.CB_NIVEL3 = n3.TB_CODIGO 
    inner join [Tress_MedlineMXL].[dbo].NIVEL4 n4 on co.CB_NIVEL4 = n4.TB_CODIGO 
    inner join [Tress_MedlineMXL].[dbo].TURNO tu on co.CB_TURNO = tu.TU_CODIGO 
-   WHERE CB_CODIGO = '"+ numtecnico +@"' AND CB_ACTIVO = 'S' AND CB_NIVEL2= 'MANT' AND CB_CLASIFI = 'H' AND (PO.PU_DESCRIP LIKE 'Plant technician%' 
-   or  PO.PU_DESCRIP LIKE 'Sealer Lab Technician%')
+   WHERE CB_CODIGO = '"+ numtecnico +@"' AND CB_ACTIVO = 'S' AND CB_NIVEL2= 'MANT' AND CB_CLASIFI = 'H'
    ORDER BY cb_nombres";
 
             var datos = db.Query(selectedQueryString);
