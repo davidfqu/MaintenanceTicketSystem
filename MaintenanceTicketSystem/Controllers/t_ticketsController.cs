@@ -511,7 +511,7 @@ namespace MaintenanceTicketSystem.Controllers
                 ViewBag.editarFecha = t_config.editar_fechaseg.ToString();
 
                 ViewBag.area = new SelectList(db.t_areas, "area", "descripcion", t_tickets.area);
-                ViewBag.categoria = new SelectList(db.t_catego, "categoria", "descripcion", t_tickets.categoria);
+                ViewBag.categoria = new SelectList(db.t_catego.Where(x => x.depto == "MAN"), "categoria", "descripcion", t_tickets.categoria);
                 ViewBag.equipo = new SelectList(db.t_equipos, "equipo", "descripcion", t_tickets.equipo);
                 ViewBag.u_id = new SelectList(db.t_usuarios, "usuario", "planta", t_tickets.u_id);
                 ViewBag.tecnico = new SelectList(getTecnicos("", t_tickets.tecnico), "Value", "Text");
@@ -723,6 +723,17 @@ namespace MaintenanceTicketSystem.Controllers
                     if (Session["UserRol"].ToString() == "Supervisor")
                     {
                         t_tickets.sup_revisado = Session["UserAccount"].ToString();
+                    }
+
+                    if (Session["UserRol"].ToString() == "Admin")
+                    {
+                        if (t_tickets.categoria == "FAC")
+                            t_tickets.equipo = "OTRF";
+                        if (t_tickets.categoria == "CAL")
+                            t_tickets.equipo = "OTRC";
+                        if (t_tickets.categoria == "SL")
+                            t_tickets.equipo = "OTRS";
+
                     }
 
                     if (t_tickets.estatus != "CE")

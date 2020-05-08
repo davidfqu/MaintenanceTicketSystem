@@ -499,7 +499,8 @@ else
                         <thead>
                             <tr>
                                 <th style="width: 20%">Estatus </th>
-                                <th style="width: 50%">Notas</th>
+                                <th style="width: 35%">Notas</th>
+                                <th style="width: 25%">Responsable</th>
                                 <th style="width: 20%">Fecha</th>
                             </tr>
                         </thead>
@@ -512,6 +513,15 @@ else
                                     @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "ES" && Model.sup_revisado != null)
+                                {
+                                    <text>
+                                        @Model.t_usuarios1.nombre
+                                    </text>
+                                }
+                            </td>
+
+                                <td>
                                     @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -523,6 +533,14 @@ else
                                     @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "PR" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -532,6 +550,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "TE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -771,7 +797,8 @@ else
                         <thead>
                             <tr>
                                 <th style="width: 20%">Estatus </th>
-                                <th style="width: 50%">Notas</th>
+                                <th style="width: 35%">Notas</th>
+                                <th style="width: 25%">Responsable</th>
                                 <th style="width: 20%">Fecha</th>
                             </tr>
                         </thead>
@@ -782,6 +809,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "RE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -795,6 +830,14 @@ else
                                     @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "AP" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -804,6 +847,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "ES" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -817,6 +868,14 @@ else
                                     @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "PR" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -826,6 +885,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "TE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -838,6 +905,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "CE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -975,7 +1050,7 @@ else
 
             <div class="form-group col-md-6">
                 @Html.LabelFor(model => model.sup_revisado, "Supervisor", htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.sup_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readyonly", @Value = Session["UserName"].ToString() } })
+                @Html.EditorFor(model => model.sup_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = Session["UserName"].ToString() } })
                 @Html.ValidationMessageFor(model => model.sup_revisado, "", new { @class = "text-danger" })
                 <br>
                 @Html.LabelFor(model => model.prioridad, "Prioridad", htmlAttributes: new { @class = "control-label" })
@@ -1057,7 +1132,8 @@ else
                         <thead>
                             <tr>
                                 <th style="width: 20%">Estatus </th>
-                                <th style="width: 50%">Notas</th>
+                                <th style="width: 35%">Notas</th>
+                                <th style="width: 25%">Responsable</th>
                                 <th style="width: 20%">Fecha</th>
                             </tr>
                         </thead>
@@ -1068,6 +1144,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "RE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1081,6 +1165,14 @@ else
                                     @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "AP" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -1090,6 +1182,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "ES" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1103,6 +1203,14 @@ else
                                     @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "PR" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -1112,6 +1220,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "TE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1124,6 +1240,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "CE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1341,7 +1465,7 @@ else
                 @Html.EditorFor(model => model.t_areas.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 <br>
                 <label>Categoría</label>
-                @Html.EditorFor(model => model.t_catego.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.DropDownList("categoria", null, htmlAttributes: new { @class = "form-control" })
                 <br>
                 <label>Equipo</label>
                 @Html.EditorFor(model => model.t_equipos.descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1502,7 +1626,8 @@ else
                         <thead>
                             <tr>
                                 <th style="width: 20%">Estatus </th>
-                                <th style="width: 50%">Notas</th>
+                                <th style="width: 35%">Notas</th>
+                                <th style="width: 25%">Responsable</th>
                                 <th style="width: 20%">Fecha</th>
                             </tr>
                         </thead>
@@ -1513,6 +1638,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "RE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_revisado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1526,6 +1659,14 @@ else
                                     @Html.EditorFor(model => model.n_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "AP" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_aprovacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -1535,6 +1676,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "ES" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_espera, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1548,6 +1697,14 @@ else
                                     @Html.EditorFor(model => model.n_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
                                 </td>
                                 <td>
+                                    @if (Model.estatus == "PR" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
+                                </td>
+                                <td>
                                     @Html.EditorFor(model => model.f_proceso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                 </td>
                             </tr>
@@ -1557,6 +1714,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "TE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_terminado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -1569,6 +1734,14 @@ else
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.n_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @maxlength = "1000" } })
+                                </td>
+                                <td>
+                                    @if (Model.estatus == "CE" && Model.sup_revisado != null)
+                                {
+                                        <text>
+                                            @Model.t_usuarios1.nombre
+                                        </text>
+                                    }
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.f_cerrado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
