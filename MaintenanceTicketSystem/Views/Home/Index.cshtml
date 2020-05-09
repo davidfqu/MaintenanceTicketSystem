@@ -34,13 +34,13 @@
 }
 else
 {
-    <div class="jumbotron" >
-        <div  id="bienvenida" class="row align-items-center" style="display:none" >
-            
-            <div class="col-md-10 ml-2 align-self-center" >
-               
-                    <h1 style="font-size:3.5rem">Bienvenido @Session["UserFirstName"].ToString()</h1>
-                
+    <div class="row animated fadeIn py-5 mb-4" style="background-image: url('../../img/Cover-HR-System21.png'); height:100%;background-position:right; background-repeat:no-repeat; background-size:cover; border-radius:20px ">
+        
+
+            <div class="col-md-10 ml-2 align-self-center">
+
+                <h1 style="font-size:3.5rem">Bienvenido @Session["UserFirstName"].ToString()</h1>
+
                 @if (Session["UserRol"].ToString() == "Supervisor")
                 {
                     <p class="lead" style="font-size:2rem">@Session["CategoryDesc"].ToString() - Supervisor</p>
@@ -60,13 +60,13 @@ else
                         <p class="lead" style="font-size:2rem">Mantenimiento - Admin</p>
                     }
                 }
-                
+
             </div>
-            <div class="col-md-1 align-self-center mr-2">
-                <img src="~/img/logo3.png" width="120" height="120" alt="" />
+    
+            <div class="col-md-1 d-flex justify-content-lg-end align-items-center">
+                <img src="~/img/logo3.png" width="100" height="100" alt="" />
             </div>
-        </div>
-       
+
     </div>
 
     <!-- Search Box-->

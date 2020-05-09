@@ -333,6 +333,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\Ayuda Menu.PNG" />
+    <Content Include="img\Cover-HR-System21.png" />
     <Content Include="img\Guía Rápida de Usuario Service Desk.png" />
     <Content Include="img\logo3.png" />
     <Content Include="img\medline-logo.png" />
