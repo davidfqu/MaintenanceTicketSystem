@@ -36,25 +36,53 @@ namespace MaintenanceTicketSystem.Controllers
             var cat = t_tickets.Where(x => x.depto == "MAN").GroupBy(x => x.categoria).Select(g => new { cat = g.Key, cerrados = g.Sum(i => i.estatus == "CE" ? 1 : 0), abiertos = g.Sum(i => i.estatus != "CE" ? 1 : 0) }).ToList();
             try
             {
-                ViewBag.calcerrados = cat.ElementAt(0).cerrados.ToString();
-                ViewBag.calabiertos = cat.ElementAt(0).abiertos.ToString();
-
-                ViewBag.faccerrados = cat.ElementAt(1).cerrados.ToString();
-                ViewBag.facabiertos = cat.ElementAt(1).abiertos.ToString();
-
-                ViewBag.sealcerrados = cat.ElementAt(2).cerrados.ToString();
-                ViewBag.sealabiertos = cat.ElementAt(2).abiertos.ToString();
+                ViewBag.calcerrados = Convert.ToString(cat.Where(x => x.cat == "CAL").FirstOrDefault().cerrados);
+              
             }
             catch
             {
                 ViewBag.calcerrados = "0";
+            }
+            try
+            {
+              
+                ViewBag.calabiertos = Convert.ToString(cat.Where(x => x.cat == "CAL").FirstOrDefault().abiertos);
+            }
+            catch
+            {
+               
                 ViewBag.calabiertos = "0";
-
+            }
+            try
+            {
+                ViewBag.faccerrados = Convert.ToString(cat.Where(x => x.cat == "FAC").FirstOrDefault().cerrados);
+                ViewBag.facabiertos = Convert.ToString(cat.Where(x => x.cat == "FAC").FirstOrDefault().abiertos);
+            }
+            catch
+            {
                 ViewBag.faccerrados = "0";
                 ViewBag.facabiertos = "0";
+            }
 
+            try
+            {
+                ViewBag.sealcerrados = Convert.ToString(cat.Where(x => x.cat == "SL").FirstOrDefault().cerrados);
+                ViewBag.sealabiertos = Convert.ToString(cat.Where(x => x.cat == "SL").FirstOrDefault().abiertos);
+            }
+            catch
+            {
                 ViewBag.sealcerrados = "0";
                 ViewBag.sealabiertos = "0";
+            }
+            try
+            {
+                ViewBag.convsyscerrados = Convert.ToString(cat.Where(x => x.cat == "CS").FirstOrDefault().cerrados);
+                ViewBag.convsysabiertos = Convert.ToString(cat.Where(x => x.cat == "CS").FirstOrDefault().abiertos);
+            }
+            catch
+            {
+                ViewBag.convsyscerrados = "0";
+                ViewBag.convsysabiertos = "0";
             }
             
 
@@ -72,6 +100,8 @@ namespace MaintenanceTicketSystem.Controllers
             string bfac = "'rgba(255, 179, 64, 1)'";
             string bseal = "'rgba(0, 77, 198, 1)'";
             string bcal = "'rgba(224, 0, 0, 1)'";
+            string ccs = "'rgba(0, 191, 150,1)'";
+            string bcs = "'rgba(0, 191, 150,1)'";
 
             DateTime hoy = DateTime.Now;
             DateTime fechaticket;
@@ -101,6 +131,11 @@ namespace MaintenanceTicketSystem.Controllers
                     bocolorTA = bocolorTA + bcal;
                 }
 
+                if (item.categoria == "CS")
+                {
+                    bgcolorTA = bgcolorTA + ccs;
+                    bocolorTA = bocolorTA + bcs;
+                }
                 dataTA = dataTA + dif.ToString();
                 labelsTA = labelsTA + item.folio.ToString();
                 
@@ -942,8 +977,7 @@ namespace MaintenanceTicketSystem.Controllers
    inner join [Tress_MedlineMXL].[dbo].NIVEL3 n3 on co.CB_NIVEL3 = n3.TB_CODIGO 
    inner join [Tress_MedlineMXL].[dbo].NIVEL4 n4 on co.CB_NIVEL4 = n4.TB_CODIGO 
    inner join [Tress_MedlineMXL].[dbo].TURNO tu on co.CB_TURNO = tu.TU_CODIGO 
-   WHERE CB_ACTIVO = 'S' AND CB_NIVEL2= 'MANT' AND CB_CLASIFI = 'H' AND (PO.PU_DESCRIP LIKE 'Plant technician%' 
-   or  PO.PU_DESCRIP LIKE 'Sealer Lab Technician%' or  PO.PU_DESCRIP LIKE 'Calibration%')
+   WHERE CB_ACTIVO = 'S' AND CB_NIVEL2= 'MANT' AND CB_CLASIFI = 'H'
    ORDER BY cb_nombres";
 
             var datos = db.Query(selectedQueryString);

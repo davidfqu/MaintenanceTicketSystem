@@ -337,6 +337,7 @@
     <Content Include="img\Guía Rápida de Usuario Service Desk.png" />
     <Content Include="img\logo3.png" />
     <Content Include="img\medline-logo.png" />
+    <Content Include="img\medline-logo2.png" />
     <Content Include="Models\TicketSystem.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TicketSystem.edmx</DependentUpon>
@@ -413,7 +414,9 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="favicon.ico" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

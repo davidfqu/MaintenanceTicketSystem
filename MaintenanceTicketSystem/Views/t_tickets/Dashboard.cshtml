@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="row my-2">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-header text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
@@ -19,12 +19,12 @@
                     </h1>
                 </div>
                 <div class="card-body">
-                    <canvas id="fac" height="95"></canvas>
+                    <canvas id="fac" height="170"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-header text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
@@ -32,12 +32,12 @@
                     </h1>
                 </div>
                 <div class="card-body">
-                    <canvas id="seal" height="95"></canvas>
+                    <canvas id="seal" height="170"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-header text-center">
                     <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
@@ -45,7 +45,20 @@
                     </h1>
                 </div>
                 <div class="card-body">
-                    <canvas id="cal" height="95"></canvas>
+                    <canvas id="cal" height="170"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 class="mb-2 mb-sm-0 pt-1 font-weight-bold" style="font-size: 1.3vw">
+                        Conveyor System
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <canvas id="convsys" height="170"></canvas>
                 </div>
             </div>
         </div>
@@ -148,7 +161,7 @@
                             var size = Math.round(height / 6);
                             return {
                                 size: size
-                        
+
                             };
 
                         },
@@ -181,7 +194,7 @@
                             var size = Math.round(height / 6);
                             return {
                                 size: size
-                        
+
                             };
 
                         },
@@ -214,7 +227,40 @@
                             var size = Math.round(height / 6);
                             return {
                                 size: size
-                        
+
+                            };
+
+                        },
+
+                    }
+                }
+            }
+        });
+
+        var ctxD = document.getElementById("convsys").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: ["Tickets cerrados", "Tickets abiertos"],
+                datasets: [{
+                    data: [@ViewBag.convsyscerrados, @ViewBag.convsysabiertos],
+                    backgroundColor: ["#00bf96", "#e6e8eb"],
+                    hoverBackgroundColor: ["#009172", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: { display: false },
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        color: "rgb(0,0,0)",
+                        font: function(context) {
+                            var height = context.chart.height;
+                            var size = Math.round(height / 6);
+                            return {
+                                size: size
+
                             };
 
                         },
@@ -273,7 +319,7 @@
                             var size = Math.round(height / 10);
                             return {
                                 size: size
-                        
+
                             };
 
                         },
